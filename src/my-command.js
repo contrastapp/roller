@@ -2,6 +2,8 @@ import BrowserWindow from 'sketch-module-web-view'
 const UI = require('sketch/ui')
 const sketch = require('sketch')
 const toArray = require('sketch-utils/to-array')
+const tinycolor = require('tinycolor2')
+const _ = require('lodash')
 
   const options = {
     identifier: 'unique.id',
@@ -22,7 +24,6 @@ export default function onRun(context) {
     show: false,
     alwaysOnTop: true,
   }
-
 
   // only show the window when the page has loaded
   browserWindow.once('ready-to-show', () => {
@@ -58,13 +59,21 @@ export function onSelectionChanged(context) {
     const message =
       count === 1 ? '1 layer selected' : `${count} layers selected!`
 
+
     document.selectedLayers.forEach(layer => {
       if (layer.style.fills.length > 0) {
-        const color = layer.style.fills[0].color
-        if (color === '#d8d8d8ff') {
+        let color = layer.style.fills[0].color
+        const colors = context.api().settingForKey('colors')
+        console.log("colors plugin")
+        console.log(colors)
+        console.log(_.map(colors, (c) => tinycolor(String(c)).toHex8()))
+        console.log(tinycolor(color).toHex8())
+      if (_.includes(_.map(colors, (c) => tinycolor(String(c)).toHex8()), tinycolor(color).toHex8())) {
+          color = `${color} is compliant!`
           webContents.executeJavaScript(`setRandomNumber('${color}')`)
         } else {
-          sketch.UI.alert('INCONSISTENCY!', `${color} is NOT compliant`)
+          color = `${color} is NOT compliant!`
+          webContents.executeJavaScript(`setRandomNumber('${color}')`)
         }
       }
     })

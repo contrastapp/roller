@@ -3,9 +3,19 @@
   "bundleVersion": 1,
   "commands": [
     {
+      "name": "Set Styles",
+      "identifier": "upload-rules",
+      "script": "./upload_rules.js",
+      "shortcut": "ctrl shift u",
+      "handlers": {
+        "run": "onRun"
+      }
+    },
+    {
       "name": "my-command",
       "identifier": "my-command-identifier",
       "script": "./my-command.js",
+      "shortcut": "ctrl shift r",
       "handlers": {
         "run": "onRun",
         "actions": {
@@ -17,7 +27,8 @@
   "menu": {
     "title": "Audit",
     "items": [
-      "my-command-identifier"
+      "my-command-identifier",
+      "upload-rules"
     ]
   }
 }
