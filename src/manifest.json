@@ -5,11 +5,17 @@
     {
       "name": "my-command",
       "identifier": "my-command-identifier",
-      "script": "./my-command.js"
+      "script": "./my-command.js",
+      "handlers": {
+        "run": "onRun",
+        "actions": {
+          "SelectionChanged.finish": "onSelectionChanged"
+        }
+      }
     }
   ],
   "menu": {
-    "title": "my-plugin",
+    "title": "Audit",
     "items": [
       "my-command-identifier"
     ]
