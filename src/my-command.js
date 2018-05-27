@@ -84,7 +84,6 @@ function compliance(layers) {
 }
 
 function postCompliance(compliance) {
-  debugger
   webContents.executeJavaScript(`setCompliant('${JSON.stringify(compliance)}')`)
 }
 
