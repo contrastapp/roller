@@ -5,7 +5,7 @@ html {
   background: transparent;
 
   /* Prevent the page to be scrollable */
-  overflow: hidden;
+  /* overflow: hidden; */
 
   /* Force the default cursor, even on text */
   cursor: default;
