@@ -8,7 +8,7 @@ const _ = require('lodash')
   const options = {
     identifier: 'unique.id',
     width: 240,
-    height: 180,
+    height: 480,
     show: false,
     alwaysOnTop: true,
   }
@@ -37,11 +37,42 @@ export default function onRun(context) {
 
   // add a handler for a call from web content's javascript
   webContents.on('nativeLog', (s) => {
-    UI.message(s)
-    webContents.executeJavaScript(`setRandomNumber(${699999})`)
+    UI.message('Lint Placeholder')
+    // webContents.executeJavaScript(`setRandomNumber(${699999})`)
   })
 
   browserWindow.loadURL(require('../resources/webview.html'))
+}
+
+
+
+function parseColor(layer) {
+  let colors = context.api().settingForKey('colors')
+  colors = _.map(colors, (c) => tinycolor(String(c)).toHex8())
+
+  const styles = ['fills', 'borders']
+
+
+  const cssString = layer.sketchObject.CSSAttributeString()
+  debugger
+  const jsonCss = JsonCSS.toJSON(cssString)
+
+  const  layerColors = _.pick(layer.style, styles) // fills[0].color = #000;
+
+  const compliance = _.groupBy(layerColors, (style) => _.includes(colors, tinycolor(style.color).toHex8()))
+  webContents.executeJavaScript(`setCompliant('${JSON.stringify(compliance[false])}')`)
+  // webContents.executeJavaScript(`setCompliant('${'color'}')`)
+  // webContents.executeJavaScript(`setRandomNumber('${'color'}')`)
+
+
+  // let color = layer.style.fills[0].color
+  // if (_.includes(_.map(colors, (c) => tinycolor(String(c)).toHex8()), tinycolor(color).toHex8())) {
+  //   color = `${color} is compliant!`
+  //   webContents.executeJavaScript(`setRandomNumber('${color}')`)
+  // } else {
+  //   color = `${color} is NOT compliant!`
+  //   webContents.executeJavaScript(`setRandomNumber('${color}')`)
+  //   }
 }
 
 export function onSelectionChanged(context) {
@@ -51,32 +82,9 @@ export function onSelectionChanged(context) {
   const selection = toArray(action.newSelection)
   const count = selection.length
 
-  if (count === 0) {
-  } else {
-    // If one or more items are selected, we want to show a message.
-    // We check for a single item and handle that as a special case so that we can get the wording correct.
-
-    const message =
-      count === 1 ? '1 layer selected' : `${count} layers selected!`
-
-
+  if (count === 1) {
     document.selectedLayers.forEach(layer => {
-      if (layer.style.fills.length > 0) {
-        let color = layer.style.fills[0].color
-        const colors = context.api().settingForKey('colors')
-        console.log("colors plugin")
-        console.log(colors)
-        console.log(_.map(colors, (c) => tinycolor(String(c)).toHex8()))
-        console.log(tinycolor(color).toHex8())
-      if (_.includes(_.map(colors, (c) => tinycolor(String(c)).toHex8()), tinycolor(color).toHex8())) {
-          color = `${color} is compliant!`
-          webContents.executeJavaScript(`setRandomNumber('${color}')`)
-        } else {
-          color = `${color} is NOT compliant!`
-          webContents.executeJavaScript(`setRandomNumber('${color}')`)
-        }
-      }
+      parseColor(layer)
     })
-
   }
 }

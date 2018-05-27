@@ -47,7 +47,7 @@ export function createSelect(msg, items, selectedItemIndex){
 }
 
 export function removeFileExtension(layerName){
-	if([layerName containsString:@"."]){
+	if(layerName.containsString(@"."]){
 		var nameArray = [layerName componentsSeparatedByString:@"."];
 		var name = nameArray[0];
 		return name;

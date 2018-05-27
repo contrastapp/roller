@@ -10,6 +10,9 @@ html {
   /* Force the default cursor, even on text */
   cursor: default;
 }
+body {
+  background: white;
+}
 
 *, *:before, *:after {
   box-sizing: inherit;
@@ -18,8 +21,8 @@ html {
   position: relative;
 
   /* Prevent the content from being selectionable */
-  -webkit-user-select: none;
-  user-select: none;
+  /* -webkit-user-select: none; */
+  /* user-select: none; */
 }
 
 input, textarea {
