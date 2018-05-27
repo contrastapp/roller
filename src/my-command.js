@@ -38,8 +38,16 @@ export default function onRun(context) {
   // add a handler for a call from web content's javascript
   webContents.on('nativeLog', (s) => {
     UI.message('Lint')
-    parseLayers(context)
+    parseDocument(context)
     // webContents.executeJavaScript(`setRandomNumber(${699999})`)
+  })
+
+  webContents.on('loadDetails', (s) => {
+    browserWindow.loadURL(require('../resources/details.html'))
+  })
+
+  webContents.on('loadList', (s) => {
+    browserWindow.loadURL(require('../resources/webview.html'))
   })
 
   browserWindow.loadURL(require('../resources/webview.html'))
@@ -55,7 +63,7 @@ function pageLayers(page) {
   return layers
 }
 
-function parseLayers(context) {
+function parseDocument(context) {
   const document = sketch.fromNative(context.document)
 
   let layers = _.flattenDeep(_.map(document.pages, (page) => pageLayers(page)))
@@ -64,14 +72,25 @@ function parseLayers(context) {
 
   layers = _.chunk(layers, 100)[0]
 
-  const compliance = _.flattenDeep(_.compact(_.map(layers, (l, i) => {
-    console.log(i);
+  postCompliance(compliance(layers))
+}
+
+function compliance(layers) {
+  layers = _.flattenDeep(layers)
+
+  return (_.flattenDeep(_.compact(_.map(layers, (l, i) => {
     return parseColor(l)
-  })))
+  }))))
+}
+
+function postCompliance(compliance) {
+  debugger
   webContents.executeJavaScript(`setCompliant('${JSON.stringify(compliance)}')`)
 }
 
-
+function postComplianceSelected(compliance) {
+  webContents.executeJavaScript(`setCompliantSelected('${JSON.stringify(compliance)}')`)
+}
 
 function parseColor(layer) {
   let colors = context.api().settingForKey('colors')
@@ -108,7 +127,6 @@ function parseColor(layer) {
         })
       }
     } else {
-      debugger
       return null
     }
   }))
@@ -139,12 +157,13 @@ export function onSelectionChanged(context) {
   const selection = toArray(action.newSelection)
   const count = selection.length
 
+
   if (count === 1) {
     const layers = document.selectedLayers.map(layer => {
-      parseColor(layer)
+      // debugger
+      return pageLayers(layer)
     })
 
-    const compliance = _.flattenDeep(layers)
-    webContents.executeJavaScript(`setCompliant('${JSON.stringify(compliance)}')`)
+    postComplianceSelected(compliance(layers))
   }
 }
