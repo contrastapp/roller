@@ -1,6 +1,39 @@
 import pluginCall from 'sketch-module-web-view/client'
+import React from 'react'
+import ReactDOM from 'react-dom'
 const _ = require('lodash')
 
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+
+import history from './history'
+import { Route } from 'react-router'
+
+import { Redirect } from "react-router-dom"
+import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
+import AppContainer from './AppContainer'
+import ItemContainer from './ItemContainer'
+import layerReducer from './reducers/LayerReducer'
+import * as layerActions from './actions/LayerActions';
+
+// import reducers from './reducers' // Or wherever you keep your reducers
+
+// Create a history of your choosing (we're using a browser history in this case)
+// const history = createHistory()
+
+// Build the middleware for intercepting and dispatching navigation actions
+const middleware = routerMiddleware(history)
+
+// Add the reducer to your store on the `router` key
+// Also apply our middleware for navigating
+const store = createStore(
+    // ...reducers,
+  combineReducers({
+    router: routerReducer,
+    layers: layerReducer,
+  }),
+  applyMiddleware(middleware)
+)
 // Disable the context menu to have a more native feel
 // document.addEventListener("contextmenu", function(e) {
 //   e.preventDefault();
@@ -11,94 +44,27 @@ let page = 0
 let pages = 1
 
 
-document.getElementById('lint').addEventListener('click', function () {
-  pluginCall('nativeLog', 'Called from the webview')
 
-})
+// pluginCall("getLocation")
 
-document.getElementById('details').addEventListener('click', function () {
-  pluginCall('loadDetails')
-})
+ReactDOM.render(
+  <Provider store={store}>
+    { /* ConnectedRouter will use the store from Provider automatically */ }
+    <ConnectedRouter history={history}>
+      <div>
+        <Route exact path="/list" component={AppContainer}/>
+        <Route exact path="/item/:id" component={ItemContainer}/>
+        <Redirect to={window.redirectTo} />
+      </div>
+    </ConnectedRouter>
+  </Provider>,
+  document.getElementById('root')
+)
 
-
-document.getElementById('next').addEventListener('click', function () {
-  if (page < pages - 1) {
-    page = page + 1
-  }
-
-  updateAll(listCompliance(true))
-})
-
-document.getElementById('prev').addEventListener('click', function () {
-  if (page > 0) {
-    page = page - 1
-  }
-
-  updateAll(listCompliance(true))
-})
-
-function layerMetadata(layer) {
-  return (`
-    <li>
-      <h3><span style="color: ${layer.primary}">${layer.primary}</span> is ${layer.compliant ? '' : 'NOT'} compliant as ${layer.category} ${layer.prop}</h3>
-      <a href="#">View</a>
-      <div>Category: ${layer.category}</div>
-      <div>Value: ${layer.primary}</div>
-      <div>Prop: ${layer.prop}</div>
-      <div>Compliant: ${layer.compliant}</div>
-      <br/>
-      <br/>
-      <br/>
-    </li>
-    `)
-
+window.postData = function (compliantArr) {
+  store.dispatch(layerActions.setLayers(JSON.parse(compliantArr)))
 }
 
-function listCompliance(paginate) {
-  let list = _.map(_.values(data), (layer) => { return layerMetadata(layer)})
-
-  if (paginate) {
-    let paginated = _.chunk(list, 25)
-    pages = paginated.length
-    setPages()
-    list = paginated[page]
-  }
-
-  return list
-}
-
-function storeAndList(compliantArr, paginate = true) {
-  // category: "color"
-  // compliant: true
-  // id: "C4A6A097-CF41-4D90-9594-BE32B3C426F2"
-  // primary: "#ca1111ff"
-  // prop: "fills"
-  // styles: {fill: "Color", color: "#ca1111ff", gradient: Object, enabled: true}
-  // suggestions: []
-  data = _.merge(data, _.keyBy(JSON.parse(compliantArr), (layer) => [layer.id, layer.prop, layer.index].join('-')))
-
-  if (paginate) {
-    page = 0
-  }
-
-  return listCompliance(paginate)
-}
-
-window.setCompliant = function (compliantArr) {
-  const list = storeAndList(compliantArr)
-  updateAll(list)
-}
-
-function updateAll(list) {
-  document.getElementById('page').innerHTML = page + 1
-  document.getElementById('compliant').innerHTML = list
-}
-
-function setPages() {
-  document.getElementById('pages').innerHTML = pages
-}
-
-window.setCompliantSelected = function (compliantArr) {
-  const list = storeAndList(compliantArr, false)
-  document.getElementById('compliant-selected').innerHTML = list
+window.layerSelected = function (compliantArr) {
+  store.dispatch(layerActions.activeLayer(JSON.parse(compliantArr)))
 }

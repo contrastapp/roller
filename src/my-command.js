@@ -4,27 +4,23 @@ const sketch = require('sketch')
 const toArray = require('sketch-utils/to-array')
 const tinycolor = require('tinycolor2')
 const _ = require('lodash')
+const momemt = require('moment')
 
-  const options = {
-    identifier: 'unique.id',
-    width: 240,
-    height: 480,
-    show: false,
-    alwaysOnTop: true,
-  }
-
-var browserWindow = new BrowserWindow(options)
-const webContents = browserWindow.webContents
+const options = {
+  identifier: 'unique.id',
+  redirectTo: "/list",
+  width: 240,
+  height: 480,
+  show: false,
+  alwaysOnTop: true,
+}
+let browserWindow;
+let webContents;
+let loaded = false
 
 export default function onRun(context) {
-  const options = {
-    identifier: 'unique.id',
-    width: 240,
-    height: 180,
-    show: false,
-    alwaysOnTop: true,
-  }
-
+  browserWindow = new BrowserWindow(options)
+  webContents = browserWindow.webContents
   // only show the window when the page has loaded
   browserWindow.once('ready-to-show', () => {
     browserWindow.show()
@@ -32,7 +28,14 @@ export default function onRun(context) {
 
   // print a message when the page loads
   webContents.on('did-finish-load', () => {
+    loaded = true
     UI.message('UI loaded!')
+  })
+
+  webContents.on('getLocation', (s) => {
+          // webUI.eval("window.redirectTo=\"" + String(whereTo) + "\"");
+    var whereTo = options.redirectTo;
+    webContents.executeJavaScript("window.redirectTo=\"" + String(whereTo) + "\"")
   })
 
   // add a handler for a call from web content's javascript
@@ -40,6 +43,20 @@ export default function onRun(context) {
     UI.message('Lint')
     parseDocument(context)
     // webContents.executeJavaScript(`setRandomNumber(${699999})`)
+  })
+
+  webContents.on('getData', (s) => {
+    getData(context)
+  })
+
+  webContents.on('selectLayer', (id) => {
+    const page = context.document.currentPage()
+    if(page.deselectAllLayers){
+      page.deselectAllLayers();
+    }else{
+      page.changeSelectionBySelectingLayers_([]);
+    }
+    page.layersWithIDs([id])[0].select_byExpandingSelection(true, true);
   })
 
   webContents.on('loadDetails', (s) => {
@@ -54,13 +71,30 @@ export default function onRun(context) {
 }
 
 function pageLayers(page) {
-  let layers = page.layers
+  if (page.layers) {
+    let layers = page.layers
 
-  while (_.find(layers, (layer) => layer.type == 'Artboard' || layer.type == 'Group')) {
-    layers = _.flattenDeep(_.map(layers, (groupOrLayer) => _.get(groupOrLayer, 'layers', groupOrLayer)))
+    while (_.find(layers, (layer) => layer.type == 'Artboard' || layer.type == 'Group')) {
+      layers = _.flattenDeep(_.map(layers, (groupOrLayer) => _.get(groupOrLayer, 'layers', groupOrLayer)))
+    }
+
+    return layers
   }
 
-  return layers
+  return page
+}
+
+function getData(context) {
+  const document = sketch.fromNative(context.document)
+
+  // let layers = _.flattenDeep(_.map(document.pages, (page) => pageLayers(page)))
+  let layers = _.flattenDeep(pageLayers(document.pages[0]))
+
+  console.log(layers.length)
+
+  layers = _.chunk(layers, 100)[0]
+
+  postData(compliance(layers))
 }
 
 function parseDocument(context) {
@@ -82,54 +116,87 @@ function compliance(layers) {
     return parseColor(l)
   }))))
 }
+function postCompliance(compliance) {
+  webContents.executeJavaScript(`setCompliant('${JSON.stringify(compliance)}')`)
+}
 
 function postCompliance(compliance) {
   webContents.executeJavaScript(`setCompliant('${JSON.stringify(compliance)}')`)
 }
 
+function postData(compliance) {
+  webContents.executeJavaScript(`postData('${JSON.stringify(compliance)}')`)
+}
+
 function postComplianceSelected(compliance) {
-  webContents.executeJavaScript(`setCompliantSelected('${JSON.stringify(compliance)}')`)
+  webContents.executeJavaScript(`layerSelected('${JSON.stringify(compliance)}')`)
 }
 
 function parseColor(layer) {
   let colors = context.api().settingForKey('colors')
   colors = _.map(colors, (c) => tinycolor(String(c)).toHex8())
 
-  const props = ['fills', 'borders']
+  let props = ['fills', 'borders']
 
+  if (layer.type === 'Text') {
+    props.push('text')
+  }
 
-  // const cssString = layer.sketchObject.CSSAttributeString()
-
-  // const  layerColors = _.pick(layer.style, styles) // fills[0].color = #000;
-
-  // const compliance = _.groupBy(layerColors, (style) => _.includes(colors, tinycolor(style.color).toHex8()))
 
   const category = 'color'
 
-  const parsed =  (_.compact(_.map(props, (prop) => {
+  let parsed = []
+
+  parsed =  (_.compact(_.map(props, (prop) => {
     if (_.get(layer, 'style')) {
+      let attrs = {
+        id: layer.id,
+        name: layer.name,
+        category: category,
+        prop: prop,
+        createdAt: Date.now(),
+        suggestions: []
+      }
+
+      if (prop === 'text') {
+        let color = layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute.hexValue()
+        color = `#${color}`
+
+        return ([{
+          ...attrs,
+          index: 0,
+          styles: layer.style.toJSON(),
+          primary: color,
+          compliant: _.includes(colors, tinycolor(color).toHex8()),
+        }])
+      }
+
       if (_.get(layer.style, prop)) {
         const styles = _.get(layer.style, prop)
 
-        return _.map(styles, (style, i) => {
+        let i = -1
+        return _.map(styles, (style) => {
           const color = style.color
+          i = i + 1
           return ({
-            id: layer.id,
+            ...attrs,
             index: i,
+            styles: style.toJSON(),
             primary: color,
             compliant: _.includes(colors, tinycolor(color).toHex8()),
-            styles: style.toJSON(),
-            category: category,
-            prop: prop,
-            suggestions: []
           })
         })
       }
+
+
+
+
     } else {
       return null
     }
   }))
   )
+
 
   return parsed
 
@@ -148,21 +215,28 @@ function parseColor(layer) {
 }
 
 
+let oldSelection = []
+let newSelection = []
 
 export function onSelectionChanged(context) {
-  const action = context.actionContext
-  const document = sketch.fromNative(action.document)
+  if (loaded) {
+    const action = context.actionContext
+    const document = sketch.fromNative(action.document)
 
-  const selection = toArray(action.newSelection)
-  const count = selection.length
+    const selection = toArray(action.newSelection)
 
+    const count = selection.length
+    if (count <= 1) {
+      oldSelection = newSelection
+      newSelection = document.selectedLayers
 
-  if (count === 1) {
-    const layers = document.selectedLayers.map(layer => {
-      // debugger
-      return pageLayers(layer)
-    })
+      _.map([oldSelection, newSelection], (s) => {
+        let layers = s.map(layer => {
+          return pageLayers(layer)
+        })
 
-    postComplianceSelected(compliance(layers))
+        postComplianceSelected(compliance(layers))
+      })
+    }
   }
 }
