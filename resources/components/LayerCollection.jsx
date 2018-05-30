@@ -1,6 +1,10 @@
 import React from "react"
 import history from '../history'
 import Layer from './Layer'
+import Button from './Button';
+import Paginate from './Paginate';
+import Text from './Text';
+import Subheader from './Subheader';
 import GroupDetail from './GroupDetail'
 import moment from 'moment'
 import pluginCall from "sketch-module-web-view/client"
@@ -51,21 +55,26 @@ class LayerCollection extends React.Component {
 
     const customStyles = {
       content : {
-        top                   : '0',
-        left                  : '0',
-        marginRight           : '0',
+        top: '0',
+        left: '0',
+        marginRight: '0',
         width: '100%',
         height: '100%',
+        padding: '0',
+        border: 'none',
       }
     };
 
       return (
         <div>
-          <button onClick={() => pluginCall('getData', this.props.page) }>Lint</button>
-          <h3>Results:</h3>
-          Page: {this.props.page}
-          <button onClick={this.prev}>Previous</button>
-          <button onClick={this.next}>Next</button>
+          <div className="flex flexaic flexjcc p16">
+            <Button size="medium" style="default" onClick={() => pluginCall('getData', this.props.page) }>Lint My File</Button>
+          </div>
+
+          <Paginate />
+
+          <Subheader>Results:</Subheader>
+
           <div className='layer-grid'>
             {nestedLayers}
           </div>
@@ -74,7 +83,7 @@ class LayerCollection extends React.Component {
             onRequestClose={() => this.props.setActiveLayer(null)}
             style={customStyles}
           >
-            <button onClick={() => this.props.setActiveLayer(null)}>Close</button>
+            <Subheader><a onClick={() => this.props.setActiveLayer(null)}>←</a></Subheader>
             {layer}
           </Modal>
         </div>

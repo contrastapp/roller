@@ -1,5 +1,6 @@
 import React from "react"
 import tinycolor from "tinycolor2"
+import Text from './Text';
 import _ from "lodash"
 _.mixin(require("lodash-inflection"));
 import pluginCall from 'sketch-module-web-view/client'
@@ -29,15 +30,16 @@ class Layer extends React.Component {
     let first = {...(this.props.compliance[0] || {})}
 
     return (
-      <div className='layer' onClick={() => this.props.onClick(first)}>
-        <div className='layer-block' style={{backgroundColor: first.primary}}></div>
+      <div className='layer-row flex flexaic' onClick={() => this.props.onClick(first)}>
+        <div className="error ml4 mr16"><i className="fas fa-camera-retro"></i></div>
+        <div className='layer-block mr16' style={{backgroundColor: first.primary}}></div>
         <div className='layer-data'>
-          <div className='layer-name'>ERROR</div>
+          <div className='layer-name'><Text size="subheading" subdued>Error</Text></div>
           <div className='layer-occurences'>
-            {this.props.compliance.length} {_.pluralize('occurence', this.props.compliance.length)}
+            <Text size="caption" subdued>{this.props.compliance.length} {_.pluralize('occurence', this.props.compliance.length)}</Text>
           </div>
           <div className='layer-caption'>
-            Misuse of {_.uniq(_.map(this.props.compliance, 'prop')).join(' and ')} color
+            <Text size="body">Misuse of {_.uniq(_.map(this.props.compliance, 'prop')).join(' and ')} color</Text>
           </div>
         </div>
       </div>
