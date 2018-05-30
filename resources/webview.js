@@ -22,7 +22,7 @@ import * as ruleActions from './actions/RuleActions';
 
 import mockData from './mockData'
 
-import './app.scss';
+import './global.scss';
 // import reducers from './reducers' // Or wherever you keep your reducers
 
 // Create a history of your choosing (we're using a browser history in this case)
@@ -56,42 +56,42 @@ let data = {}
 let page = 0
 let pages = 1
 
-//WEB
-// ReactDOM.render(
-//   <Provider store={store}>
-//     { /* ConnectedRouter will use the store from Provider automatically */ }
-//     <ConnectedRouter history={history}>
-//       <div>
-//         <Route path="/" component={AppContainer}/>
-//         <Route exact path="/list" component={AppContainer}/>
-//       </div>
-//     </ConnectedRouter>
-//   </Provider>,
-//   document.getElementById('root')
-// )
-// store.dispatch(layerActions.setLayers(mockData))
-// // analytics.identify('jono@toyboxsystems.com');
-// let colors = ["#660000", "#990000", "#cc0000", "#cc3333", "#ea4c88", "#993399", "#663399", "#333399", "#0066cc", "#0099cc", "#66cccc", "#77cc33", "#669900", "#336600", "#666600", "#999900", "#cccc33", "#ffff00", "#ffcc33", "#ff9900", "#ff6600", "#cc6633", "#996633", "#663300", "#000000", "#999999", "#cccccc", "#ffffff"]
-// store.dispatch(ruleActions.setColors(colors))
-
-//SKETCH
-pluginCall("getLocation")
+//// WEB
 ReactDOM.render(
   <Provider store={store}>
     { /* ConnectedRouter will use the store from Provider automatically */ }
     <ConnectedRouter history={history}>
       <div>
+        <Route path="/" component={AppContainer}/>
         <Route exact path="/list" component={AppContainer}/>
-        <Route exact path="/item/:id" component={ItemContainer}/>
-        <Route exact path="/settings" component={SettingsContainer}/>
-        <Redirect to={window.redirectTo} />
       </div>
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 )
+store.dispatch(layerActions.setLayers(mockData))
+// analytics.identify('jono@toyboxsystems.com');
 let colors = ["#660000", "#990000", "#cc0000", "#cc3333", "#ea4c88", "#993399", "#663399", "#333399", "#0066cc", "#0099cc", "#66cccc", "#77cc33", "#669900", "#336600", "#666600", "#999900", "#cccc33", "#ffff00", "#ffcc33", "#ff9900", "#ff6600", "#cc6633", "#996633", "#663300", "#000000", "#999999", "#cccccc", "#ffffff"]
 store.dispatch(ruleActions.setColors(colors))
+
+////SKETCH
+// pluginCall("getLocation")
+// ReactDOM.render(
+//   <Provider store={store}>
+//     { /* ConnectedRouter will use the store from Provider automatically */ }
+//     <ConnectedRouter history={history}>
+//       <div>
+//         <Route exact path="/list" component={AppContainer}/>
+//         <Route exact path="/item/:id" component={ItemContainer}/>
+//         <Route exact path="/settings" component={SettingsContainer}/>
+//         <Redirect to={window.redirectTo} />
+//       </div>
+//     </ConnectedRouter>
+//   </Provider>,
+//   document.getElementById('root')
+// )
+// let colors = ["#660000", "#990000", "#cc0000", "#cc3333", "#ea4c88", "#993399", "#663399", "#333399", "#0066cc", "#0099cc", "#66cccc", "#77cc33", "#669900", "#336600", "#666600", "#999900", "#cccc33", "#ffff00", "#ffcc33", "#ff9900", "#ff6600", "#cc6633", "#996633", "#663300", "#000000", "#999999", "#cccccc", "#ffffff"]
+// store.dispatch(ruleActions.setColors(colors))
 
 
 window.postData = function (compliantArr) {
