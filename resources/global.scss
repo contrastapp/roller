@@ -1,0 +1,487 @@
+@import '_variables';
+body {
+
+}
+// @import "font-awesome";
+// @import 'variables';
+// @import 'react-table';
+// @import 'react-select';
+
+
+
+
+body {
+  background-color: white;
+  font-family: -apple-system, BlinkMacSystemFont, San Francisco, Roboto, Segoe UI, Helvetica Neue, sans-serif;
+  margin: 0px;
+ }
+
+.f-right-align { margin-left: auto; }
+.f-left-align { margin-right: auto; }
+
+.f-center { justify-content: center; }
+.f-end { justify-content: flex-end; }
+.f-start { justify-content: flex-start; }
+.f-evenly { justify-content: space-evenly; }
+.f-between { justify-content: space-between; }
+
+.f-align-start {align-items: flex-start; }
+
+
+.f-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.f-column {
+  display: flex;
+  flex-flow: column;
+  flex-grow: 1;
+}
+
+.f-quarter { flex-basis: 25% }
+
+.f-align-center {
+  display: flex;
+  align-items: center;
+}
+
+.flex { display: flex; }
+.f-grow { flex-grow: 1; }
+
+.text-center {text-align: center;}
+
+
+/********* Card **********/
+
+.tcard {
+  box-shadow: 0 0 0 1px rgba(63, 63, 68, 0.05), 0 1px 3px 0 rgba(63, 63, 68, 0.15);
+  @include border-radius(3px);
+  background-color: $white;
+  &.upload {
+    border: 1px dashed #C4CDD5;
+    max-height: 120px;
+    box-shadow: none;
+  }
+  &.gray { background-color: #F4F6F8; box-shadow: none;}
+}
+
+/********* Stats **********/
+
+.stats-section {
+  width: 100%;
+  &.tcard { padding: 0px; }
+  .stat { padding-left: $s-48;}
+}
+
+/********* Table **********/
+
+.t-table {
+
+.table {
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1 1 auto;
+}
+
+.th { font-weight: bold; }
+
+.tr {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.td {
+  display: flex;
+  flex-flow: row nowrap;
+  flex-grow: 1;
+  flex-basis: 0;
+  padding: $s-16 $s-24;
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0px;
+  white-space: nowrap;
+  border-bottom: $border;
+  &.large { flex-grow: 2; }
+}
+
+.tcard { padding: 0px; }
+
+}
+
+/********* Library **********/
+
+.color-card {
+  display: flex;
+  min-height: 120px;
+  min-width: 120px;
+  @include border-radius(3px);
+
+  &.small {
+    min-height: 30px;
+    width: 30px;
+  }
+}
+
+.type p { font-family: 'Andale Mono'; color: $blue-base; }
+
+
+.spacing-grid {
+  grid-template-columns: 15% auto;
+  grid-gap: $s-24 $s-60;
+
+  .s-card {
+    min-height: 60px;
+    background: #F4F6F8;
+  }
+
+  .s-fill {
+    min-height: 60px;
+    height: 100%;
+    width: 80px;
+    background: repeating-linear-gradient(
+      90deg,
+      $blue-base,
+      $blue-base 1px,
+      #B4E0FA 1px,
+      #B4E0FA 2px,);
+  }
+}
+
+/********* Modal **********/
+
+.Modal {
+  box-shadow: 0 31px 41px 0 rgba(33,43,54,0.20), 0 2px 16px 0 rgba(33,43,54,0.08);
+  @include border-radius($s-8);
+  background-color: $white;
+  min-width: 460px;
+  outline: 0;
+  margin-right: 0px !important;
+  transform: none !important;
+  margin-bottom: 120px;
+}
+
+.overlay-tbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(33,43,54,0.5);
+}
+
+.recharts-legend-wrapper {
+  bottom: 4px !important;
+}
+
+.recharts-legend-item {
+  margin-right: 16px !important;
+  margin-top: 4px;
+}
+
+
+/********* Report List **********/
+.report-list {
+
+a.report { color: black; }
+.tcard {
+  padding: 0px;
+  min-height: 180px;
+
+  &.color {
+    background: linear-gradient(to right,#EBF4FA 0, #EBF4FA 20%, #B4E0FA 0, #B4E0FA 40%, #007ACE 0, #007ACE 60%, #084E8A 0, #084E8A 80%, #00152A 0, #00152A 20%);
+  }
+
+  &.typography {
+    overflow: hidden;
+    font-size: 380px;
+    font-weight: 600;
+  }
+
+  &.spacing {
+    background-size: 20px 20px;
+    background-image: linear-gradient(to right, #B4E0FA 1px, transparent 1px), linear-gradient(to bottom, #B4E0FA 1px, transparent 1px);
+  }
+}
+}
+
+
+/********* Grid **********/
+
+
+
+.sidebar-small {
+		grid-area: sidebar-small;
+    background: $gray-base;
+    padding: $s-24 $s-12;
+
+    i { color: $gray-lighten-15; }
+	}
+
+.sidebar-large {
+		grid-area: sidebar-large;
+    background: $gray-lighten-5;
+    grid-template-rows: 1fr 20vh;
+    box-shadow: 0 0 0 1px rgba(63,63,68,0.05), 0 1px 3px 0 rgba(63,63,68,0.15);
+	}
+
+.sidepreview { border-top: $border; }
+
+.content {
+	grid-area: content;
+  display: grid;
+  margin: $s-24 $s-60 0px $s-60;
+  grid-template-columns: auto;
+  &.center { justify-content: center; }
+}
+
+.gfixed {
+  width: 50vw;
+  min-width: 980px;
+ }
+
+.nav-item {
+  height: 36px;
+  width: 36px;
+  @include border-radius(3px);
+
+  img {
+    width: 100%;
+  }
+  &.logo {
+    background: white;
+    border: $border;
+  }
+}
+
+/********* CSS Grid **********/
+
+.grid8-16 {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-gap: $s-16;
+}
+
+.grid { display: grid; }
+.gridaie { align-items: end; }
+.gridase { align-self: end; }
+
+.previewgrid { grid-template-columns: 2fr 1fr; min-height: 300px;}
+
+.dashboard {
+  grid-template-columns: 1fr 1fr;
+  grid-gap: $s-24;
+}
+
+/********* Flex **********/
+
+.flex {
+  @extend %flex;
+  &.list { height: calc(100vh - 120px); }
+  &.preview { height: 100%;border-right: $border; }
+ }
+
+.flexaic { align-items: center; }
+.flexjcc { justify-content: center; }
+.flexjce { justify-content: flex-end; }
+.flexaie { align-items: flex-end; }
+.flexdc { flex-direction: column; }
+.flexww {flex-wrap: wrap; }
+
+/********* Login **********/
+
+.login-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  height: 100vh;
+}
+
+.login-title {
+  width: 340px;
+}
+
+.login-side { background-color: $gray-base;}
+
+.tb-login {
+  form { width: 340px;}
+}
+
+/********* Divider **********/
+
+.divider24 {
+  margin-top: $s-24;
+  margin-bottom: $s-24;
+  border-bottom: $border;
+}
+
+.divider16 {
+  margin-top: $s-16;
+  margin-bottom: $s-16;
+  border-bottom: $border;
+}
+
+/********* Table **********/
+
+.ReactTable { @extend %scrollbar; }
+
+.span2 { grid-column: span 2; }
+
+
+/********* Pills **********/
+
+.pill {
+  border-radius: $s-24;
+  padding: 1px $s-8;
+  position: absolute;
+
+  &.todo {
+    background-color: $purple-lighten-15;
+    color: $purple-base;
+  }
+
+  &.inprogress {
+    background-color: $blue-lighten-15;
+    color: $blue-base;
+  }
+
+  &.review {
+    background-color: $pink-lighten-15;
+    color: $pink-base;
+  }
+
+  &.reopened {
+    background-color: $red-lighten-15;
+    color: $red-base;
+  }
+
+  &.resolved {
+    background-color: $green-lighten-15;
+    color: $green-base;
+  }
+}
+
+/********* Label **********/
+
+
+.label {
+  padding: 2px $s-8;
+  @include border-radius(3px);
+
+  &.noncompliant {
+    background-color: $red-lighten-15;
+    color: $red-base;
+  }
+
+  &.resolved, &.compliant {
+    background-color: $green-lighten-15;
+    color: $green-base;
+  }
+
+  &.padding {
+    background-color: $blue-base;
+    color: white;
+  }
+}
+/********* Inputs **********/
+
+.Select { margin-right: $s-16; }
+
+.fa-arrow-circle-o-up { color: $green-base; }
+.fa-minus-circle { color: $gray-lighten-30; }
+.fa-arrow-circle-o-down { color: $red-base; }
+
+input { @extend %input; }
+
+input[type=checkbox] {
+  &:checked{
+    background-color: $blue-base
+
+  }
+  width: $s-16;
+  height: $s-16;
+  padding: 0px;
+ }
+
+input { width: calc(100% - 26px); }
+label { margin-bottom: $s-4; }
+textarea:focus, input:focus{ outline: none; }
+
+
+/********* Sidebar **********/
+
+.sidebar-link {
+  a {
+    color: black;
+    @include border-radius(3px);
+    padding: $s-8 $s-16;
+    text-decoration: none;
+    display: flex;
+    border: 1px solid transparent;
+  }
+
+  &:hover a { background: $gray-lighten-10; }
+
+  &.active a {
+    color: $blue-base;
+    background: $gray-lighten-10;
+    border: $border;
+    @extend %btn-transition;
+  }
+
+}
+
+/********* Previews **********/
+
+.preview {
+
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  text-align: center;
+
+  .label {
+    align-self: center;
+    justify-self: center;
+    &.top { grid-area: 1 / 2 }
+    &.left { grid-area: 2 / 1 }
+    &.right { grid-area: 2 / 3 }
+    &.bottom { grid-area: 3 / 2 }
+  }
+
+  &.spacing {
+    @include border-radius (3px);
+    border: 1px dashed $blue-base;
+    background: $blue-lighten-15;
+    padding: $s-4;
+    max-width: 250px;
+
+    .inner {
+      color: $blue-base;
+      background: white;
+      grid-area: 2 / 2;
+      padding: $s-16 $s-24;
+      @include border-radius (3px);
+    }
+  }
+
+}
+
+/********* Card **********/
+
+.card {
+
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: $s-16;
+
+  .tcard {
+
+          grid-template-rows: 2fr;
+  }
+
+
+}

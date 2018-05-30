@@ -1,0 +1,300 @@
+
+/********* Colors **********/
+
+$white: #FFFFFF;
+
+$blue-base: #005FDC;
+$blue-lighten-15: #D9E7FA;
+
+$green-base: #007846;
+$green-lighten-15: #DBECE5;
+
+$red-base: #C8080A;
+$red-lighten-15: #F7DADB;
+
+$purple-base: #6450D7;
+$purple-lighten-15: #E8E5F9;
+
+$pink-base: #B40FA5;
+$pink-lighten-15: #F4DBF2;
+
+$gray-base: #212B36;
+$gray-lighten-35: #454F5B;
+$gray-lighten-30: #637381;
+$gray-lighten-25: #919EAB;
+$gray-lighten-20: #C4CDD5;
+$gray-lighten-15: #DFE3E8;
+$gray-lighten-10: #F4F6F8;
+$gray-lighten-5: #F9FAFB;
+
+/********* Typography **********/
+
+$font-text: -apple-system, BlinkMacSystemFont, San Francisco, Roboto, Segoe UI, Helvetica Neue, sans-serif;
+$font-regular: 400;
+$font-semibold: 500;
+
+%text-regular {
+  font-family: $font-text;
+  font-weight: $font-regular;
+}
+
+%text-semibold {
+  font-family: $font-text;
+  font-weight: $font-semibold;
+}
+
+  a {
+    color: $blue-base;
+    text-decoration: none;
+    &:hover { color: darken($blue-base, 10%); @extend %btn-transition }
+   }
+
+.tb-text {
+
+  color: $gray-base;
+
+  &.dlarge {
+    @extend %text-regular;
+    font-size: 3rem;
+    line-height: 3rem;
+  }
+
+  &.dmedium {
+    @extend %text-regular;
+    font-size: 1.625rem;
+    line-height: 2rem;
+  }
+
+  &.dsmall {
+    @extend %text-regular;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  &.heading {
+    @extend %text-semibold;
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  &.subheading {
+    @extend %text-semibold;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    text-transform: uppercase;
+  }
+
+  &.body {
+    @extend %text-regular;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  &.caption {
+    @extend %text-regular;
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  &.subdued { color: $gray-lighten-30; }
+  &.inherit-color { color: inherit; }
+}
+
+/********* Spacing **********/
+
+$s-4: 0.25rem;
+$s-6: 0.375rem;
+$s-8: 0.5rem;
+$s-12: 0.75rem;
+$s-16: 1rem;
+$s-24: 1.5rem;
+$s-48: 3rem;
+$s-60: 3.75rem;
+
+.p4 { padding: $s-4; }
+.p8 { padding: $s-8; }
+.p12 { padding: $s-12; }
+.p16 { padding: $s-16; }
+.p24 { padding: $s-24; }
+.p48 { padding: $s-48; }
+.p60 { padding: $s-60; }
+
+.pt4 { padding-top: $s-4; }
+.pt8 { padding-top: $s-8; }
+.pt12 { padding-top: $s-12; }
+.pt16 { padding-top: $s-16; }
+.pt24 { padding-top: $s-24; }
+.pt48 { padding-top: $s-48; }
+.pt60 { padding-top: $s-60; }
+
+.pb4 { padding-bottom: $s-4; }
+.pb8 { padding-bottom: $s-8; }
+.pb12 { padding-bottom: $s-12; }
+.pb16 { padding-bottom: $s-16; }
+.pb24 { padding-bottom: $s-24; }
+.pb48 { padding-bottom: $s-48; }
+.pb60 { padding-bottom: $s-60; }
+
+.pl4 { padding-left: $s-4; }
+.pl8 { padding-left: $s-8; }
+.pl12 { padding-left: $s-12; }
+.pl16 { padding-left: $s-16; }
+.pl24 { padding-left: $s-24; }
+.pl48 { padding-left: $s-48; }
+.pl60 { padding-left: $s-60; }
+
+.pr4 { padding-right: $s-4; }
+.pr8 { padding-right: $s-8; }
+.pr12 { padding-right: $s-12; }
+.pr16 { padding-right: $s-16; }
+.pr24 { padding-right: $s-24; }
+.pr48 { padding-right: $s-48; }
+.pr60 { padding-right: $s-60; }
+
+.mt4 { margin-top: $s-4; }
+.mt8 { margin-top: $s-8; }
+.mt12 { margin-top: $s-12; }
+.mt16 { margin-top: $s-16; }
+.mt24 { margin-top: $s-24; }
+.mt48 { margin-top: $s-48; }
+.mt60 { margin-top: $s-60; }
+
+.mb4 { margin-bottom: $s-4; }
+.mb8 { margin-bottom: $s-8; }
+.mb12 { margin-bottom: $s-12; }
+.mb16 { margin-bottom: $s-16; }
+.mb24 { margin-bottom: $s-24; }
+.mb48 { margin-bottom: $s-48; }
+.mb60 { margin-bottom: $s-60; }
+
+.ml4 { margin-left: $s-4; }
+.ml8 { margin-left: $s-8; }
+.ml12 { margin-left: $s-12; }
+.ml16 { margin-left: $s-16; }
+.ml24 { margin-left: $s-24; }
+.ml48 { margin-left: $s-48; }
+.ml60 { margin-left: $s-60; }
+
+.mr4 { margin-right: $s-4; }
+.mr8 { margin-right: $s-8; }
+.mr12 { margin-right: $s-12; }
+.mr16 { margin-right: $s-16; }
+.mr24 { margin-right: $s-24; }
+.mr48 { margin-right: $s-48; }
+.mr60 { margin-right: $s-60; }
+
+/********* Border Radius **********/
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+/********* Flex **********/
+
+%flex {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+/********* Scrollbar **********/
+
+%scrollbar {
+  ::-webkit-scrollbar { width: $s-8; height: $s-8;}
+  ::-webkit-scrollbar-track { background: white; }
+  ::-webkit-scrollbar-thumb { background: $gray-lighten-20; }
+  ::-webkit-scrollbar-thumb:hover { background: $gray-lighten-25; }
+}
+
+/********* Borders **********/
+
+$border: 1px solid $gray-lighten-15;
+
+/********* Shadows **********/
+
+$btn-shadow: 0 1px 1px 0 rgba(33,43,54,0.06);
+
+/********* Buttons **********/
+
+%tb-btn {
+
+  @include border-radius(3px);
+  padding: $s-8 $s-16;
+  font-size: 0.875rem;
+
+  &.btn-small { padding: $s-6 $s-12; }
+  &.btn-medium { padding: $s-8 $s-16; }
+  &.btn-large { padding: $s-12 $s-24; }
+  &.btn-fwidth { width: 100%; }
+
+  &.btn-primary {
+    border: 1px solid $blue-base;
+    background: linear-gradient(180deg, #0883E6 0%, $blue-base 100%);
+    box-shadow: $btn-shadow;
+    color: white;
+      &:focus {
+        background: $blue-base;
+        box-shadow: inset 0 1px 3px 0 rgba(33,43,54,0.8);
+        outline: none;
+      }
+      &:hover {
+        box-shadow: 0 2px 2px 0 rgba(33,43,54,0.24);
+        border: 1px solid #003C8B;
+        @extend %btn-transition;
+      }
+  }
+
+  &.btn-default { @extend %btn-default; }
+}
+
+%btn-default {
+  border: 1px solid $gray-lighten-20;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%);
+  box-shadow: $btn-shadow;
+    &:hover {
+      box-shadow: 0 1px 2px 0 rgba(33,43,54,0.12);
+      border: 1px solid $gray-lighten-25;
+      @extend %btn-transition;
+    }
+    &:focus {
+      box-shadow: inset 0 1px 3px 0 rgba(33,43,54,0.36);
+      background: $gray-lighten-5;
+      outline: none;
+    }
+}
+
+.tb-btn { @extend %tb-btn; }
+
+%btn-transition {
+      transition-duration: .20s;
+      transition-timing-function: ease-in-out;
+}
+
+/********* Inputs **********/
+
+%input {
+  border: 1px solid $gray-lighten-20;
+  @include border-radius(3px);
+  background: white;
+  padding: $s-8 $s-12;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  &:hover {
+    box-shadow: 0 0 2px 0 rgba(145,158,171,0.24);
+    border: 1px solid $gray-lighten-25;
+    @extend %btn-transition;
+  }
+  &:focus {
+    border-color: $blue-base;
+    box-shadow: 0 0 2px 0 rgba(0,95,220,0.24);
+  }
+}
