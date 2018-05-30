@@ -12,8 +12,7 @@ const options = {
   width: 240,
   height: 480,
   show: false,
-  alwaysOnTop: true,
-  loaded: false
+  loaded: false,
 }
 let browserWindow = new BrowserWindow(options)
 let webContents = browserWindow.webContents
@@ -77,6 +76,10 @@ export default function onRun(context) {
   })
 
   browserWindow.loadURL(require('../resources/webview.html'))
+}
+
+export function blurAfterSelection(context) {
+  browserWindow.blur()
 }
 
 export function onSelectionChanged(context) {
@@ -171,6 +174,7 @@ function postData(compliance) {
 
 function postComplianceSelected(compliance) {
   webContents.executeJavaScript(`layerSelected('${JSON.stringify(compliance)}')`)
+  browserWindow.blur()
 }
 
 function setRules() {
@@ -277,7 +281,12 @@ function selectLayer(id) {
     return page.layersWithIDs([id])
   })))
 
-  _.each(layers, (layer) => _.each(_.flattenDeep(layer), (l) => l.select_byExpandingSelection(true, true)));
+  layers = _.map(layers, (layer) => _.map(_.flattenDeep(layer), (l) => {l.select_byExpandingSelection(true, true); return l}));
+
+  layers = _.flatten(layers)
+
+  MSDocument.currentDocument().contentDrawView().zoomToFitRect(layers[0].absoluteRect().rect())
+
   return layers
 }
 
