@@ -13,14 +13,13 @@ const options = {
   height: 480,
   show: false,
   alwaysOnTop: true,
+  loaded: false
 }
-let browserWindow;
-let webContents;
+let browserWindow = new BrowserWindow(options)
+let webContents = browserWindow.webContents
 let loaded = false
 
 export default function onRun(context) {
-  browserWindow = new BrowserWindow(options)
-  webContents = browserWindow.webContents
   // only show the window when the page has loaded
   browserWindow.once('ready-to-show', () => {
     browserWindow.show()
@@ -28,7 +27,6 @@ export default function onRun(context) {
 
   // print a message when the page loads
   webContents.on('did-finish-load', () => {
-    loaded = true
     UI.message('UI loaded!')
   })
 
@@ -46,17 +44,28 @@ export default function onRun(context) {
   })
 
   webContents.on('getData', (s) => {
+    // setRules(context)
     getData(context)
   })
 
+
   webContents.on('selectLayer', (id) => {
-    const page = context.document.currentPage()
-    if(page.deselectAllLayers){
-      page.deselectAllLayers();
-    }else{
-      page.changeSelectionBySelectingLayers_([]);
-    }
-    page.layersWithIDs([id])[0].select_byExpandingSelection(true, true);
+    selectLayer(id)
+  })
+
+  webContents.on('swapProp', (id, prop, oldStyle, newStyle) => {
+    let layers = selectLayer(id)
+    _.each(layers, (layer) => _.each(_.flattenDeep(layer), (l) => {
+      if (prop === 'fills' || prop === 'borders') {
+        sketch.fromNative(l).style[prop] = _.map(sketch.fromNative(l).style[prop], (fillOrBorder) => fillOrBorder.color === oldStyle ? newStyle : fillOrBorder.color)
+      } else if ( prop === 'text') {
+        var range = NSMakeRange(0,sketch.fromNative(l).text.length - 1)
+        var color = hexToColor(newStyle)
+        l.setIsEditingText(true)
+        l.addAttribute_value_forRange(NSForegroundColorAttributeName, color, range)
+        l.setIsEditingText(false)
+      }
+    }));
   })
 
   webContents.on('loadDetails', (s) => {
@@ -68,6 +77,38 @@ export default function onRun(context) {
   })
 
   browserWindow.loadURL(require('../resources/webview.html'))
+}
+
+export function onSelectionChanged(context) {
+  if (browserWindow.isVisible() == 1) {
+    const action = context.actionContext
+    const document = sketch.fromNative(action.document)
+
+    const selection = toArray(action.newSelection)
+
+    const count = selection.length
+    if (count <= 1) {
+      oldSelection = newSelection
+      newSelection = document.selectedLayers
+
+      _.map([oldSelection, newSelection], (s) => {
+        let layers = s.map(layer => {
+          return pageLayers(layer)
+        })
+
+        postComplianceSelected(compliance(layers))
+      })
+    }
+  }
+}
+
+function hexToColor(hex, alpha) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),
+    red = parseInt(result[1], 16) / 255,
+    green = parseInt(result[2], 16) / 255,
+    blue = parseInt(result[3], 16) / 255,
+    alpha = (typeof alpha !== 'undefined') ? alpha : 1;
+  return NSColor.colorWithCalibratedRed_green_blue_alpha(red, green, blue, alpha)
 }
 
 function pageLayers(page) {
@@ -130,6 +171,12 @@ function postData(compliance) {
 
 function postComplianceSelected(compliance) {
   webContents.executeJavaScript(`layerSelected('${JSON.stringify(compliance)}')`)
+}
+
+function setRules() {
+  let colors = context.api().settingForKey('colors')
+  colors = _.map(colors, (c) => tinycolor(String(c)).toHex8())
+  webContents.executeJavaScript(`setRules('${JSON.stringify(colors)}')`)
 }
 
 function parseColor(layer) {
@@ -218,25 +265,19 @@ function parseColor(layer) {
 let oldSelection = []
 let newSelection = []
 
-export function onSelectionChanged(context) {
-  if (loaded) {
-    const action = context.actionContext
-    const document = sketch.fromNative(action.document)
-
-    const selection = toArray(action.newSelection)
-
-    const count = selection.length
-    if (count <= 1) {
-      oldSelection = newSelection
-      newSelection = document.selectedLayers
-
-      _.map([oldSelection, newSelection], (s) => {
-        let layers = s.map(layer => {
-          return pageLayers(layer)
-        })
-
-        postComplianceSelected(compliance(layers))
-      })
+function selectLayer(id) {
+  const document = sketch.fromNative(context.document)
+  let layers = _.compact(_.flattenDeep(_.map(document.pages, (page) => {
+    page = page.sketchObject
+    if(page.deselectAllLayers){
+      page.deselectAllLayers();
+    }else{
+      page.changeSelectionBySelectingLayers_([]);
     }
-  }
+    return page.layersWithIDs([id])
+  })))
+
+  _.each(layers, (layer) => _.each(_.flattenDeep(layer), (l) => l.select_byExpandingSelection(true, true)));
+  return layers
 }
+

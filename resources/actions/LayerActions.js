@@ -8,14 +8,14 @@ export const setLayers = data => ({
   data,
 });
 
-export const activeLayer = data => ({
+export const selectLayer = data => ({
   type: 'SET_ACTIVE_LAYER',
   data,
 });
 
-export const setActiveLayerId = id => ({
+export const setActiveLayer = data => ({
   type: 'SET_ACTIVE_LAYER_ID',
-  id,
+  data,
 });
 
 export const nextPage = () => ({

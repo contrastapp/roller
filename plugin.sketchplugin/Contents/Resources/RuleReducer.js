@@ -81,32 +81,16 @@ var _extends = Object.assign || function (target) {
 };
 
 var initialState = {
-  layers: {},
-  layerMap: {},
-  activeLayer: null,
-  page: 0
+  colors: []
 };
 
 var pages = function pages() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments[1];
 
-  var layers = void 0;
-  var layerMap = void 0;
   switch (action.type) {
-    case 'SET_LAYERS':
-      layers = _.groupBy(action.data, 'primary');
-      return _extends({}, state, { layers: layers, layerMap: _.groupBy(action.data, 'id') });
-    case 'SET_ACTIVE_LAYER':
-      layers = _.groupBy(action.data, 'primary');
-      layerMap = _.groupBy(action.data, 'id');
-      return _extends({}, state, { activeLayer: action.data[0], layers: _extends({}, state.layers, layers), layerMap: _extends({}, state.layerMap, layersMap) });
-    case 'SET_ACTIVE_LAYER_ID':
-      return _extends({}, state, { activeLayer: action.data });
-    case 'NEXT_PAGE':
-      return _extends({}, state, { page: state.page + 1 });
-    case 'PREV_PAGE':
-      return _extends({}, state, { page: state.page - 1 });
+    case 'SET_COLORS':
+      return _extends({}, state, { colors: action.data });
     default:
       return state;
   }

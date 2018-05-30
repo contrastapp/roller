@@ -4,18 +4,25 @@ import ReactDOM from 'react-dom'
 const _ = require('lodash')
 
 import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { createLogger } from 'redux-logger';
 import { Provider } from 'react-redux'
 
 import history from './history'
-import { Route } from 'react-router'
+import { IndexRedirect, Route } from 'react-router'
 
 import { Redirect } from "react-router-dom"
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 import AppContainer from './AppContainer'
+import SettingsContainer from './containers/SettingsContainer'
 import ItemContainer from './ItemContainer'
 import layerReducer from './reducers/LayerReducer'
+import ruleReducer from './reducers/RuleReducer'
 import * as layerActions from './actions/LayerActions';
+import * as ruleActions from './actions/RuleActions';
 
+import mockData from './mockData'
+
+import './app.scss';
 // import reducers from './reducers' // Or wherever you keep your reducers
 
 // Create a history of your choosing (we're using a browser history in this case)
@@ -31,8 +38,9 @@ const store = createStore(
   combineReducers({
     router: routerReducer,
     layers: layerReducer,
+    rules: ruleReducer,
   }),
-  applyMiddleware(middleware)
+  applyMiddleware(middleware, createLogger())
 )
 // Disable the context menu to have a more native feel
 // document.addEventListener("contextmenu", function(e) {
@@ -43,10 +51,26 @@ let data = {}
 let page = 0
 let pages = 1
 
+//WEB
+// ReactDOM.render(
+//   <Provider store={store}>
+//     { /* ConnectedRouter will use the store from Provider automatically */ }
+//     <ConnectedRouter history={history}>
+//       <div>
+//         <Route path="/" component={AppContainer}/>
+//         <Route exact path="/list" component={AppContainer}/>
+//       </div>
+//     </ConnectedRouter>
+//   </Provider>,
+//   document.getElementById('root')
+// )
+// store.dispatch(layerActions.setLayers(mockData))
+// // analytics.identify('jono@toyboxsystems.com');
+// let colors = ["#660000", "#990000", "#cc0000", "#cc3333", "#ea4c88", "#993399", "#663399", "#333399", "#0066cc", "#0099cc", "#66cccc", "#77cc33", "#669900", "#336600", "#666600", "#999900", "#cccc33", "#ffff00", "#ffcc33", "#ff9900", "#ff6600", "#cc6633", "#996633", "#663300", "#000000", "#999999", "#cccccc", "#ffffff"]
+// store.dispatch(ruleActions.setColors(colors))
 
-
-// pluginCall("getLocation")
-
+//SKETCH
+pluginCall("getLocation")
 ReactDOM.render(
   <Provider store={store}>
     { /* ConnectedRouter will use the store from Provider automatically */ }
@@ -54,17 +78,26 @@ ReactDOM.render(
       <div>
         <Route exact path="/list" component={AppContainer}/>
         <Route exact path="/item/:id" component={ItemContainer}/>
+        <Route exact path="/settings" component={SettingsContainer}/>
         <Redirect to={window.redirectTo} />
       </div>
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 )
+let colors = ["#660000", "#990000", "#cc0000", "#cc3333", "#ea4c88", "#993399", "#663399", "#333399", "#0066cc", "#0099cc", "#66cccc", "#77cc33", "#669900", "#336600", "#666600", "#999900", "#cccc33", "#ffff00", "#ffcc33", "#ff9900", "#ff6600", "#cc6633", "#996633", "#663300", "#000000", "#999999", "#cccccc", "#ffffff"]
+store.dispatch(ruleActions.setColors(colors))
+
 
 window.postData = function (compliantArr) {
+  console.log(compliantArr)
   store.dispatch(layerActions.setLayers(JSON.parse(compliantArr)))
 }
 
 window.layerSelected = function (compliantArr) {
-  store.dispatch(layerActions.activeLayer(JSON.parse(compliantArr)))
+  store.dispatch(layerActions.selectLayer(JSON.parse(compliantArr)))
+}
+
+window.setRules = function (rules) {
+  store.dispatch(ruleActions.setColors(JSON.parse(rules)))
 }

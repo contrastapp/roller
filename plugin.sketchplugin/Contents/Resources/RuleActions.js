@@ -70,49 +70,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }return target;
+// import thunk from 'redux-thunk';
+// import { SET_PAGES } from '../constants/helloWorldConstants';
+// import accountService from '../services/accountService';
+
+
+var setColors = exports.setColors = function setColors(data) {
+  return {
+    type: 'SET_COLORS',
+    data: data
+  };
 };
-
-var initialState = {
-  layers: {},
-  layerMap: {},
-  activeLayer: null,
-  page: 0
-};
-
-var pages = function pages() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-  var action = arguments[1];
-
-  var layers = void 0;
-  var layerMap = void 0;
-  switch (action.type) {
-    case 'SET_LAYERS':
-      layers = _.groupBy(action.data, 'primary');
-      return _extends({}, state, { layers: layers, layerMap: _.groupBy(action.data, 'id') });
-    case 'SET_ACTIVE_LAYER':
-      layers = _.groupBy(action.data, 'primary');
-      layerMap = _.groupBy(action.data, 'id');
-      return _extends({}, state, { activeLayer: action.data[0], layers: _extends({}, state.layers, layers), layerMap: _extends({}, state.layerMap, layersMap) });
-    case 'SET_ACTIVE_LAYER_ID':
-      return _extends({}, state, { activeLayer: action.data });
-    case 'NEXT_PAGE':
-      return _extends({}, state, { page: state.page + 1 });
-    case 'PREV_PAGE':
-      return _extends({}, state, { page: state.page - 1 });
-    default:
-      return state;
-  }
-};
-
-exports['default'] = pages;
 
 /***/ })
 /******/ ]);

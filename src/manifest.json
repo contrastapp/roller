@@ -19,7 +19,7 @@
       "handlers": {
         "run": "onRun",
         "actions": {
-          "SelectionChanged.finish": "onSelectionChanged"
+          "SelectionChanged.begin": "onSelectionChanged"
         }
       }
     }

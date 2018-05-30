@@ -82,17 +82,17 @@ var setLayers = exports.setLayers = function setLayers(data) {
   };
 };
 
-var activeLayer = exports.activeLayer = function activeLayer(data) {
+var selectLayer = exports.selectLayer = function selectLayer(data) {
   return {
     type: 'SET_ACTIVE_LAYER',
     data: data
   };
 };
 
-var setActiveLayerId = exports.setActiveLayerId = function setActiveLayerId(id) {
+var setActiveLayer = exports.setActiveLayer = function setActiveLayer(data) {
   return {
     type: 'SET_ACTIVE_LAYER_ID',
-    id: id
+    data: data
   };
 };
 
