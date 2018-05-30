@@ -31,7 +31,12 @@ class LayerCollection extends React.Component {
     let layer;
     if (this.props.activeLayer) {
       layer = _.find(this.props.layerMap[this.props.activeLayer.id], (l) => this.props.activeLayer.prop == l.prop)
-      layer = <GroupDetail layers={this.props.layers[layer.primary]} />
+      let layers = this.props.layers[layer.primary]
+      debugger
+      if (this.props.selected) {
+        layers = this.props.layerMap[layer.id]
+      }
+      layer = <GroupDetail layers={layers} />
     }
 
     let nestedLayers;

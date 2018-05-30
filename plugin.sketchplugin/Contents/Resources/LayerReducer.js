@@ -87,6 +87,12 @@ var initialState = {
   page: 0
 };
 
+function setActiveLayer(state, action) {
+  var layers = _.groupBy(action.data, 'primary');
+  var layerMap = _.groupBy(action.data, 'id');
+  return _extends({}, state, { activeLayer: action.data[0], layers: _extends({}, state.layers, layers), layerMap: _extends({}, state.layerMap, layerMap) });
+}
+
 var pages = function pages() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments[1];
@@ -98,11 +104,11 @@ var pages = function pages() {
       layers = _.groupBy(action.data, 'primary');
       return _extends({}, state, { layers: layers, layerMap: _.groupBy(action.data, 'id') });
     case 'SET_ACTIVE_LAYER':
-      layers = _.groupBy(action.data, 'primary');
-      layerMap = _.groupBy(action.data, 'id');
-      return _extends({}, state, { activeLayer: action.data[0], layers: _extends({}, state.layers, layers), layerMap: _extends({}, state.layerMap, layerMap) });
+      return setActiveLayer(state, action);
+    case 'SET_ACTIVE_LAYER_SKETCH':
+      return setActiveLayer(_extends({}, state, { selected: true }), action);
     case 'SET_ACTIVE_LAYER_ID':
-      return _extends({}, state, { activeLayer: action.data });
+      return _extends({}, state, { selected: false, activeLayer: action.data });
     case 'NEXT_PAGE':
       return _extends({}, state, { page: state.page + 1 });
     case 'PREV_PAGE':

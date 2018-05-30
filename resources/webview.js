@@ -95,7 +95,7 @@ window.postData = function (compliantArr) {
 }
 
 window.layerSelected = function (compliantArr) {
-  store.dispatch(layerActions.selectLayer(JSON.parse(compliantArr)))
+  store.dispatch(layerActions.selectLayerFromSketch(JSON.parse(compliantArr)))
 }
 
 window.setRules = function (rules) {

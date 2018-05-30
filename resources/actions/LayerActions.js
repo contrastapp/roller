@@ -13,6 +13,11 @@ export const selectLayer = data => ({
   data,
 });
 
+export const selectLayerFromSketch = data => ({
+  type: 'SET_ACTIVE_LAYER_SKETCH',
+  data,
+});
+
 export const setActiveLayer = data => ({
   type: 'SET_ACTIVE_LAYER_ID',
   data,

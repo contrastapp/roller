@@ -89,6 +89,13 @@ var selectLayer = exports.selectLayer = function selectLayer(data) {
   };
 };
 
+var selectLayerFromSketch = exports.selectLayerFromSketch = function selectLayerFromSketch(data) {
+  return {
+    type: 'SET_ACTIVE_LAYER_SKETCH',
+    data: data
+  };
+};
+
 var setActiveLayer = exports.setActiveLayer = function setActiveLayer(data) {
   return {
     type: 'SET_ACTIVE_LAYER_ID',
