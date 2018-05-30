@@ -32,7 +32,6 @@ class LayerCollection extends React.Component {
     if (this.props.activeLayer) {
       layer = _.find(this.props.layerMap[this.props.activeLayer.id], (l) => this.props.activeLayer.prop == l.prop)
       let layers = this.props.layers[layer.primary]
-      debugger
       if (this.props.selected) {
         layers = this.props.layerMap[layer.id]
       }
