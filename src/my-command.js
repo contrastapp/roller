@@ -67,10 +67,6 @@ export default function onRun(context) {
     }));
   })
 
-  webContents.on('loadDetails', (s) => {
-    browserWindow.loadURL(require('../resources/details.html'))
-  })
-
   webContents.on('loadList', (s) => {
     browserWindow.loadURL(require('../resources/webview.html'))
   })
