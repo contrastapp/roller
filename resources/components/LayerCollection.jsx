@@ -67,10 +67,10 @@ class LayerCollection extends React.Component {
           </div>
           <Modal
             isOpen={this.props.activeLayer}
-            onRequestClose={() => this.props.setActiveLayerId(null)}
+            onRequestClose={() => this.props.setActiveLayer(null)}
             style={customStyles}
           >
-            <button onClick={() => this.props.setActiveLayerId(null)}>Close</button>
+            <button onClick={() => this.props.setActiveLayer(null)}>Close</button>
             {layer}
           </Modal>
         </div>

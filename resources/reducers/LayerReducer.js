@@ -16,7 +16,7 @@ const pages = (state = initialState, action) => {
     case 'SET_ACTIVE_LAYER':
       layers = _.groupBy(action.data, 'primary')
       layerMap = _.groupBy(action.data, 'id')
-      return {...state, activeLayer: action.data[0], layers: {...state.layers, ...layers}, layerMap: {...state.layerMap, ...layersMap}};
+      return {...state, activeLayer: action.data[0], layers: {...state.layers, ...layers}, layerMap: {...state.layerMap, ...layerMap}};
     case 'SET_ACTIVE_LAYER_ID':
       return {...state, activeLayer: action.data};
     case 'NEXT_PAGE':

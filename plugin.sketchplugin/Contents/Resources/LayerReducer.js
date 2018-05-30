@@ -100,7 +100,7 @@ var pages = function pages() {
     case 'SET_ACTIVE_LAYER':
       layers = _.groupBy(action.data, 'primary');
       layerMap = _.groupBy(action.data, 'id');
-      return _extends({}, state, { activeLayer: action.data[0], layers: _extends({}, state.layers, layers), layerMap: _extends({}, state.layerMap, layersMap) });
+      return _extends({}, state, { activeLayer: action.data[0], layers: _extends({}, state.layers, layers), layerMap: _extends({}, state.layerMap, layerMap) });
     case 'SET_ACTIVE_LAYER_ID':
       return _extends({}, state, { activeLayer: action.data });
     case 'NEXT_PAGE':
