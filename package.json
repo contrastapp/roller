@@ -32,6 +32,8 @@
     "resources/**/*.js"
   ],
   "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/react-fontawesome": "0.0.20",
     "history": "^4.7.2",
     "lodash": "^4.17.10",
     "lodash-inflection": "^1.5.0",
