@@ -10,7 +10,7 @@ class Test extends React.Component {
   render() {
     return (
       <div className="container settings">
-        <div>
+        <div className="flex f-end p12">
         <button onClick={()=> this.props.history.push('settings')}>
           Settings
         </button>

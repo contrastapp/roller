@@ -45,10 +45,12 @@ class SuggestionCollection extends React.Component {
     let suggestion = this.computeSuggestions(this.props.primary)
     let swap = (
       <a onClick={() => { pluginCall('swapProp', this.props.id, this.props.prop, this.props.primary, suggestion)} }>
+
         <div>
           <div style={{minHeight: 50, minWidth: 50, backgroundColor: suggestion}}/>
           <div>{suggestion}</div>
         </div>
+        
       </a>
     )
 

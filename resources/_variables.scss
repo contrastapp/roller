@@ -93,7 +93,7 @@ $font-semibold: 500;
   &.caption {
     @extend %text-regular;
     font-size: 0.75rem;
-    line-height: 1rem;
+    line-height: 1.2rem;
   }
 
   &.subdued { color: $gray-lighten-30; }
@@ -273,6 +273,15 @@ $btn-shadow: 0 1px 1px 0 rgba(33,43,54,0.06);
 %btn-transition {
       transition-duration: .20s;
       transition-timing-function: ease-in-out;
+}
+
+.btn-paginate {
+  background: $white;
+  width: 33.33vw;
+  text-align: center;
+  padding: $s-8;
+  &:first-child { border-right: $border; }
+  &:last-child { border-left: $border; }
 }
 
 /********* Inputs **********/
