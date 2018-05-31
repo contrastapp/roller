@@ -4,6 +4,7 @@ import Paginate from "./Paginate";
 import Subheader from "./Subheader";
 import PropertiesHead from "./PropertiesHead";
 import Text from "./Text";
+import Error from "./Error";
 import _ from "lodash"
 import pluginCall from 'sketch-module-web-view/client'
 import SuggestionContainer from '../containers/SuggestionsContainer';
@@ -25,7 +26,7 @@ class LayerDetail extends React.Component {
           <Paginate prev={this.props.prev} page={this.props.page} pages={this.props.pages} next={this.props.next}/>
             <Subheader>Details</Subheader>
             <div className="pr16 pl16 pt24 pb24 flex flexaic">
-              <div className="error mr16" />
+              <Error />
               <div>
                 <Text size="subheading">{this.props.layerCompliance.compliant ? 'Compliant' : 'Non Compliant'}</Text>
                   <div>

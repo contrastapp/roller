@@ -279,6 +279,7 @@ $btn-shadow: 0 1px 1px 0 rgba(33,43,54,0.06);
   background: $white;
   width: 33.33vw;
   text-align: center;
+  min-height: 36px;
   padding: $s-8;
   &:first-child { border-right: $border; }
   &:last-child { border-left: $border; }

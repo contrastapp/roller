@@ -503,7 +503,13 @@ textarea:focus, input:focus{ outline: none; }
   box-shadow: 0 0 0 4px $red-lighten-15;
   height: 24px;
   width: 24px;
+  text-align: center;
   margin-left: $s-4;
+
+  .svg-inline--fa {
+    color: $red-base;
+    font-size: $s-12;
+  }
 }
 
 .subheader {
