@@ -1,45 +1,48 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import Button from "./Button";
+import Subheader from "./Subheader";
 import { Field, FieldArray, reduxForm } from 'redux-form'
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => (
   <div>
     <label>{label}</label>
-    <div>
       <input {...input} type={type} placeholder={label} />
       {touched && error && <span>{error}</span>}
-    </div>
   </div>
 )
 
 const renderMembers = ({ fields, meta: { error, submitFailed } }) => (
   <ul>
-    <li>
-      <button type="button" onClick={() => fields.push({})}>
-        Add Color
-      </button>
+    <li className="pt24 pb24 pr16 pl16">
+      <Button size="full" style="default" type="button" onClick={() => fields.push({})}>Add New Color</Button>
       {submitFailed && error && <span>{error}</span>}
     </li>
+    <Subheader>My Saved Colors</Subheader>
     {fields.map((color, index) => (
       <li key={index}>
+        <div className="flex falign-end layer-row">
         <Field
           name={`${color}.name`}
           type="text"
           component={renderField}
-          label="Name"
+          label="Color name"
         />
         <Field
           name={`${color}.hex`}
           type="text"
           component={renderField}
-          label="hex"
+          label="Hex Value"
         />
-        <button
+
+      <Button
           type="button"
-          title="Remove Color"
+          title="Remove"
           onClick={() => fields.remove(index)}
-        >Remove</button>
+        >&times;</Button>
+    </div>
       </li>
+
     ))}
   </ul>
 )
@@ -49,13 +52,8 @@ const FieldArraysForm = props => {
   return (
     <form onSubmit={handleSubmit(data => { props.onSubmit(data) })}>
       <FieldArray name="colors" component={renderMembers} />
-      <div>
-        <button type="submit" disabled={submitting}>
-          Submit
-        </button>
-        <button type="button" disabled={pristine || submitting} onClick={reset}>
-          Clear Values
-        </button>
+      <div className="layer-row">
+        <Button size="full" style="primary" type="submit" disabled={submitting}>Add Color</Button>
       </div>
     </form>
   )
