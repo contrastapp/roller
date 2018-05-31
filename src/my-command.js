@@ -9,8 +9,8 @@ const momemt = require('moment')
 const options = {
   identifier: 'unique.id',
   redirectTo: "/list",
-  width: 240,
-  height: 480,
+  width: 300,
+  height: 600,
   show: false,
   loaded: false,
 }
@@ -42,11 +42,19 @@ export default function onRun(context) {
     // webContents.executeJavaScript(`setRandomNumber(${699999})`)
   })
 
+  setRules(context)
   webContents.on('getData', (s) => {
-    // setRules(context)
     getData(context)
   })
 
+  webContents.on('saveRules', (colors) => {
+    context.api().setSettingForKey('colors', JSON.stringify(colors))
+    setRules(context)
+  })
+
+  webContents.on('setRules', (colors) => {
+    setRules(context)
+  })
 
   webContents.on('selectLayer', (id) => {
     selectLayer(id)
@@ -54,7 +62,8 @@ export default function onRun(context) {
 
   webContents.on('swapProp', (id, prop, oldStyle, newStyle) => {
     let layers = selectLayer(id)
-    _.each(layers, (layer) => _.each(_.flattenDeep(layer), (l) => {
+
+    _.each(layers, (l) => {
       if (prop === 'fills' || prop === 'borders') {
         sketch.fromNative(l).style[prop] = _.map(sketch.fromNative(l).style[prop], (fillOrBorder) => fillOrBorder.color === oldStyle ? newStyle : fillOrBorder.color)
       } else if ( prop === 'text') {
@@ -64,7 +73,7 @@ export default function onRun(context) {
         l.addAttribute_value_forRange(NSForegroundColorAttributeName, color, range)
         l.setIsEditingText(false)
       }
-    }));
+    });
   })
 
   webContents.on('loadList', (s) => {
@@ -175,13 +184,12 @@ function postComplianceSelected(compliance) {
 
 function setRules() {
   let colors = context.api().settingForKey('colors')
-  colors = _.map(colors, (c) => tinycolor(String(c)).toHex8())
-  webContents.executeJavaScript(`setRules('${JSON.stringify(colors)}')`)
+  webContents.executeJavaScript(`setRules('${String(String(JSON.stringify(JSON.parse(String(colors)))))}')`)
 }
 
 function parseColor(layer) {
   let colors = context.api().settingForKey('colors')
-  colors = _.map(colors, (c) => tinycolor(String(c)).toHex8())
+  colors = _.map(colors, (c) => tinycolor(String(c.hex)).toHex8())
 
   let props = ['fills', 'borders']
 
@@ -281,7 +289,17 @@ function selectLayer(id) {
 
   layers = _.flatten(layers)
 
-  MSDocument.currentDocument().contentDrawView().zoomToFitRect(layers[0].absoluteRect().rect())
+  let layer = layers[0]
+  let rect = layer.absoluteRect().rect()
+
+  let x = rect.origin.x - 50
+  let y = rect.origin.y - 50
+  let width = rect.size.width + 100
+  let height = rect.size.height + 100
+  rect = NSMakeRect(x, y, width, height)
+
+  // MSDocument.currentDocument().contentDrawView().zoomToFitRect(layers[0].absoluteRect().rect())
+  MSDocument.currentDocument().contentDrawView().zoomToFitRect(rect)
 
   return layers
 }

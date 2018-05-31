@@ -15,7 +15,6 @@ class GroupDetail extends React.Component {
     }
   }
 
-
   goToLayer() {
     pluginCall('selectLayer', this.props.layers[this.state.page].id)
   }

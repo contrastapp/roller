@@ -17,7 +17,7 @@ export default class Paginate extends React.Component {
   }
 
   canNext() {
-    return this.props.page + 1 < this.props.pages
+    return this.props.page < this.props.pages
   }
 
   prev() {
