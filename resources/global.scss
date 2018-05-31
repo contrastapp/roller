@@ -503,6 +503,7 @@ textarea:focus, input:focus{ outline: none; }
   box-shadow: 0 0 0 4px $red-lighten-15;
   height: 24px;
   width: 24px;
+  margin-left: $s-4;
 }
 
 .subheader {
@@ -518,11 +519,13 @@ textarea:focus, input:focus{ outline: none; }
   border-top: $border;
 }
 
-.lint-detail {
-  .swatch {
-    height: $s-60;
-    width: $s-60;
-    @include border-radius (3px);
-    border: $border;
+.swatch {
+  height: $s-60;
+  width: $s-60;
+  @include border-radius (3px);
+  border: $border;
+  &.suggest {
+    border-right: $border;
+    border-radius: 3px 0px 0px 3px;
   }
 }

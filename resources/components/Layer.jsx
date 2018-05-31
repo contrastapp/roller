@@ -31,7 +31,7 @@ class Layer extends React.Component {
 
     return (
       <div className='layer-row flex flexaic' onClick={() => this.props.onClick(first)}>
-        <div className="error ml4 mr16"><i className="fas fa-camera-retro"></i></div>
+        <div className="error mr16"><i className="fas fa-camera-retro"></i></div>
         <div className='layer-block mr16' style={{backgroundColor: first.primary}}></div>
         <div className='layer-data'>
           <div className='layer-name'><Text size="subheading" subdued>Error</Text></div>

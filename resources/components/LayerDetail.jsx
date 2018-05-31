@@ -16,16 +16,28 @@ class LayerDetail extends React.Component {
   render() {
     let suggestions = <SuggestionContainer {...this.props.layerCompliance} />
       return (
-        <div className="lint-detail">
+        <div>
 
           <div className="flex flexjcc p48">
             <div className="swatch" style={{'backgroundColor' : this.props.layerCompliance.primary}}>  </div>
           </div>
 
           <Paginate />
-          <Subheader>Properties</Subheader>
 
+            <Subheader>Details</Subheader>
+            <div className="pr16 pl16 pt24 pb24 flex flexaic">
+              <div className="error mr16" />
+              <div>
+                <Text size="subheading">{this.props.layerCompliance.compliant ? 'Compliant' : 'Non Compliant'}</Text>
+                  <div>
+                    <Text size="body">Misuse of {this.props.layerCompliance.category} within {this.props.layerCompliance.prop}</Text>
+                </div>
+              </div>
+            </div>
+
+          <Subheader>Properties</Subheader>
           <div className="p16">
+
             <PropertiesHead>CSS</PropertiesHead>
             {this.props.layerCompliance.primary}
             <div className="p8" />
@@ -34,21 +46,12 @@ class LayerDetail extends React.Component {
             <a onClick={() => pluginCall('selectLayer', this.props.layerCompliance.id)}>
               {this.props.layerCompliance.name} >
             </a>
-            <div className="p8" />
 
-            <PropertiesHead>Category</PropertiesHead>
-            <div>{this.props.layerCompliance.category}</div>
           </div>
 
-          <Subheader>Suggestions</Subheader>
-
-
           <div>
-
-            <div>{this.props.layerCompliance.compliant ? 'Compliant' : 'Non Compliant'}</div>
-
-            <div>Property: {this.props.layerCompliance.prop}</div>{suggestions}
-
+            <Subheader>Suggestions</Subheader>
+            {suggestions}
           </div>
 
         </div>
