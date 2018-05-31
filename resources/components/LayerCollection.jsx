@@ -43,14 +43,19 @@ class LayerCollection extends React.Component {
     }
 
     let nestedLayers;
+
+    let chunk = 25
+    let layers = _.map(this.props.layers, (l, id) => l)
+    let pages = _.chunk(layers, chunk)
+    let page = pages[this.props.page]
+    layers = _.reverse(_.sortBy(page, (l) => _.reverse(_.sortBy(l, 'createdAt'))[0].createdAt))
+
     if (this.props.layers.length == 0) {
       nestedLayers =<div>loading...</div>
     } else {
-      let layers = _.map(this.props.layers, (l, id) => l)
-      layers = _.chunk(layers, 25)[this.props.page]
-      layers = _.reverse(_.sortBy(layers, (l) => _.reverse(_.sortBy(l, 'createdAt'))[0].createdAt))
       nestedLayers = _.map(layers, (styles) => <Layer onClick={this.clickLayer} compliance={styles} />)
     }
+
 
 
     const customStyles = {
@@ -71,7 +76,8 @@ class LayerCollection extends React.Component {
             <Button size="medium" style="default" onClick={() => pluginCall('getData', this.props.page) }>Lint My File</Button>
           </div>
 
-          <Paginate />
+          <Paginate prev={this.prev} page={this.props.page + 1} pages={_.get(pages, 'length', 0)} next={this.next}/>
+
 
           <Subheader>Results:</Subheader>
 
