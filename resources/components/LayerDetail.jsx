@@ -22,8 +22,7 @@ class LayerDetail extends React.Component {
             <div className="swatch" style={{'backgroundColor' : this.props.layerCompliance.primary}}>  </div>
           </div>
 
-          <Paginate />
-
+          <Paginate prev={this.props.prev} page={this.props.page} pages={this.props.pages} next={this.props.next}/>
             <Subheader>Details</Subheader>
             <div className="pr16 pl16 pt24 pb24 flex flexaic">
               <div className="error mr16" />

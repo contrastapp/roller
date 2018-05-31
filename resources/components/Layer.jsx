@@ -4,6 +4,8 @@ import Text from './Text';
 import _ from "lodash"
 _.mixin(require("lodash-inflection"));
 import pluginCall from 'sketch-module-web-view/client'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { faExclamationTriangle }  from '@fortawesome/fontawesome-free-solid'
 
 class Layer extends React.Component {
   constructor(props) {
@@ -31,7 +33,7 @@ class Layer extends React.Component {
 
     return (
       <div className='layer-row flex flexaic' onClick={() => this.props.onClick(first)}>
-        <div className="error mr16"><i className="fas fa-camera-retro"></i></div>
+        <div className="error ml4 mr16"><FontAwesomeIcon icon={faExclamationTriangle } /></div>
         <div className='layer-block mr16' style={{backgroundColor: first.primary}}></div>
         <div className='layer-data'>
           <div className='layer-name'><Text size="subheading" subdued>Error</Text></div>

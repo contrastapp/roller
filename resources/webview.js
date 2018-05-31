@@ -47,6 +47,11 @@ const store = createStore(
 //   e.preventDefault();
 // });
 
+// Disable the context menu to have a more native feel
+document.addEventListener("focus", function(e) {
+  e.preventDefault();
+});
+
 let data = {}
 let page = 0
 let pages = 1
@@ -96,6 +101,7 @@ window.postData = function (compliantArr) {
 
 window.layerSelected = function (compliantArr) {
   store.dispatch(layerActions.selectLayerFromSketch(JSON.parse(compliantArr)))
+  window.blur()
 }
 
 window.setRules = function (rules) {
