@@ -61,6 +61,12 @@ body {
     max-height: 120px;
     box-shadow: none;
   }
+  &.suggestions {
+    &:hover {
+      box-shadow: 0 0 0 1px rgba(63,63,68,0.16), 0 1px 6px 0 rgba(63,63,68,0.24);
+      @extend %btn-transition;
+    }
+  }
   &.gray { background-color: #F4F6F8; box-shadow: none;}
 }
 
@@ -485,6 +491,10 @@ textarea:focus, input:focus{ outline: none; }
 .layer-row {
   border-bottom: $border;
   padding: $s-12 $s-16;
+  &:hover {
+    background: $gray-lighten-10;
+
+  }
  }
 
 .layer-block {
@@ -498,13 +508,11 @@ textarea:focus, input:focus{ outline: none; }
 
 .error {
   border-radius: 50%;
-  background: white;
-  border: 1px double $red-base;
-  box-shadow: 0 0 0 4px $red-lighten-15;
-  height: 24px;
-  width: 24px;
+  background: $red-lighten-15;
+  border: .25px solid $red-base;
+  height: $s-12;
+  width: $s-12;
   text-align: center;
-  margin-left: $s-4;
 
   .svg-inline--fa {
     color: $red-base;
@@ -517,6 +525,12 @@ textarea:focus, input:focus{ outline: none; }
   background: $gray-lighten-5;
   border-top: $border;
   border-bottom: $border;
+  max-height: 42px;
+    a {
+      color: $gray-lighten-30;
+      font-size: $s-16;
+      &:hover { color: $gray-lighten-35; }
+     }
 }
 
 .paginate-row {
@@ -531,6 +545,7 @@ textarea:focus, input:focus{ outline: none; }
   @include border-radius (3px);
   border: $border;
   &.suggest {
+    border: none;
     border-right: $border;
     border-radius: 3px 0px 0px 3px;
   }

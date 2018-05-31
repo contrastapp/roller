@@ -11,11 +11,13 @@ class Test extends React.Component {
 
   render() {
     return (
-      <div className="container settings">
-        <div className="flex f-end p12">
-        <button onClick={()=> this.props.history.push('settings')}>
+      <div className="container">
+        <div className="flex f-end subheader">
+
+        <a onClick={()=> this.props.history.push('settings')}>
           <FontAwesomeIcon icon={faCog } />
-        </button>
+        </a>
+
       </div>
         <LayersContainer />
       </div>

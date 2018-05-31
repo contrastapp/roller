@@ -285,4 +285,3 @@ function selectLayer(id) {
 
   return layers
 }
-

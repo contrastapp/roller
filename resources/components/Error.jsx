@@ -9,7 +9,7 @@ export default class Error extends React.Component {
 
     return (
 
-      <div className="error ml4 mr16"><FontAwesomeIcon icon={faExclamationTriangle} /></div>
+      <div className="error mr16"></div>
 
     );
   }

@@ -48,7 +48,7 @@ class SuggestionCollection extends React.Component {
       <a onClick={() => { pluginCall('swapProp', this.props.id, this.props.prop, this.props.primary, suggestion)} }>
 
         <div className="pt8" />
-        <div className="flex flexaic tcard">
+        <div className="flex flexaic tcard suggestions">
           <div className="swatch suggest mr16" style={{backgroundColor: suggestion}}/>
           <div>
             <Text size="subheading" subdued>Hex Value</Text>

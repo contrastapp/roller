@@ -72,8 +72,8 @@ class LayerCollection extends React.Component {
 
       return (
         <div>
-          <div className="flex flexaic flexjcc p16">
-            <Button size="medium" style="default" onClick={() => pluginCall('getData', this.props.page) }>Lint My File</Button>
+          <div className="flex flexaic flexjcc pt24 pb24 pr16 pl16">
+            <Button size="full" style="default" onClick={() => pluginCall('getData', this.props.page) }>Lint My File</Button>
           </div>
 
           <Paginate prev={this.prev} page={this.props.page + 1} pages={_.get(pages, 'length', 0)} next={this.next}/>
