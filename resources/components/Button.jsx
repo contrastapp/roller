@@ -20,6 +20,10 @@ export default class Button extends React.Component {
       case 'medium':
         className ='btn-medium'
         break;
+
+      case 'full':
+        className ='btn-full'
+        break;
     }
 
     switch(this.props.style) {
@@ -34,10 +38,10 @@ export default class Button extends React.Component {
     }
 
     return (
-      <div>
+
         <button onClick={this.props.onClick} className={`tb-btn ${className} ${classButton}`}>
           <Text size="body" inheritColor>{this.props.children}</Text>
         </button>
-      </div>);
+      );
   }
 }

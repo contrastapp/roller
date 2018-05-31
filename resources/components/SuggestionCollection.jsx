@@ -1,6 +1,7 @@
 import React from "react"
 import tinycolor from "tinycolor2"
 import _ from "lodash"
+import Text from "./Text";
 import pluginCall from 'sketch-module-web-view/client'
 
 class SuggestionCollection extends React.Component {
@@ -46,17 +47,21 @@ class SuggestionCollection extends React.Component {
     let swap = (
       <a onClick={() => { pluginCall('swapProp', this.props.id, this.props.prop, this.props.primary, suggestion)} }>
 
-        <div>
-          <div style={{minHeight: 50, minWidth: 50, backgroundColor: suggestion}}/>
-          <div>{suggestion}</div>
+        <div className="pt8" />
+        <div className="flex flexaic tcard suggestions">
+          <div className="swatch suggest mr16" style={{backgroundColor: suggestion}}/>
+          <div>
+            <Text size="subheading" subdued>Hex Value</Text>
+            <Text size="body">{suggestion}</Text>
+          </div>
         </div>
-        
+
       </a>
     )
 
     return (
-      <div>
-        Did you mean to use:
+      <div className="p16">
+        <Text size="body" subdued>Did you mean to use:</Text>
         {swap}
       </div>
     )
