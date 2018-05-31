@@ -1,6 +1,8 @@
 import React from "react"
 import tinycolor from "tinycolor2"
 import _ from "lodash"
+import Subheader from "./Subheader";
+import Text from "./Text";
 import pluginCall from 'sketch-module-web-view/client'
 
 import RulesForm from "./RulesForm"
@@ -22,10 +24,16 @@ class Layer extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={()=> this.props.history.push('list')}>Home</button>
-        <button onClick={this.loadForm}>LOAD</button>
-        <h1>Settings</h1>
-        <h1>Colors</h1>
+
+        <Subheader>
+          <div className="grid settings text-center">
+          <a onClick={()=> this.props.history.push('list')}>←</a>
+          <Text size="subheading" subdued>Settings</Text>
+          <Text size="subheading" subdued> </Text>
+          </div>
+        </Subheader>
+
+
         <RulesForm onSubmit={this.handleSubmit}/>
       </div>
     )

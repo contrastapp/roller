@@ -49,6 +49,12 @@ $font-semibold: 500;
     &:hover { color: darken($blue-base, 10%); @extend %btn-transition }
    }
 
+   label {
+     @extend %text-regular;
+     font-size: 0.875rem;
+     line-height: 1.25rem;
+   }
+
 .tb-text {
 
   color: $gray-base;
