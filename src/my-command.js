@@ -22,6 +22,7 @@ export default function onRun(context) {
   // only show the window when the page has loaded
   browserWindow.once('ready-to-show', () => {
     browserWindow.show()
+    setRules(context)
   })
 
   // print a message when the page loads
@@ -42,7 +43,6 @@ export default function onRun(context) {
     // webContents.executeJavaScript(`setRandomNumber(${699999})`)
   })
 
-  setRules(context)
   webContents.on('getData', (s) => {
     getData(context)
   })
@@ -52,7 +52,7 @@ export default function onRun(context) {
     setRules(context)
   })
 
-  webContents.on('setRules', (colors) => {
+  webContents.on('setRules', () => {
     setRules(context)
   })
 
@@ -65,10 +65,10 @@ export default function onRun(context) {
 
     _.each(layers, (l) => {
       if (prop === 'fills' || prop === 'borders') {
-        sketch.fromNative(l).style[prop] = _.map(sketch.fromNative(l).style[prop], (fillOrBorder) => fillOrBorder.color === oldStyle ? newStyle : fillOrBorder.color)
+        sketch.fromNative(l).style[prop] = _.map(sketch.fromNative(l).style[prop], (fillOrBorder) => fillOrBorder.color === oldStyle ? newStyle.hex : fillOrBorder.color)
       } else if ( prop === 'text') {
-        var range = NSMakeRange(0,sketch.fromNative(l).text.length - 1)
-        var color = hexToColor(newStyle)
+        var range = NSMakeRange(0,sketch.fromNative(l).text.length)
+        var color = hexToColor(newStyle.hex)
         l.setIsEditingText(true)
         l.addAttribute_value_forRange(NSForegroundColorAttributeName, color, range)
         l.setIsEditingText(false)

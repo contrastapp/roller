@@ -5,14 +5,13 @@ import pluginCall from 'sketch-module-web-view/client'
 
 import RulesForm from "./RulesForm"
 
-class Layer extends React.Component {
+class Settings extends React.Component {
   constructor(props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidMount() {
-    // pluginCall('setRules')
   }
 
   handleSubmit(data) {
@@ -32,4 +31,4 @@ class Layer extends React.Component {
   }
 }
 
-export default Layer
+export default Settings
