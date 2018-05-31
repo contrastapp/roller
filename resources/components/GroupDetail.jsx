@@ -15,21 +15,27 @@ class GroupDetail extends React.Component {
     }
   }
 
-  goToLayer() {
-    pluginCall('selectLayer', this.props.layers[this.state.page].id)
+  componentDidMount() {
+    this.goToLayer(0)
+  }
+
+  goToLayer(page) {
+    pluginCall('selectLayer', this.props.layers[page].id)
   }
 
   prev() {
     if (this.state.page > 0) {
-      this.setState({page: this.state.page - 1})
+      let newPage = this.state.page - 1
+      this.setState({page: newPage})
       this.goToLayer()
     }
   }
 
   next() {
     if (this.state.page + 1 < this.props.layers.length) {
-      this.setState({page: this.state.page + 1})
-      this.goToLayer()
+      let newPage = this.state.page + 1
+      this.setState({page: newPage})
+      this.goToLayer(newPage)
     }
   }
 
@@ -37,7 +43,7 @@ class GroupDetail extends React.Component {
     return (
       <div>
         <LayerDetail prev={this.prev} next={this.next}
-          page={this.state.page + 1} pages={this.props.layers.length}
+          index={this.state.page} page={this.state.page + 1} pages={this.props.layers.length}
           layerCompliance={this.props.layers[this.state.page]} />
       </div>
     )

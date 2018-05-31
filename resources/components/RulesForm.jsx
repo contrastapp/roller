@@ -36,6 +36,9 @@ const renderMembers = ({ fields, meta: { error, submitFailed } }) => (
         />
 
       <Button
+        size="medium"
+        style="default"
+
           type="button"
           title="Remove"
           onClick={() => fields.remove(index)}
