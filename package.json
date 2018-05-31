@@ -33,6 +33,7 @@
   ],
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "@fortawesome/react-fontawesome": "0.0.20",
     "history": "^4.7.2",
     "lodash": "^4.17.10",
@@ -46,6 +47,7 @@
     "react-router-redux": "^5.0.0-alpha.9",
     "react-skylight": "^0.5.1",
     "redux": "^4.0.0",
+    "redux-form": "^7.3.0",
     "redux-logger": "^3.0.6",
     "sketch-module-web-view": "^1.1.6",
     "tinycolor2": "^1.4.1",
