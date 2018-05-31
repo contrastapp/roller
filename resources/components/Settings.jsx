@@ -12,7 +12,7 @@ class Layer extends React.Component {
   }
 
   componentDidMount() {
-    pluginCall('setRules')
+    // pluginCall('setRules')
   }
 
   handleSubmit(data) {
