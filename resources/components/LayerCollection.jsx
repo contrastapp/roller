@@ -78,7 +78,6 @@ class LayerCollection extends React.Component {
 
           <Paginate prev={this.prev} page={this.props.page + 1} pages={_.get(pages, 'length', 0)} next={this.next}/>
 
-
           <Subheader>Results:</Subheader>
 
           <div className='layer-grid'>
