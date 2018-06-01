@@ -20,7 +20,9 @@ class GroupDetail extends React.Component {
   }
 
   goToLayer(page) {
-    pluginCall('selectLayer', this.props.layers[page].id)
+    if (!window.mock) {
+      pluginCall('selectLayer', this.props.layers[page].id)
+    }
   }
 
   prev() {

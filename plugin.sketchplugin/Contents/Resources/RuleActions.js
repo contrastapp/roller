@@ -82,5 +82,12 @@ var setColors = exports.setColors = function setColors(data) {
   };
 };
 
+var setType = exports.setType = function setType(data) {
+  return {
+    type: 'SET_TYPE',
+    data: data
+  };
+};
+
 /***/ })
 /******/ ]);

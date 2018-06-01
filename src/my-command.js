@@ -13,7 +13,9 @@ const options = {
   height: 600,
   show: false,
   loaded: false,
+  focusable: false,
 }
+
 let browserWindow = new BrowserWindow(options)
 let webContents = browserWindow.webContents
 let loaded = false
@@ -187,6 +189,7 @@ function setRules() {
   webContents.executeJavaScript(`setRules('${String(String(JSON.stringify(JSON.parse(String(colors)))))}')`)
 }
 
+
 function parseColor(layer) {
   let colors = context.api().settingForKey('colors')
   colors = _.map(colors, (c) => tinycolor(String(c.hex)).toHex8())
@@ -214,16 +217,26 @@ function parseColor(layer) {
       }
 
       if (prop === 'text') {
+        let weights = [100,100,100,200,300,400,500,500,600,700,800,900,900,900,900,900]
+        let weightIndex = NSFontManager.sharedFontManager().weightOfFont_(layer.sketchObject.font())
+
+        let weight = weights[weightIndex]
+        var fontSize = layer.sketchObject.fontSize()
+        var fontFamily = String(layer.sketchObject.style().textStyle().attributes().NSFont.fontDescriptor().objectForKey(NSFontNameAttribute))
+        var lineHeight = layer.sketchObject.lineHeight()
+
         let color = layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute.hexValue()
         color = `#${color}`
 
-        return ([{
-          ...attrs,
-          index: 0,
-          styles: layer.style.toJSON(),
-          primary: color,
-          compliant: _.includes(colors, tinycolor(color).toHex8()),
-        }])
+        return ([
+          {
+            ...attrs,
+            index: 0,
+            styles: {...layer.style, ...{weight: weight, fontSize: fontSize, lineHeight: lineHeight, fontFamily: fontFamily}},
+            primary: color,
+            compliant: _.includes(colors, tinycolor(color).toHex8()),
+          }
+        ])
       }
 
       if (_.get(layer.style, prop)) {

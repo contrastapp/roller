@@ -91,6 +91,8 @@ var pages = function pages() {
   switch (action.type) {
     case 'SET_COLORS':
       return _extends({}, state, { colors: action.data });
+    case 'SET_TYPE':
+      return _extends({}, state, { typography: action.data });
     default:
       return state;
   }

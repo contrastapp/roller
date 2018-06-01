@@ -17,6 +17,9 @@ class LayerCollection extends React.Component {
     this.prev = this.prev.bind(this)
     this.next = this.next.bind(this)
     this.clickLayer = this.clickLayer.bind(this)
+    this.relevantLayers = this.relevantLayers.bind(this)
+    this.colorCompliance = this.colorCompliance.bind(this)
+    this.textCompliance = this.textCompliance.bind(this)
   }
 
   clickLayer(layer) {
@@ -31,24 +34,66 @@ class LayerCollection extends React.Component {
     this.props.nextPage()
   }
 
+
+
+  textCompliance(layers) {
+    let props = ['fontSize', 'weight', 'lineHeight']
+
+    //Non compliant layers
+    return _.filter(layers, (l) => {
+      let layer = _.pick(l.styles, props)
+      return _.filter(this.props.typography, (t) => _.isEqual(_.pick(t, props), layer)).length === 0
+    })
+
+  }
+
+  colorCompliance(layers) {
+    return _.filter(layers, (l) => {
+      //Non compliant layers
+      return !l.compliant
+    })
+  }
+
+
+  relevantLayers(layer) {
+    layer = _.find(this.props.layerMap[layer.id], (l) => layer.prop == l.prop)
+    let key = layer.primary
+    if (layer.category === 'text') {
+      key = _.join(_.map(_.keys(layer.styles), (k) => layer.styles[k]), '-')
+    }
+    let layers = this.props.layers[key]
+    if (this.props.selected) {
+      layers = this.props.layerMap[layer.id]
+    }
+
+    switch (layer.category) {
+      case 'text':
+        return this.textCompliance(layers);
+      case 'color':
+        return this.colorCompliance(layers);
+      default:
+        return layers
+    }
+  }
+
   render() {
     let layer;
     if (this.props.activeLayer) {
-      layer = _.find(this.props.layerMap[this.props.activeLayer.id], (l) => this.props.activeLayer.prop == l.prop)
-      let layers = this.props.layers[layer.primary]
-      if (this.props.selected) {
-        layers = this.props.layerMap[layer.id]
-      }
-      layer = <GroupDetail layers={layers} />
+      layer = <GroupDetail layers={this.relevantLayers(this.props.activeLayer)} />
     }
 
     let nestedLayers;
+    nestedLayers =<div>All Compliant!</div>
 
     let chunk = 25
-    let layers = _.map(this.props.layers, (l, id) => l)
-    let pages = _.chunk(layers, chunk)
+    let pages = 1
+    let layers = _.filter(_.map(this.props.layers, (l, id) => this.relevantLayers(l[0])), (group) => group.length > 0 )
+
+    pages = _.chunk(layers, chunk)
     let page = pages[this.props.page]
-    layers = _.reverse(_.sortBy(page, (l) => _.reverse(_.sortBy(l, 'createdAt'))[0].createdAt))
+    layers = _.reverse(_.sortBy(page, (l) => {
+      return _.reverse(_.sortBy(l, 'createdAt'))[0].createdAt
+    }))
 
     if (this.props.layers.length == 0) {
       nestedLayers =<div>loading...</div>

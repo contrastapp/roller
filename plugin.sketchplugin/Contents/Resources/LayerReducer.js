@@ -87,10 +87,26 @@ var initialState = {
   page: 0
 };
 
-function setActiveLayer(state, action) {
+function setLayers(state, action) {
   var layers = _.groupBy(action.data, 'primary');
   var layerMap = _.groupBy(action.data, 'id');
-  return _extends({}, state, { activeLayer: action.data[0], layers: _extends({}, state.layers, layers), layerMap: _extends({}, state.layerMap, layerMap) });
+  textGroups = _.groupBy(_.filter(action.data, { prop: 'text' }), function (l) {
+    return _.join(_.map(_.keys(l.styles), function (k) {
+      return l.styles[k];
+    }), '-');
+  });
+  _.each(textGroups, function (arr, s) {
+    return _.each(arr, function (l) {
+      return l.category = 'text';
+    });
+  });
+
+  return _extends({}, state, { layers: _extends({}, state.layers, layers, textGroups), layerMap: _extends({}, state.layerMap, layerMap) });
+}
+
+function setActiveLayer(state, action) {
+  state = setLayers(state, action);
+  return _extends({}, state, { activeLayer: action.data[0] });
 }
 
 var pages = function pages() {
@@ -99,10 +115,10 @@ var pages = function pages() {
 
   var layers = void 0;
   var layerMap = void 0;
+  var textGroups = void 0;
   switch (action.type) {
     case 'SET_LAYERS':
-      layers = _.groupBy(action.data, 'primary');
-      return _extends({}, state, { layers: layers, layerMap: _.groupBy(action.data, 'id') });
+      return setLayers(state, action);
     case 'SET_ACTIVE_LAYER':
       return setActiveLayer(state, action);
     case 'SET_ACTIVE_LAYER_SKETCH':

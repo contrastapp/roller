@@ -5,20 +5,27 @@ const initialState = {
   page: 0,
 }
 
-
-function setActiveLayer(state, action) {
+function setLayers(state, action) {
   let layers = _.groupBy(action.data, 'primary')
   let layerMap = _.groupBy(action.data, 'id')
-  return {...state, activeLayer: action.data[0], layers: {...state.layers, ...layers}, layerMap: {...state.layerMap, ...layerMap}};
+  textGroups = _.groupBy(_.filter(action.data, {prop: 'text'}), (l) => _.join(_.map(_.keys(l.styles), (k) => l.styles[k]), '-'))
+  _.each(textGroups, (arr, s) => _.each(arr, (l) => l.category = 'text'))
+
+  return {...state, layers: {...state.layers, ...layers, ...textGroups}, layerMap: {...state.layerMap, ...layerMap}};
+}
+
+function setActiveLayer(state, action) {
+  state = setLayers(state, action)
+  return {...state, activeLayer: action.data[0]}
 }
 
 const pages = (state = initialState, action) => {
   let layers;
   let layerMap;
+  let textGroups;
   switch (action.type) {
     case 'SET_LAYERS':
-      layers = _.groupBy(action.data, 'primary')
-      return {...state, layers: layers, layerMap: _.groupBy(action.data, 'id')};
+      return setLayers(state, action)
     case 'SET_ACTIVE_LAYER':
       return setActiveLayer(state, action)
     case 'SET_ACTIVE_LAYER_SKETCH':

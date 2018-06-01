@@ -8,6 +8,7 @@ import Error from "./Error";
 import _ from "lodash"
 import pluginCall from 'sketch-module-web-view/client'
 import SuggestionContainer from '../containers/SuggestionsContainer';
+import JSONPretty from 'react-json-pretty';
 
 class LayerDetail extends React.Component {
   constructor(props) {
@@ -16,11 +17,18 @@ class LayerDetail extends React.Component {
 
   render() {
     let suggestions = <SuggestionContainer {...this.props.layerCompliance} />
+      let preview =             <div className="swatch" style={{'backgroundColor' : this.props.layerCompliance.primary}}>  </div>
+      let css = this.props.layerCompliance.primary
+      if (this.props.layerCompliance.category === 'text') {
+        preview = <div className="swatch">Aa</div>
+          css = _.pick(this.props.layerCompliance.styles, ['fontSize', 'weight', 'fontFamily', 'lineHeight'])
+        css = <JSONPretty id="json-pretty" json={css}></JSONPretty>
+      }
       return (
         <div>
 
           <div className="flex flexjcc p48">
-            <div className="swatch" style={{'backgroundColor' : this.props.layerCompliance.primary}}>  </div>
+            {preview}
           </div>
 
           <Paginate prev={this.props.prev} page={this.props.page} pages={this.props.pages} next={this.props.next}/>
@@ -39,7 +47,7 @@ class LayerDetail extends React.Component {
           <div className="p16">
 
             <PropertiesHead>CSS</PropertiesHead>
-            {this.props.layerCompliance.primary}
+            {css}
             <div className="p8" />
 
             <PropertiesHead>Layer Name</PropertiesHead>

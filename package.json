@@ -41,6 +41,7 @@
     "moment": "^2.22.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-json-pretty": "^1.7.6",
     "react-modal": "^3.4.4",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
@@ -49,7 +50,7 @@
     "redux": "^4.0.0",
     "redux-form": "^7.3.0",
     "redux-logger": "^3.0.6",
-    "sketch-module-web-view": "^1.1.6",
+    "sketch-module-web-view": "^1.1.7",
     "tinycolor2": "^1.4.1",
     "webpack": "^4.9.1"
   },

@@ -59,41 +59,46 @@ let page = 0
 let pages = 1
 
 //// WEB
-// window.mock = true
-// ReactDOM.render(
-//   <Provider store={store}>
-//     { /* ConnectedRouter will use the store from Provider automatically */ }
-//     <ConnectedRouter history={history}>
-//       <div>
-//         <Route path="/" component={SettingsContainer}/>
-//         <Route exact path="/settings" component={SettingsContainer}/>
-//       </div>
-//     </ConnectedRouter>
-//   </Provider>,
-//   document.getElementById('root')
-// )
-// store.dispatch(layerActions.setLayers(mockData))
-// // analytics.identify('jono@toyboxsystems.com');
-// let colors = ["#660000", "#990000", "#cc0000", "#cc3333", "#ea4c88", "#993399", "#663399", "#333399", "#0066cc", "#0099cc", "#66cccc", "#77cc33", "#669900", "#336600", "#666600", "#999900", "#cccc33", "#ffff00", "#ffcc33", "#ff9900", "#ff6600", "#cc6633", "#996633", "#663300", "#000000", "#999999", "#cccccc", "#ffffff"]
-
-// data = [{ name: 'blue', hex: '#d3d3d3' } ]
-// store.dispatch(ruleActions.setColors(data))
-
-////SKETCH
-pluginCall("getLocation")
+window.mock = true
 ReactDOM.render(
   <Provider store={store}>
     { /* ConnectedRouter will use the store from Provider automatically */ }
     <ConnectedRouter history={history}>
       <div>
-        <Route exact path="/list" component={AppContainer}/>
+        <Route path="/" component={AppContainer}/>
         <Route exact path="/settings" component={SettingsContainer}/>
-        <Redirect to={window.redirectTo} />
       </div>
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 )
+store.dispatch(layerActions.setLayers(mockData))
+// // analytics.identify('jono@toyboxsystems.com');
+// let colors = ["#660000", "#990000", "#cc0000", "#cc3333", "#ea4c88", "#993399", "#663399", "#333399", "#0066cc", "#0099cc", "#66cccc", "#77cc33", "#669900", "#336600", "#666600", "#999900", "#cccc33", "#ffff00", "#ffcc33", "#ff9900", "#ff6600", "#cc6633", "#996633", "#663300", "#000000", "#999999", "#cccccc", "#ffffff"]
+
+data = [{ name: 'blue', hex: '#d3d3d3' } ]
+store.dispatch(ruleActions.setColors(data))
+data = [
+  { name: 'h1', fontSize: 14, weight: 400,  lineHeight: 20},
+  { name: 'h2', fontSize: 10, weight: 400,  lineHeight: 14},
+] //fontFamily syntax is confusing ".SFNSText"
+store.dispatch(ruleActions.setType(data))
+
+////SKETCH
+// pluginCall("getLocation")
+// ReactDOM.render(
+//   <Provider store={store}>
+//     { /* ConnectedRouter will use the store from Provider automatically */ }
+//     <ConnectedRouter history={history}>
+//       <div>
+//         <Route exact path="/list" component={AppContainer}/>
+//         <Route exact path="/settings" component={SettingsContainer}/>
+//         <Redirect to={window.redirectTo} />
+//       </div>
+//     </ConnectedRouter>
+//   </Provider>,
+//   document.getElementById('root')
+// )
 
 window.postData = function (compliantArr) {
   console.log(compliantArr)
