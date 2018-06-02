@@ -12,7 +12,7 @@
       }
     },
     {
-      "name": "my-command",
+      "name": "Lint",
       "identifier": "my-command-identifier",
       "script": "./my-command.js",
       "shortcut": "ctrl shift r",

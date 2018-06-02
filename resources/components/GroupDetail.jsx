@@ -1,7 +1,7 @@
 import React from "react"
 import tinycolor from "tinycolor2"
 import _ from "lodash"
-import LayerDetail from './LayerDetail'
+import LayerDetailContainer from '../containers/LayerDetailContainer'
 import pluginCall from 'sketch-module-web-view/client'
 
 class GroupDetail extends React.Component {
@@ -44,9 +44,12 @@ class GroupDetail extends React.Component {
   render() {
     return (
       <div>
-        <LayerDetail prev={this.prev} next={this.next}
+        <LayerDetailContainer
+          prev={this.prev}
+          next={this.next}
           index={this.state.page} page={this.state.page + 1} pages={this.props.layers.length}
-          layerCompliance={this.props.layers[this.state.page]} />
+          layerCompliance={this.props.layers[this.state.page]}
+        />
       </div>
     )
   }

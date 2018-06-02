@@ -15,8 +15,6 @@ class SuggestionCollection extends React.Component {
     let props = ['fontSize', 'weight', 'lineHeight']
     let layer = _.pick(this.props.styles, props)
     let compliant = _.find(this.props.typography, (t) => _.isEqual(_.pick(t, props), layer))
-
-
   }
 
   computeSuggestions(primary) {
@@ -52,49 +50,35 @@ class SuggestionCollection extends React.Component {
   }
 
   render() {
-    let swap;
+    let swap = "No suggestions";
+    let suggestions = []
     if (this.props.category === 'color'){
-      let suggestion = this.computeSuggestions(this.props.primary)
-      let hex = suggestion.hex
-      let name = suggestion.name
+      suggestions = this.props.suggestions || [this.computeSuggestions(this.props.primary)]
 
+      suggestions = _.map(suggestions, (suggestion) => {
+        let hex = suggestion.hex
+        let name = suggestion.name
+        return (
+            <a onClick={() => { pluginCall('swapProp', this.props.id, this.props.prop, this.props.primary, suggestion)} }>
+              <div className="pt8" />
+              <div className="flex flexaic tcard suggestions">
+                <div className="swatch suggest mr16" style={{backgroundColor: hex}}/>
+                <div>
+                  <Text size="subheading" subdued>{name}</Text>
+                  <Text size="body">{hex}</Text>
+                </div>
+              </div>
+            </a>
+        )
 
-      swap = (
-        <a onClick={() => { pluginCall('swapProp', this.props.id, this.props.prop, this.props.primary, suggestion)} }>
-          <div className="pt8" />
-          <div className="flex flexaic tcard suggestions">
-            <div className="swatch suggest mr16" style={{backgroundColor: hex}}/>
-            <div>
-              <Text size="subheading" subdued>{name}</Text>
-              <Text size="body">{hex}</Text>
-            </div>
-          </div>
-        </a>
-      )
-    }
+      })
 
-    if (this.props.category === 'text'){
-      let suggestion = this.computeTextSuggestions()
-
-
-      swap = (
-        <a onClick={() => { pluginCall('swapProp', this.props.id, this.props.prop, this.props.primary, suggestion)} }>
-          <div className="pt8" />
-          <div className="flex flexaic tcard suggestions">
-            <div className="swatch suggest mr16">Aa</div>
-            <div>
-              <Text size="subheading" subdued>{}</Text>
-              <Text size="body">{}</Text>
-            </div>
-          </div>
-        </a>
-      )
     }
 
     return (
       <div className="p16">
         <Text size="body" subdued>Did you mean to use:</Text>
-        {swap}
+        {suggestions}
       </div>
     )
   }

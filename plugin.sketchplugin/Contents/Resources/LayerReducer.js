@@ -95,13 +95,20 @@ function setLayers(state, action) {
       return l.styles[k];
     }), '-');
   });
-  _.each(textGroups, function (arr, s) {
-    return _.each(arr, function (l) {
-      return l.category = 'text';
-    });
+  // _.each(textGroups, (arr, s) => _.each(arr, (l) => l.category = 'text'))
+
+
+  var trendByColor = {};
+  _.each(layers, function (layers, hex) {
+    trendByColor[hex] = _.groupBy(layers, 'prop');
   });
 
-  return _extends({}, state, { layers: _extends({}, state.layers, layers, textGroups), layerMap: _extends({}, state.layerMap, layerMap) });
+  var trendByProp = _.groupBy(action.data, 'prop');
+  trendByProp = _.each(_.groupBy(action.data, 'prop'), function (layers, prop) {
+    return trendByProp[prop] = _.groupBy(layers, 'primary');
+  });
+
+  return _extends({}, state, { trendByProp: trendByProp, trendByColor: trendByColor, layers: _extends({}, state.layers, layers), layerMap: _extends({}, state.layerMap, layerMap) });
 }
 
 function setActiveLayer(state, action) {

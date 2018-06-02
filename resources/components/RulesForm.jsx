@@ -14,10 +14,7 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
 
 const renderMembers = ({ fields, meta: { error, submitFailed } }) => (
   <ul>
-    <li className="pt24 pb24 pr16 pl16">
-      <Button size="full" style="default" type="button" onClick={() => fields.push({})}>Add New Color</Button>
-      {submitFailed && error && <span>{error}</span>}
-    </li>
+    {submitFailed && error && <span>{error}</span>}
     <Subheader>My Saved Colors</Subheader>
     {fields.map((color, index) => (
       <li key={index}>
@@ -47,16 +44,20 @@ const renderMembers = ({ fields, meta: { error, submitFailed } }) => (
       </li>
 
     ))}
+    <li className="pt24 pb24 pr16 pl16">
+      <Button size="full" style="default" type="button" onClick={() => fields.push({})}>Add New Color</Button>
+    </li>
   </ul>
 )
 
 const FieldArraysForm = props => {
-  const { handleSubmit, pristine, reset, submitting } = props
+  const { handleSubmit, pristine, reset, submitting, submitSucceeded } = props
   return (
     <form onSubmit={handleSubmit(data => { props.onSubmit(data) })}>
       <FieldArray name="colors" component={renderMembers} />
       <div className="layer-row">
-        <Button size="full" style="primary" type="submit" disabled={submitting}>Add Color</Button>
+        <Button size="full" style="primary" type="submit" disabled={submitting}>Save</Button>
+        {submitSucceeded ? 'Saved' : ''}
       </div>
     </form>
   )

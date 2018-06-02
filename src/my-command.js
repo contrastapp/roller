@@ -9,11 +9,11 @@ const momemt = require('moment')
 const options = {
   identifier: 'unique.id',
   redirectTo: "/list",
-  width: 300,
-  height: 600,
+  width: 480,
+  height: 960,
   show: false,
   loaded: false,
-  focusable: false,
+  alwaysOnTop: true,
 }
 
 let browserWindow = new BrowserWindow(options)
@@ -191,7 +191,7 @@ function setRules() {
 
 
 function parseColor(layer) {
-  let colors = context.api().settingForKey('colors')
+  let colors = JSON.parse(context.api().settingForKey('colors'))
   colors = _.map(colors, (c) => tinycolor(String(c.hex)).toHex8())
 
   let props = ['fills', 'borders']

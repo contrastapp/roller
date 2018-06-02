@@ -3,6 +3,8 @@ import tinycolor from "tinycolor2"
 import Paginate from "./Paginate";
 import Subheader from "./Subheader";
 import PropertiesHead from "./PropertiesHead";
+import PieGraph from "./PieGraph";
+import ColoredBarGraph from "./ColoredBarGraph";
 import Text from "./Text";
 import Error from "./Error";
 import _ from "lodash"
@@ -13,20 +15,74 @@ import JSONPretty from 'react-json-pretty';
 class LayerDetail extends React.Component {
   constructor(props) {
     super(props)
+
+    this.renderTrendWithinColor = this.renderTrendWithinColor.bind(this)
+    this.renderTrendWithinProp = this.renderTrendWithinProp.bind(this)
+    this.layersByProp = this.layersByProp.bind(this)
+    this.trendInsight = this.trendInsight.bind(this)
+    this.suggestions = this.suggestions.bind(this)
   }
 
+  renderTrendWithinColor() {
+    let layersByProp = this.props.trendByColor[this.props.layerCompliance.primary]
+
+    layersByProp = _.map(layersByProp, (layers, prop) => ({name: prop, value: layers.length}))
+
+    return <PieGraph data={layersByProp} />
+  }
+
+  trendInsight() {
+    let layersByProp = this.props.trendByColor[this.props.layerCompliance.primary]
+
+
+
+    layersByProp = _.map(layersByProp, (layers, prop) => ({name: prop, value: layers.length}))
+  }
+
+  layersByProp() {
+    let layersByProp = this.props.trendByProp[this.props.layerCompliance.prop]
+
+    total = _.keys(layersByProp).length
+    layersByProp = _.groupBy(layersByProp, 'primary')
+
+    return _.map(layersByProp, (layers, prop) => ({name: prop, value: layers.length}))
+  }
+
+  renderTrendWithinProp() {
+    return <PieGraph data={this.layersByProp()} colored/>
+  }
+
+  suggestions() {
+    suggestions = _.take(_.reverse(_.map(_.sortBy(this.layersByProp(), 'value'), (l) => ({name: 'Color', hex: l.name}))), 3)
+    return suggestions
+  }
+
+
   render() {
-    let suggestions = <SuggestionContainer {...this.props.layerCompliance} />
-      let preview =             <div className="swatch" style={{'backgroundColor' : this.props.layerCompliance.primary}}>  </div>
+
+    let suggestions;
+    if (!this.props.layerCompliance.compliant) {
+      suggestions = <SuggestionContainer {...this.props.layerCompliance} suggestions={this.props.colors.length > 0 ? null : this.suggestions()}/>
+    }
+
+      let preview = <div className="swatch" style={{'backgroundColor' : this.props.layerCompliance.primary}}>  </div>
       let css = this.props.layerCompliance.primary
+
       if (this.props.layerCompliance.category === 'text') {
         preview = <div className="swatch">Aa</div>
-          css = _.pick(this.props.layerCompliance.styles, ['fontSize', 'weight', 'fontFamily', 'lineHeight'])
+        css = _.pick(this.props.layerCompliance.styles, ['fontSize', 'weight', 'fontFamily', 'lineHeight'])
         css = <JSONPretty id="json-pretty" json={css}></JSONPretty>
       }
+
+    let caption;
+    if (this.props.colors.length > 0 && !this.props.layerCompliance.compliant) {
+      caption = <Text size="body">Misuse of {this.props.layerCompliance.category} within {this.props.layerCompliance.prop}</Text>
+    } else {
+      caption = <Text size="body">{this.props.layerCompliance.category === 'color' ? 'Color' : ''} trend data on {this.props.layerCompliance.prop} </Text>
+    }
+
       return (
         <div>
-
           <div className="flex flexjcc p48">
             {preview}
           </div>
@@ -34,17 +90,17 @@ class LayerDetail extends React.Component {
           <Paginate prev={this.props.prev} page={this.props.page} pages={this.props.pages} next={this.props.next}/>
             <Subheader>Details</Subheader>
             <div className="pr16 pl16 pt24 pb24 flex flexaic">
-              <Error />
+              <Error trend={this.props.layerCompliance.compliant}/>
               <div>
-                <Text size="subheading">{this.props.layerCompliance.compliant ? 'Compliant' : 'Non Compliant'}</Text>
+                <Text size="subheading">{this.props.layerCompliance.compliant ? 'Compliant' : 'Non Compliant'} {this.props.layerCompliance.prop}</Text>
                   <div>
-                    <Text size="body">Misuse of {this.props.layerCompliance.category} within {this.props.layerCompliance.prop}</Text>
+                    {caption}
                 </div>
               </div>
             </div>
 
           <Subheader>Properties</Subheader>
-          <div className="p16">
+           <div className="p16">
 
             <PropertiesHead>CSS</PropertiesHead>
             {css}
@@ -61,7 +117,14 @@ class LayerDetail extends React.Component {
             <Subheader>Suggestions</Subheader>
             {suggestions}
           </div>
+          <Subheader>Properties</Subheader>
+           <div className="p16">
+            <PropertiesHead>Property Usage</PropertiesHead>
+            { this.renderTrendWithinColor() }
+            <PropertiesHead>Color Usage</PropertiesHead>
+            { this.renderTrendWithinProp() }
 
+        </div>
         </div>
       )
   }

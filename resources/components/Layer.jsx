@@ -19,17 +19,31 @@ class Layer extends React.Component {
         block = <div className='layer-block mr16'>Aa</div>
       }
 
+
+    let trend = true;
+    if (this.props.colors.length > 0) {
+      trend = first.compliant;
+    }
+
+
+    let caption;
+    if (!trend) {
+      caption = <Text size="body">Misuse of {_.uniq(_.map(this.props.compliance, 'prop')).join(' and ')} {first.category === 'color' ? 'color' : ''}</Text>
+    } else {
+      caption = <Text size="body">{first.category === 'color' ? 'Color' : ''} trend data on {_.uniq(_.map(this.props.compliance, 'prop')).join(' and ')} </Text>
+    }
+
     return (
       <div className='layer-row flex flexaic' onClick={() => this.props.onClick(first)}>
-        <Error />
-          {block}
+        <Error trend={first.compliant}/>
+        {block}
         <div className='layer-data'>
-          <div className='layer-name'><Text size="subheading" subdued>Error</Text></div>
+          <div className='layer-name'><Text size="subheading" subdued>{ trend ? 'Trend' : 'Error'}</Text></div>
           <div className='layer-occurences'>
             <Text size="caption" subdued>{this.props.compliance.length} {_.pluralize('occurence', this.props.compliance.length)}</Text>
           </div>
           <div className='layer-caption'>
-            <Text size="body">Misuse of {_.uniq(_.map(this.props.compliance, 'prop')).join(' and ')} {first.category === 'color' ? 'color' : ''}</Text>
+            {caption}
           </div>
         </div>
       </div>

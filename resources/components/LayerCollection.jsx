@@ -9,6 +9,7 @@ import GroupDetail from './GroupDetail'
 import moment from 'moment'
 import pluginCall from "sketch-module-web-view/client"
 import Modal from 'react-modal';
+import GroupContainer from '../containers/GroupContainer';
 
 class LayerCollection extends React.Component {
   constructor(props) {
@@ -48,10 +49,11 @@ class LayerCollection extends React.Component {
   }
 
   colorCompliance(layers) {
-    return _.filter(layers, (l) => {
-      //Non compliant layers
-      return !l.compliant
-    })
+    return layers
+    // return _.filter(layers, (l) => {
+    //   //Non compliant layers
+    //   return !l.compliant
+    // })
   }
 
 
@@ -98,7 +100,7 @@ class LayerCollection extends React.Component {
     if (this.props.layers.length == 0) {
       nestedLayers =<div>loading...</div>
     } else {
-      nestedLayers = _.map(layers, (styles) => <Layer onClick={this.clickLayer} compliance={styles} />)
+      nestedLayers = _.map(layers, (styles) => <GroupContainer onClick={this.clickLayer} compliance={styles} />)
     }
 
 

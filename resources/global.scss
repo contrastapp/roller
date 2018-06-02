@@ -524,6 +524,16 @@ textarea:focus, input:focus{ outline: none; }
     color: $red-base;
     font-size: $s-12;
   }
+
+  &.trend {
+  background: $blue-lighten-15;
+  border: .25px solid $blue-base;
+
+    .svg-inline--fa {
+      color: $blue-base;
+      font-size: $s-12;
+    }
+  }
 }
 
 .subheader {
