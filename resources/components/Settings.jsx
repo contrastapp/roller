@@ -3,6 +3,7 @@ import tinycolor from "tinycolor2"
 import _ from "lodash"
 import Subheader from "./Subheader";
 import Text from "./Text";
+import Button from "./Button";
 import pluginCall from 'sketch-module-web-view/client'
 
 import RulesForm from "./RulesForm"
@@ -34,6 +35,8 @@ class Settings extends React.Component {
 
 
         <RulesForm onSubmit={this.handleSubmit}/>
+
+        <Button onClick={() => {pluginCall('saveUser', null); this.props.history.push('list');}}>Sign Out</Button>
       </div>
     )
   }

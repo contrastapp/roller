@@ -6,6 +6,8 @@ const tinycolor = require('tinycolor2')
 const _ = require('lodash')
 const momemt = require('moment')
 
+const emailKey = 'toyboxRollerUser'
+
 const options = {
   identifier: 'unique.id',
   redirectTo: "/list",
@@ -25,6 +27,7 @@ export default function onRun(context) {
   browserWindow.once('ready-to-show', () => {
     browserWindow.show()
     setRules(context)
+    setUser(context)
   })
 
   // print a message when the page loads
@@ -52,6 +55,11 @@ export default function onRun(context) {
   webContents.on('saveRules', (colors) => {
     context.api().setSettingForKey('colors', JSON.stringify(colors))
     setRules(context)
+  })
+
+  webContents.on('saveUser', (email) => {
+    context.api().setSettingForKey(emailKey, JSON.stringify(email))
+    setUser(context)
   })
 
   webContents.on('setRules', () => {
@@ -189,6 +197,10 @@ function setRules() {
   webContents.executeJavaScript(`setRules('${String(String(JSON.stringify(JSON.parse(String(colors)))))}')`)
 }
 
+function setUser() {
+  let email = context.api().settingForKey(emailKey)
+  webContents.executeJavaScript(`setUser('${String(String(JSON.stringify(JSON.parse(String(email)))))}')`)
+}
 
 function parseColor(layer) {
   let colors = JSON.parse(context.api().settingForKey('colors'))
