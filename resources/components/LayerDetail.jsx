@@ -117,14 +117,18 @@ class LayerDetail extends React.Component {
             <Subheader>Suggestions</Subheader>
             {suggestions}
           </div>
-          <Subheader>Properties</Subheader>
-           <div className="p16">
-            <PropertiesHead>Property Usage</PropertiesHead>
-            { this.renderTrendWithinColor() }
-            <PropertiesHead>Color Usage</PropertiesHead>
-            { this.renderTrendWithinProp() }
 
-        </div>
+          <Subheader>Stats</Subheader>
+          <div className="p16 text-center">
+
+            <Text size="heading">Color Usage by Property</Text>
+            { this.renderTrendWithinColor() }
+            <div className="divider24" />
+
+            <Text size="heading">Total Color Usage</Text>
+            { this.renderTrendWithinProp() }
+          </div>
+
         </div>
       )
   }

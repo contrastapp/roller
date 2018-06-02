@@ -14,23 +14,33 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
 
 const renderMembers = ({ fields, meta: { error, submitFailed } }) => (
   <ul>
+    <li className="pt24 pb24 pr16 pl16">
+      <Button size="full" style="default" type="button" onClick={() => fields.push({})}>Add New Color</Button>
+    </li>
     {submitFailed && error && <span>{error}</span>}
     <Subheader>My Saved Colors</Subheader>
+
     {fields.map((color, index) => (
       <li key={index}>
-        <div className="flex falign-end layer-row">
-        <Field
-          name={`${color}.name`}
-          type="text"
-          component={renderField}
-          label="Color name"
-        />
-        <Field
-          name={`${color}.hex`}
-          type="text"
-          component={renderField}
-          label="Hex Value"
-        />
+        <div className="flex settings-lint falign-end layer-row">
+
+          <div className="mr8">
+            <Field
+              name={`${color}.name`}
+              type="text"
+              component={renderField}
+              label="Color name"
+            />
+          </div>
+
+        <div className="mr8">
+          <Field
+            name={`${color}.hex`}
+            type="text"
+            component={renderField}
+            label="Hex value"
+          />
+        </div>
 
       <Button
         size="medium"
@@ -44,9 +54,7 @@ const renderMembers = ({ fields, meta: { error, submitFailed } }) => (
       </li>
 
     ))}
-    <li className="pt24 pb24 pr16 pl16">
-      <Button size="full" style="default" type="button" onClick={() => fields.push({})}>Add New Color</Button>
-    </li>
+
   </ul>
 )
 
