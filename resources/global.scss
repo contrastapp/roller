@@ -406,7 +406,10 @@ a.report { color: black; }
 .fa-minus-circle { color: $gray-lighten-30; }
 .fa-arrow-circle-o-down { color: $red-base; }
 
-input { @extend %input; }
+input {
+  @extend %input;
+  width: 100%;
+ }
 
 input[type=checkbox] {
   &:checked{
@@ -418,7 +421,6 @@ input[type=checkbox] {
   padding: 0px;
  }
 
-input { width: calc(100% - 26px); }
 label { margin-bottom: $s-4; }
 textarea:focus, input:focus{ outline: none; }
 
@@ -520,19 +522,9 @@ textarea:focus, input:focus{ outline: none; }
   width: $s-12;
   text-align: center;
 
-  .svg-inline--fa {
-    color: $red-base;
-    font-size: $s-12;
-  }
-
   &.trend {
   background: $blue-lighten-15;
   border: .25px solid $blue-base;
-
-    .svg-inline--fa {
-      color: $blue-base;
-      font-size: $s-12;
-    }
   }
 }
 
@@ -555,6 +547,14 @@ li, ul { border-bottom: none; }
   width: 100%;
   background: white;
   border-top: $border;
+}
+
+.login-lint {
+  height: 90vh;
+}
+
+.settings-lint {
+  input { margin-right: $s-8; }
 }
 
 .swatch {

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 import Graph from './Graph';
-import { PieChart, Pie, Sector, Cell, Legend, Area, AreaChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { PieChart, ResponsiveContainer, Pie, Sector, Cell, Legend, Area, AreaChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 
 export const fill = (i) =>
   {
@@ -90,7 +90,7 @@ export default class PieGraph extends React.Component {
     const seed = _.random(10)
 
     return (
-        <Graph size={this.props.size} width={this.props.width} height={this.props.height} >
+      <ResponsiveContainer width="100%" height={350}>
           <PieChart >
             <Pie
               data={this.props.data}
@@ -98,7 +98,7 @@ export default class PieGraph extends React.Component {
               activeIndex={this.state.activeIndex}
               activeShape={this.renderActiveShape}
               outerRadius={80}
-              innerRadius={40}
+              innerRadius={60}
               onMouseEnter={this.onPieEnter.bind(this)}
               dataKey='value'
               fill="#8884d8"
@@ -114,7 +114,7 @@ export default class PieGraph extends React.Component {
             <Tooltip formatter={(value) => {return `${value} occurences` }}/>
             <Legend/>
           </PieChart>
-        </Graph>
+        </ResponsiveContainer>
     );
   }
 }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import LayersContainer from './containers/LayersContainer'
 import UserForm from './components/UserForm'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { faCog }  from '@fortawesome/fontawesome-free-solid'
+import { faCog, faLightbulb }  from '@fortawesome/fontawesome-free-solid'
 import pluginCall from 'sketch-module-web-view/client'
 import Modal from 'react-modal';
 
@@ -31,16 +31,19 @@ class Test extends React.Component {
 
     return (
       <div className="container">
-        <div className="flex f-end subheader">
+        <div className="flex f-between flexaic subheader">
           <Modal
             isOpen={!_.get(this.props.user.user, 'email')}
             style={customStyles}
           >
             <UserForm onSubmit={this.handleSubmit} />
           </Modal>
-        <a onClick={()=> this.props.history.push('settings')}>
-          <FontAwesomeIcon icon={faCog } />
-        </a>
+
+          <FontAwesomeIcon icon={faLightbulb } />
+          <a onClick={()=> this.props.history.push('settings')}>
+            <FontAwesomeIcon icon={faCog } />
+          </a>
+
 
       </div>
         <LayersContainer />

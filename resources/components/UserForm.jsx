@@ -1,5 +1,7 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
+import Button from './Button';
+import Text from './Text';
 import { SubmissionError } from 'redux-form'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -26,24 +28,32 @@ function submit(values) {
 const SimpleForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props
   return (
-    <form onSubmit={handleSubmit(data => { props.onSubmit(data) })}>
-      <div>
-        <label>Work Email</label>
-        <div>
-          <Field
-            name="email"
-            component="input"
-            type="email"
-            placeholder="Work Email"
-          />
+    <div className="flex flexaic flexjcc f-column login-lint p24">
+      
+      <div className="pb24 text-center">
+        <Text size="small">LOGO</Text>
         </div>
+
+      <div className="pb48 text-center">
+        <Text size="small">Sign in to Toybox</Text>
+        <Text size="body" subdued>Enter your email</Text>
       </div>
-      <div>
-        <button type="submit" disabled={pristine || submitting}>
-          Sign Up
-        </button>
-      </div>
-    </form>
+
+      <form onSubmit={handleSubmit(data => { props.onSubmit(data) })}>
+          <label>Email</label>
+            <Field
+              name="email"
+              component="input"
+              type="email"
+              placeholder=""
+              className="mb16"
+            />
+          <Button size="full" style="primary" type="submit" disabled={pristine || submitting}>
+            Sign Up
+          </Button>
+      </form>
+
+    </div>
   )
 }
 
