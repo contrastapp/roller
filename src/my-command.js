@@ -41,15 +41,12 @@ export default function onRun(context) {
     webContents.executeJavaScript("window.redirectTo=\"" + String(whereTo) + "\"")
   })
 
-  // add a handler for a call from web content's javascript
-  webContents.on('nativeLog', (s) => {
-    UI.message('Lint')
-    parseDocument(context)
-    // webContents.executeJavaScript(`setRandomNumber(${699999})`)
+  webContents.on('getData', (page) => {
+    getData(context, page)
   })
 
-  webContents.on('getData', (s) => {
-    getData(context)
+  webContents.on('updateLayer', (id) => {
+    updateLayer(id)
   })
 
   webContents.on('saveRules', (colors) => {
@@ -146,12 +143,12 @@ function pageLayers(page) {
 function getData(context) {
   const document = sketch.fromNative(context.document)
 
-  // let layers = _.flattenDeep(_.map(document.pages, (page) => pageLayers(page)))
-  let layers = _.flattenDeep(pageLayers(document.pages[0]))
+  let layers = _.flattenDeep(_.map(document.pages, (page) => pageLayers(page)))
+  // let layers = _.flattenDeep(pageLayers(document.pages[0]))
 
   console.log(layers.length)
 
-  layers = _.chunk(layers, 100)[0]
+  // layers = _.chunk(layers, 100)[0]
 
   postData(compliance(layers))
 }
@@ -234,11 +231,15 @@ function parseColor(layer) {
 
         let weight = weights[weightIndex]
         var fontSize = layer.sketchObject.fontSize()
-        var fontFamily = String(layer.sketchObject.style().textStyle().attributes().NSFont.fontDescriptor().objectForKey(NSFontNameAttribute))
         var lineHeight = layer.sketchObject.lineHeight()
 
-        let color = layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute.hexValue()
-        color = `#${color}`
+        let fontFamily;
+        let color = '000';
+        if (layer.sketchObject.style().textStyle()) {
+          fontFamily = String(layer.sketchObject.style().textStyle().attributes().NSFont.fontDescriptor().objectForKey(NSFontNameAttribute))
+          color = layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute.hexValue()
+          color = `#${color}`
+        }
 
         return ([
           {
@@ -294,6 +295,24 @@ function parseColor(layer) {
   //   }
 }
 
+function updateLayer(id) {
+  const document = sketch.fromNative(context.document)
+  let layers = _.compact(_.flattenDeep(_.map(document.pages, (page) => {
+    page = page.sketchObject
+    if(page.deselectAllLayers){
+      page.deselectAllLayers();
+    }else{
+      page.changeSelectionBySelectingLayers_([]);
+    }
+    return page.layersWithIDs([id])
+  })))
+
+  layers = _.map(layers, (layer) => _.map(_.flattenDeep(layer), (l) => {l.select_byExpandingSelection(true, true); return sketch.fromNative(l)}));
+
+  layers = _.flatten(layers)
+
+  return postData(compliance(layers))
+}
 
 let oldSelection = []
 let newSelection = []

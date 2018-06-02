@@ -21,6 +21,7 @@ class LayerCollection extends React.Component {
     this.relevantLayers = this.relevantLayers.bind(this)
     this.colorCompliance = this.colorCompliance.bind(this)
     this.textCompliance = this.textCompliance.bind(this)
+    this.onRequestClose = this.onRequestClose.bind(this)
   }
 
   clickLayer(layer) {
@@ -78,6 +79,12 @@ class LayerCollection extends React.Component {
     }
   }
 
+  onRequestClose() {
+    this.props.clearLayer(this.props.activeLayer.id);
+    pluginCall('updateLayer', this.props.activeLayer.id)
+    this.props.setActiveLayer(null)
+  }
+
   render() {
     let layer;
     if (this.props.activeLayer) {
@@ -132,10 +139,10 @@ class LayerCollection extends React.Component {
           </div>
           <Modal
             isOpen={this.props.activeLayer}
-            onRequestClose={() => this.props.setActiveLayer(null)}
+            onRequestClose={this.onRequestClose}
             style={customStyles}
           >
-            <Subheader><a onClick={() => this.props.setActiveLayer(null)}>←</a></Subheader>
+            <Subheader><a onClick={this.onRequestClose}>←</a></Subheader>
             {layer}
           </Modal>
         </div>

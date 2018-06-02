@@ -59,7 +59,7 @@ class SuggestionCollection extends React.Component {
         let hex = suggestion.hex
         let name = suggestion.name
         return (
-            <a onClick={() => { pluginCall('swapProp', this.props.id, this.props.prop, this.props.primary, suggestion)} }>
+            <a onClick={() => { pluginCall('swapProp', this.props.id, this.props.prop, this.props.primary, suggestion); } }>
               <div className="pt8" />
               <div className="flex flexaic tcard suggestions">
                 <div className="swatch suggest mr16" style={{backgroundColor: hex}}/>

@@ -87,28 +87,36 @@ var initialState = {
   page: 0
 };
 
-function setLayers(state, action) {
-  var layers = _.groupBy(action.data, 'primary');
-  var layerMap = _.groupBy(action.data, 'id');
-  textGroups = _.groupBy(_.filter(action.data, { prop: 'text' }), function (l) {
-    return _.join(_.map(_.keys(l.styles), function (k) {
-      return l.styles[k];
-    }), '-');
-  });
-  // _.each(textGroups, (arr, s) => _.each(arr, (l) => l.category = 'text'))
+function buildLayers(state, layerMap) {
+  var allLayers = _.flatten(_.values(layerMap));
 
+  var layers = _.groupBy(allLayers, 'primary');
+
+  // textGroups = _.groupBy(_.filter(action.data, {prop: 'text'}), (l) => _.join(_.map(_.keys(l.styles), (k) => l.styles[k]), '-'))
+  // _.each(textGroups, (arr, s) => _.each(arr, (l) => l.category = 'text'))
 
   var trendByColor = {};
   _.each(layers, function (layers, hex) {
     trendByColor[hex] = _.groupBy(layers, 'prop');
   });
 
-  var trendByProp = _.groupBy(action.data, 'prop');
-  trendByProp = _.each(_.groupBy(action.data, 'prop'), function (layers, prop) {
+  var trendByProp = _.groupBy(allLayers, 'prop');
+  trendByProp = _.each(trendByProp, function (layers, prop) {
     return trendByProp[prop] = _.groupBy(layers, 'primary');
   });
 
-  return _extends({}, state, { trendByProp: trendByProp, trendByColor: trendByColor, layers: _extends({}, state.layers, layers), layerMap: _extends({}, state.layerMap, layerMap) });
+  return _extends({}, state, { trendByProp: trendByProp, trendByColor: trendByColor, layers: layers, layerMap: layerMap });
+}
+
+function setLayers(state, action) {
+  // let layers = _.groupBy(action.data, 'primary')
+  // layers = {...state.layers, ...layers}
+  // let allLayers = _.flatten(_.values(layers))
+
+  var layerMap = _.groupBy(action.data, 'id');
+  layerMap = _extends({}, state.layerMap, layerMap);
+
+  return buildLayers(state, layerMap);
 }
 
 function setActiveLayer(state, action) {
@@ -132,6 +140,11 @@ var pages = function pages() {
       return setActiveLayer(_extends({}, state, { selected: true }), action);
     case 'SET_ACTIVE_LAYER_ID':
       return _extends({}, state, { selected: false, activeLayer: action.data });
+    case 'CLEAR_LAYER':
+      layerMap = state.layerMap;
+      delete layerMap[action.data];
+
+      return buildLayers(state, layerMap);
     case 'NEXT_PAGE':
       return _extends({}, state, { page: state.page + 1 });
     case 'PREV_PAGE':

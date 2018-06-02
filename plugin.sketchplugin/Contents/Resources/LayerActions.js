@@ -82,6 +82,13 @@ var setLayers = exports.setLayers = function setLayers(data) {
   };
 };
 
+var clearLayer = exports.clearLayer = function clearLayer(data) {
+  return {
+    type: 'CLEAR_LAYER',
+    data: data
+  };
+};
+
 var selectLayer = exports.selectLayer = function selectLayer(data) {
   return {
     type: 'SET_ACTIVE_LAYER',
