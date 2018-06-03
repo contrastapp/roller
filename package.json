@@ -1,13 +1,13 @@
 {
-  "name": "my-plugin",
+  "name": "toybox-roller",
   "version": "0.1.0",
   "engines": {
     "sketch": ">=3.0"
   },
   "skpm": {
-    "name": "my-plugin",
+    "name": "toybox-roller",
     "manifest": "src/manifest.json",
-    "main": "plugin.sketchplugin"
+    "main": "toybox-roller.sketchplugin"
   },
   "scripts": {
     "build": "skpm-build",
@@ -23,16 +23,19 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "css-loader": "^0.28.11",
     "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.11",
     "html-loader": "^0.5.1",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
-    "style-loader": "^0.21.0"
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1"
   },
   "resources": [
     "resources/**/*.js"
   ],
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "@fortawesome/react-fontawesome": "0.0.20",
     "history": "^4.7.2",
     "lodash": "^4.17.10",
@@ -40,14 +43,17 @@
     "moment": "^2.22.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-json-pretty": "^1.7.6",
     "react-modal": "^3.4.4",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
     "react-skylight": "^0.5.1",
+    "recharts": "^1.0.0-beta.10",
     "redux": "^4.0.0",
+    "redux-form": "^7.3.0",
     "redux-logger": "^3.0.6",
-    "sketch-module-web-view": "^1.1.6",
+    "sketch-module-web-view": "^1.1.7",
     "tinycolor2": "^1.4.1",
     "webpack": "^4.9.1"
   },

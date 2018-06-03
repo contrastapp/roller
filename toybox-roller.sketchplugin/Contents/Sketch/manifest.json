@@ -1,0 +1,39 @@
+{
+  "compatibleVersion": 3,
+  "bundleVersion": 1,
+  "commands": [
+    {
+      "name": "Set Styles",
+      "identifier": "upload-rules",
+      "script": "upload_rules.js",
+      "shortcut": "ctrl shift u",
+      "icon": "logo.png",
+      "handlers": {
+        "run": "onRun"
+      }
+    },
+    {
+      "name": "Lint",
+      "identifier": "my-command-identifier",
+      "script": "my-command.js",
+      "shortcut": "ctrl shift r",
+      "handlers": {
+        "run": "onRun",
+        "actions": {}
+      }
+    }
+  ],
+  "menu": {
+    "title": "Audit",
+    "items": [
+      "my-command-identifier",
+      "upload-rules"
+    ]
+  },
+  "version": "0.1.0",
+  "name": "toybox-roller",
+  "disableCocoaScriptPreprocessor": true,
+  "appcast": "https://raw.githubusercontent.com//master/.appcast.xml",
+  "author": "Jono Kolnik",
+  "authorEmail": "jono@toyboxsystems.com"
+}

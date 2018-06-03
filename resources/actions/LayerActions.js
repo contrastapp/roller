@@ -8,6 +8,11 @@ export const setLayers = data => ({
   data,
 });
 
+export const clearLayer = data => ({
+  type: 'CLEAR_LAYER',
+  data,
+});
+
 export const selectLayer = data => ({
   type: 'SET_ACTIVE_LAYER',
   data,

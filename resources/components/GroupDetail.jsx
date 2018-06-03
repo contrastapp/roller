@@ -1,7 +1,7 @@
 import React from "react"
 import tinycolor from "tinycolor2"
 import _ from "lodash"
-import LayerDetail from './LayerDetail'
+import LayerDetailContainer from '../containers/LayerDetailContainer'
 import pluginCall from 'sketch-module-web-view/client'
 
 class GroupDetail extends React.Component {
@@ -15,31 +15,41 @@ class GroupDetail extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.goToLayer(0)
+  }
 
-  goToLayer() {
-    pluginCall('selectLayer', this.props.layers[this.state.page].id)
+  goToLayer(page) {
+    if (!window.mock) {
+      pluginCall('selectLayer', this.props.layers[page].id)
+    }
   }
 
   prev() {
     if (this.state.page > 0) {
-      this.setState({page: this.state.page - 1})
+      let newPage = this.state.page - 1
+      this.setState({page: newPage})
       this.goToLayer()
     }
   }
 
   next() {
     if (this.state.page + 1 < this.props.layers.length) {
-      this.setState({page: this.state.page + 1})
-      this.goToLayer()
+      let newPage = this.state.page + 1
+      this.setState({page: newPage})
+      this.goToLayer(newPage)
     }
   }
 
   render() {
     return (
       <div>
-        <LayerDetail prev={this.prev} next={this.next}
-          page={this.state.page + 1} pages={this.props.layers.length}
-          layerCompliance={this.props.layers[this.state.page]} />
+        <LayerDetailContainer
+          prev={this.prev}
+          next={this.next}
+          index={this.state.page} page={this.state.page + 1} pages={this.props.layers.length}
+          layerCompliance={this.props.layers[this.state.page]}
+        />
       </div>
     )
   }

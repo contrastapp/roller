@@ -8,3 +8,7 @@ export const setColors = data => ({
   data,
 });
 
+export const setType = data => ({
+  type: 'SET_TYPE',
+  data,
+});

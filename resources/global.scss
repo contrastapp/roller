@@ -1,7 +1,5 @@
 @import '_variables';
-body {
 
-}
 // @import "font-awesome";
 // @import 'variables';
 // @import 'react-table';
@@ -25,7 +23,8 @@ body {
 .f-evenly { justify-content: space-evenly; }
 .f-between { justify-content: space-between; }
 
-.f-align-start {align-items: flex-start; }
+.falign-start {align-items: flex-start; }
+.falign-end {align-items: flex-end; }
 
 
 .f-row {
@@ -62,6 +61,12 @@ body {
     border: 1px dashed #C4CDD5;
     max-height: 120px;
     box-shadow: none;
+  }
+  &.suggestions {
+    &:hover {
+      box-shadow: 0 0 0 1px rgba(63,63,68,0.16), 0 1px 6px 0 rgba(63,63,68,0.24);
+      @extend %btn-transition;
+    }
   }
   &.gray { background-color: #F4F6F8; box-shadow: none;}
 }
@@ -267,7 +272,12 @@ a.report { color: black; }
   grid-gap: $s-16;
 }
 
-.grid { display: grid; }
+.grid {
+  display: grid;
+  &.settings {
+    grid-template-columns: 20px auto 20px;
+  }
+ }
 .gridaie { align-items: end; }
 .gridase { align-self: end; }
 
@@ -396,7 +406,10 @@ a.report { color: black; }
 .fa-minus-circle { color: $gray-lighten-30; }
 .fa-arrow-circle-o-down { color: $red-base; }
 
-input { @extend %input; }
+input {
+  @extend %input;
+  width: 100%;
+ }
 
 input[type=checkbox] {
   &:checked{
@@ -408,7 +421,6 @@ input[type=checkbox] {
   padding: 0px;
  }
 
-input { width: calc(100% - 26px); }
 label { margin-bottom: $s-4; }
 textarea:focus, input:focus{ outline: none; }
 
@@ -474,14 +486,85 @@ textarea:focus, input:focus{ outline: none; }
 /********* Card **********/
 
 .card {
-
   grid-template-columns: repeat(4, 1fr);
   grid-gap: $s-16;
 
   .tcard {
-
           grid-template-rows: 2fr;
   }
+}
 
+/********* Linter **********/
 
+.layer-row {
+  border-bottom: $border;
+  padding: $s-12 $s-16;
+  &:hover {
+    background: $gray-lighten-10;
+
+  }
+ }
+
+.layer-block {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  @include border-radius (3px);
+  border: $border;
+}
+
+.error {
+  border-radius: 50%;
+  background: $red-lighten-15;
+  border: .25px solid $red-base;
+  height: $s-12;
+  width: $s-12;
+  text-align: center;
+
+  &.trend {
+  background: $blue-lighten-15;
+  border: .25px solid $blue-base;
+  }
+}
+
+.subheader {
+  padding: $s-12 $s-16;
+  background: $gray-lighten-5;
+  border-top: $border;
+  border-bottom: $border;
+  max-height: 42px;
+    a {
+      color: $gray-lighten-30;
+      font-size: $s-16;
+      &:hover { color: $gray-lighten-35; }
+     }
+}
+
+li, ul { border-bottom: none; }
+
+.paginate-row {
+  width: 100%;
+  background: white;
+  border-top: $border;
+}
+
+.login-lint {
+  height: 90vh;
+}
+
+.settings-lint {
+  input { margin-right: $s-8; }
+}
+
+.swatch {
+  height: $s-60;
+  width: $s-60;
+  @include border-radius (3px);
+  border: $border;
+  &.suggest {
+    border: none;
+    border-right: $border;
+    border-radius: 3px 0px 0px 3px;
+  }
 }

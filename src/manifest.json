@@ -7,25 +7,25 @@
       "identifier": "upload-rules",
       "script": "./upload_rules.js",
       "shortcut": "ctrl shift u",
+      "icon": "logo.png",
       "handlers": {
         "run": "onRun"
       }
     },
     {
-      "name": "my-command",
+      "name": "Lint",
       "identifier": "my-command-identifier",
       "script": "./my-command.js",
       "shortcut": "ctrl shift r",
       "handlers": {
         "run": "onRun",
         "actions": {
-          "SelectionChanged.finish": "onSelectionChanged"
         }
       }
     }
   ],
   "menu": {
-    "title": "Audit",
+    "title": "Roller",
     "items": [
       "my-command-identifier",
       "upload-rules"

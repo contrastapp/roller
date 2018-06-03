@@ -1,12 +1,20 @@
 import React from "react"
 import tinycolor from "tinycolor2"
 import _ from "lodash"
+import Text from "./Text";
 import pluginCall from 'sketch-module-web-view/client'
 
 class SuggestionCollection extends React.Component {
   constructor(props) {
     super(props)
     this.computeSuggestions = this.computeSuggestions.bind(this)
+    this.computeTextSuggestions = this.computeTextSuggestions.bind(this)
+  }
+
+  computeTextSuggestions() {
+    let props = ['fontSize', 'weight', 'lineHeight']
+    let layer = _.pick(this.props.styles, props)
+    let compliant = _.find(this.props.typography, (t) => _.isEqual(_.pick(t, props), layer))
   }
 
   computeSuggestions(primary) {
@@ -20,7 +28,7 @@ class SuggestionCollection extends React.Component {
     var color_g = rgb.g;
     var color_b = rgb.b;
 
-    var differenceArray=[];
+    var differenceArray = [];
 
     _.each(base_colors, (value) => {
       var base_color_rgb = tinycolor(value).toRgb();
@@ -42,20 +50,35 @@ class SuggestionCollection extends React.Component {
   }
 
   render() {
-    let suggestion = this.computeSuggestions(this.props.primary)
-    let swap = (
-      <a onClick={() => { pluginCall('swapProp', this.props.id, this.props.prop, this.props.primary, suggestion)} }>
-        <div>
-          <div style={{minHeight: 50, minWidth: 50, backgroundColor: suggestion}}/>
-          <div>{suggestion}</div>
-        </div>
-      </a>
-    )
+    let swap = "No suggestions";
+    let suggestions = []
+    if (this.props.category === 'color'){
+      suggestions = this.props.suggestions || [this.computeSuggestions(this.props.primary)]
+
+      suggestions = _.map(suggestions, (suggestion) => {
+        let hex = suggestion.hex
+        let name = suggestion.name
+        return (
+            <a onClick={() => { pluginCall('swapProp', this.props.id, this.props.prop, this.props.primary, suggestion); } }>
+              <div className="pt8" />
+              <div className="flex flexaic tcard suggestions">
+                <div className="swatch suggest mr16" style={{backgroundColor: hex}}/>
+                <div>
+                  <Text size="subheading" subdued>{name}</Text>
+                  <Text size="body">{hex}</Text>
+                </div>
+              </div>
+            </a>
+        )
+
+      })
+
+    }
 
     return (
-      <div>
-        Did you mean to use:
-        {swap}
+      <div className="p16">
+        <Text size="body" subdued>Did you mean to use:</Text>
+        {suggestions}
       </div>
     )
   }

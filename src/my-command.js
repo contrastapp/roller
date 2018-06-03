@@ -6,14 +6,19 @@ const tinycolor = require('tinycolor2')
 const _ = require('lodash')
 const momemt = require('moment')
 
+const emailKey = 'toyboxRollerUser'
+
 const options = {
   identifier: 'unique.id',
   redirectTo: "/list",
-  width: 240,
-  height: 480,
+  width: 480,
+  minWidth: 300,
+  height: 960,
   show: false,
   loaded: false,
+  alwaysOnTop: true,
 }
+
 let browserWindow = new BrowserWindow(options)
 let webContents = browserWindow.webContents
 let loaded = false
@@ -22,6 +27,8 @@ export default function onRun(context) {
   // only show the window when the page has loaded
   browserWindow.once('ready-to-show', () => {
     browserWindow.show()
+    setRules(context)
+    setUser(context)
   })
 
   // print a message when the page loads
@@ -35,18 +42,27 @@ export default function onRun(context) {
     webContents.executeJavaScript("window.redirectTo=\"" + String(whereTo) + "\"")
   })
 
-  // add a handler for a call from web content's javascript
-  webContents.on('nativeLog', (s) => {
-    UI.message('Lint')
-    parseDocument(context)
-    // webContents.executeJavaScript(`setRandomNumber(${699999})`)
+  webContents.on('getData', (page) => {
+    getData(context, page)
   })
 
-  webContents.on('getData', (s) => {
-    // setRules(context)
-    getData(context)
+  webContents.on('updateLayer', (id) => {
+    updateLayer(id)
   })
 
+  webContents.on('saveRules', (colors) => {
+    context.api().setSettingForKey('colors', JSON.stringify(colors))
+    setRules(context)
+  })
+
+  webContents.on('saveUser', (email) => {
+    context.api().setSettingForKey(emailKey, JSON.stringify(email))
+    setUser(context)
+  })
+
+  webContents.on('setRules', () => {
+    setRules(context)
+  })
 
   webContents.on('selectLayer', (id) => {
     selectLayer(id)
@@ -54,17 +70,36 @@ export default function onRun(context) {
 
   webContents.on('swapProp', (id, prop, oldStyle, newStyle) => {
     let layers = selectLayer(id)
-    _.each(layers, (layer) => _.each(_.flattenDeep(layer), (l) => {
+
+    _.each(layers, (l) => {
       if (prop === 'fills' || prop === 'borders') {
-        sketch.fromNative(l).style[prop] = _.map(sketch.fromNative(l).style[prop], (fillOrBorder) => fillOrBorder.color === oldStyle ? newStyle : fillOrBorder.color)
+        // let props;
+
+        // if (prop === 'fills') {
+        //   props =l.style().fills()
+        // }
+        // if (prop === 'borders') {
+        //   props =l.style().borders()
+        // }
+
+
+        // let respectiveProp = _.find(props, (r) => _.includes(newStyle.hex, String(r.color().immutableModelObject().hexValue())))
+        // debugger
+// // respectiveProp.setColor(MSImmutableColor.colorWithSVGString(newStyle.hex).newMutableCounterpart());
+
+
+        // debugger
+
+
+        sketch.fromNative(l).style[prop] = _.map(sketch.fromNative(l).style[prop], (fillOrBorder) => fillOrBorder.color === oldStyle ?  {color: newStyle.hex, thickness: fillOrBorder.thickness, position: fillOrBorder.position, enabled: fillOrBorder.enabled, fillType: fillOrBorder.fillType, gradient: fillOrBorder.gradient} : fillOrBorder)
       } else if ( prop === 'text') {
-        var range = NSMakeRange(0,sketch.fromNative(l).text.length - 1)
-        var color = hexToColor(newStyle)
+        var range = NSMakeRange(0,sketch.fromNative(l).text.length)
+        var color = hexToColor(newStyle.hex)
         l.setIsEditingText(true)
         l.addAttribute_value_forRange(NSForegroundColorAttributeName, color, range)
         l.setIsEditingText(false)
       }
-    }));
+    });
   })
 
   webContents.on('loadList', (s) => {
@@ -127,12 +162,12 @@ function pageLayers(page) {
 function getData(context) {
   const document = sketch.fromNative(context.document)
 
-  // let layers = _.flattenDeep(_.map(document.pages, (page) => pageLayers(page)))
-  let layers = _.flattenDeep(pageLayers(document.pages[0]))
+  let layers = _.flattenDeep(_.map(document.pages, (page) => pageLayers(page)))
+  // let layers = _.flattenDeep(pageLayers(document.pages[0]))
 
   console.log(layers.length)
 
-  layers = _.chunk(layers, 100)[0]
+  // layers = _.chunk(layers, 100)[0]
 
   postData(compliance(layers))
 }
@@ -175,13 +210,17 @@ function postComplianceSelected(compliance) {
 
 function setRules() {
   let colors = context.api().settingForKey('colors')
-  colors = _.map(colors, (c) => tinycolor(String(c)).toHex8())
-  webContents.executeJavaScript(`setRules('${JSON.stringify(colors)}')`)
+  webContents.executeJavaScript(`setRules('${String(String(JSON.stringify(JSON.parse(String(colors)))))}')`)
+}
+
+function setUser() {
+  let email = context.api().settingForKey(emailKey)
+  webContents.executeJavaScript(`setUser('${String(String(JSON.stringify(JSON.parse(String(email)))))}')`)
 }
 
 function parseColor(layer) {
-  let colors = context.api().settingForKey('colors')
-  colors = _.map(colors, (c) => tinycolor(String(c)).toHex8())
+  let colors = JSON.parse(context.api().settingForKey('colors'))
+  colors = _.map(colors, (c) => tinycolor(String(c.hex)).toHex8())
 
   let props = ['fills', 'borders']
 
@@ -206,23 +245,37 @@ function parseColor(layer) {
       }
 
       if (prop === 'text') {
-        let color = layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute.hexValue()
-        color = `#${color}`
+        let weights = [100,100,100,200,300,400,500,500,600,700,800,900,900,900,900,900]
+        let weightIndex = NSFontManager.sharedFontManager().weightOfFont_(layer.sketchObject.font())
 
-        return ([{
-          ...attrs,
-          index: 0,
-          styles: layer.style.toJSON(),
-          primary: color,
-          compliant: _.includes(colors, tinycolor(color).toHex8()),
-        }])
+        let weight = weights[weightIndex]
+        var fontSize = layer.sketchObject.fontSize()
+        var lineHeight = layer.sketchObject.lineHeight()
+
+        let fontFamily;
+        let color = '000';
+        if (layer.sketchObject.style().textStyle()) {
+          fontFamily = String(layer.sketchObject.style().textStyle().attributes().NSFont.fontDescriptor().objectForKey(NSFontNameAttribute))
+          color = layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute.hexValue()
+          color = `#${color}`
+        }
+
+        return ([
+          {
+            ...attrs,
+            index: 0,
+            styles: {...layer.style, ...{weight: weight, fontSize: fontSize, lineHeight: lineHeight, fontFamily: fontFamily}},
+            primary: color,
+            compliant: _.includes(colors, tinycolor(color).toHex8()),
+          }
+        ])
       }
 
       if (_.get(layer.style, prop)) {
         const styles = _.get(layer.style, prop)
 
         let i = -1
-        return _.map(styles, (style) => {
+        return _.map(_.filter(styles, 'enabled'), (style) => {
           const color = style.color
           i = i + 1
           return ({
@@ -261,6 +314,24 @@ function parseColor(layer) {
   //   }
 }
 
+function updateLayer(id) {
+  const document = sketch.fromNative(context.document)
+  let layers = _.compact(_.flattenDeep(_.map(document.pages, (page) => {
+    page = page.sketchObject
+    if(page.deselectAllLayers){
+      page.deselectAllLayers();
+    }else{
+      page.changeSelectionBySelectingLayers_([]);
+    }
+    return page.layersWithIDs([id])
+  })))
+
+  layers = _.map(layers, (layer) => _.map(_.flattenDeep(layer), (l) => {l.select_byExpandingSelection(true, true); return sketch.fromNative(l)}));
+
+  layers = _.flatten(layers)
+
+  return postData(compliance(layers))
+}
 
 let oldSelection = []
 let newSelection = []
@@ -281,8 +352,17 @@ function selectLayer(id) {
 
   layers = _.flatten(layers)
 
-  MSDocument.currentDocument().contentDrawView().zoomToFitRect(layers[0].absoluteRect().rect())
+  let layer = layers[0]
+  let rect = layer.absoluteRect().rect()
+
+  let x = rect.origin.x - 50
+  let y = rect.origin.y - 50
+  let width = rect.size.width + 100
+  let height = rect.size.height + 100
+  rect = NSMakeRect(x, y, width, height)
+
+  // MSDocument.currentDocument().contentDrawView().zoomToFitRect(layers[0].absoluteRect().rect())
+  MSDocument.currentDocument().contentDrawView().zoomToFitRect(rect)
 
   return layers
 }
-
