@@ -84,11 +84,12 @@ export default class PieGraph extends React.Component {
 
     const seed = _.random(10)
 
+    let data = _.sortBy(this.props.data, 'value')
     return (
       <ResponsiveContainer width="100%" height={350}>
           <PieChart >
             <Pie
-              data={this.props.data}
+              data={data}
               labelLine={false}
               activeIndex={this.state.activeIndex}
               activeShape={this.renderActiveShape}
@@ -99,8 +100,8 @@ export default class PieGraph extends React.Component {
               fill="#8884d8"
             >
               {
-                this.props.data.map((entry, i) => {
-                  let k = this.props.data[i].name
+                data.map((entry, i) => {
+                  let k = data[i].name
                   let stroke = (k == '#ffffffff' || _.toUpper(k) == '#FFFFFF' ||  _.toUpper(k) == '#FFF') ? '#ccc' : null
                   return <Cell key={i} stroke={stroke} fill={this.props.colored ?  k : fill(i)}/>
                 })

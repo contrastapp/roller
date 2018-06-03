@@ -53,7 +53,6 @@ class LayerDetail extends React.Component {
 
   suggestions() {
 
-    debugger
     suggestions = _.take(_.reverse(_.map(_.sortBy(this.layersByProp(), 'value'), (l) => ({name: 'Color', hex: l.name}))), 3)
     return suggestions
   }

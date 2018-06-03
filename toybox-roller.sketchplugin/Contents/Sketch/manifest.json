@@ -7,6 +7,7 @@
       "identifier": "upload-rules",
       "script": "upload_rules.js",
       "shortcut": "ctrl shift u",
+      "icon": "logo.png",
       "handlers": {
         "run": "onRun"
       }
