@@ -15,7 +15,7 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
 const renderMembers = ({ fields, meta: { error, submitFailed } }) => (
   <ul>
     <li className="pt24 pb24 pr16 pl16">
-      <Button size="full" style="default" type="button" onClick={() => fields.push({})}>Add New Color</Button>
+      <Button size="full" style="default" type="button" onClick={() => fields.unshift({})}>Add New Color</Button>
     </li>
     {submitFailed && error && <span>{error}</span>}
     <Subheader>My Saved Colors</Subheader>

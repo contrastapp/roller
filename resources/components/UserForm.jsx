@@ -6,43 +6,43 @@ import { SubmissionError } from 'redux-form'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
-function submit(values) {
-  return sleep(1000).then(() => {
-    // simulate server latency
-    if (!['john', 'paul', 'george', 'ringo'].includes(values.username)) {
-      throw new SubmissionError({
-        username: 'User does not exist',
-        _error: 'Login failed!'
-      })
-    } else if (values.password !== 'redux-form') {
-      throw new SubmissionError({
-        password: 'Wrong password',
-        _error: 'Login failed!'
-      })
-    } else {
-      window.alert(`You submitted:\n\n${JSON.stringify(values, null, 2)}`)
-    }
-  })
+function submit(values, props) {
+  if (values.email != values['confirm-email']) {
+    throw new SubmissionError({
+      _error: 'Emails must match!'
+    })
+  } else {
+    props.onSubmit(values)
+  }
 }
 
 const SimpleForm = props => {
-  const { handleSubmit, pristine, reset, submitting } = props
+  const { error, handleSubmit, pristine, reset, submitting } = props
   return (
     <div className="flex flexaic flexjcc f-column login-lint p24">
-      
+
       <div className="pb24 text-center">
-        <Text size="small">LOGO</Text>
+        <img width="43.17" height="50" src="http://toybox-public.s3.amazonaws.com/Asset%201@2x.png" />
         </div>
 
       <div className="pb48 text-center">
-        <Text size="small">Sign in to Toybox</Text>
+        <Text size="small">Sign up for Toybox</Text>
         <Text size="body" subdued>Enter your email</Text>
       </div>
 
-      <form onSubmit={handleSubmit(data => { props.onSubmit(data) })}>
+      {error && <strong>{error}</strong>}
+      <form onSubmit={handleSubmit((values) => submit(values, props))}>
           <label>Email</label>
             <Field
               name="email"
+              component="input"
+              type="email"
+              placeholder=""
+              className="mb16"
+            />
+          <label>Confirm Email</label>
+            <Field
+              name="confirm-email"
               component="input"
               type="email"
               placeholder=""

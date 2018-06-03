@@ -12,6 +12,7 @@ const options = {
   identifier: 'unique.id',
   redirectTo: "/list",
   width: 480,
+  minWidth: 300,
   height: 960,
   show: false,
   loaded: false,
@@ -72,7 +73,25 @@ export default function onRun(context) {
 
     _.each(layers, (l) => {
       if (prop === 'fills' || prop === 'borders') {
-        sketch.fromNative(l).style[prop] = _.map(sketch.fromNative(l).style[prop], (fillOrBorder) => fillOrBorder.color === oldStyle ? newStyle.hex : fillOrBorder.color)
+        // let props;
+
+        // if (prop === 'fills') {
+        //   props =l.style().fills()
+        // }
+        // if (prop === 'borders') {
+        //   props =l.style().borders()
+        // }
+
+
+        // let respectiveProp = _.find(props, (r) => _.includes(newStyle.hex, String(r.color().immutableModelObject().hexValue())))
+        // debugger
+// // respectiveProp.setColor(MSImmutableColor.colorWithSVGString(newStyle.hex).newMutableCounterpart());
+
+
+        // debugger
+
+
+        sketch.fromNative(l).style[prop] = _.map(sketch.fromNative(l).style[prop], (fillOrBorder) => fillOrBorder.color === oldStyle ?  {color: newStyle.hex, thickness: fillOrBorder.thickness, position: fillOrBorder.position, enabled: fillOrBorder.enabled, fillType: fillOrBorder.fillType, gradient: fillOrBorder.gradient} : fillOrBorder)
       } else if ( prop === 'text') {
         var range = NSMakeRange(0,sketch.fromNative(l).text.length)
         var color = hexToColor(newStyle.hex)
@@ -256,7 +275,7 @@ function parseColor(layer) {
         const styles = _.get(layer.style, prop)
 
         let i = -1
-        return _.map(styles, (style) => {
+        return _.map(_.filter(styles, 'enabled'), (style) => {
           const color = style.color
           i = i + 1
           return ({

@@ -32,6 +32,9 @@ export default class Paginate extends React.Component {
     }
   }
   render() {
+    if (this.props.pages <= 0) {
+      return <div />;
+    }
 
     let prevBtn;
     let nextBtn;

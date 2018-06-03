@@ -107,7 +107,6 @@ export default class PieGraph extends React.Component {
               }
             </Pie>
             <Tooltip formatter={(value) => {return `${value} occurences` }}/>
-            <Legend/>
           </PieChart>
         </ResponsiveContainer>
     );

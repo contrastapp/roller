@@ -43,7 +43,6 @@ class LayerDetail extends React.Component {
     let layersByProp = this.props.trendByProp[this.props.layerCompliance.prop]
 
     total = _.keys(layersByProp).length
-    layersByProp = _.groupBy(layersByProp, 'primary')
 
     return _.map(layersByProp, (layers, prop) => ({name: prop, value: layers.length}))
   }
@@ -53,6 +52,8 @@ class LayerDetail extends React.Component {
   }
 
   suggestions() {
+
+    debugger
     suggestions = _.take(_.reverse(_.map(_.sortBy(this.layersByProp(), 'value'), (l) => ({name: 'Color', hex: l.name}))), 3)
     return suggestions
   }
@@ -125,7 +126,7 @@ class LayerDetail extends React.Component {
             { this.renderTrendWithinColor() }
             <div className="divider24" />
 
-            <Text size="heading">Total Color Usage</Text>
+            <Text size="heading">Total Color Usage for {this.props.layerCompliance.prop}</Text>
             { this.renderTrendWithinProp() }
           </div>
 

@@ -21,7 +21,7 @@ class Layer extends React.Component {
 
 
     let trend = true;
-    if (this.props.colors.length > 0) {
+    if (_.get(this.props.colors, 'length') > 0) {
       trend = first.compliant;
     }
 

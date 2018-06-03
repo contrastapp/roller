@@ -31,7 +31,7 @@ class Test extends React.Component {
 
     return (
       <div className="container">
-        <div className="flex f-between flexaic subheader">
+        <div className="flex f-between flexaic subheader" style={{display: this.props.layers.activeLayer ? 'none': 'flex'}} >
           <Modal
             isOpen={!_.get(this.props.user.user, 'email')}
             style={customStyles}
@@ -39,13 +39,13 @@ class Test extends React.Component {
             <UserForm onSubmit={this.handleSubmit} />
           </Modal>
 
-          <FontAwesomeIcon icon={faLightbulb } />
+          <img width="21.58" height="25" src="http://toybox-public.s3.amazonaws.com/Asset%201@2x.png" />
           <a onClick={()=> this.props.history.push('settings')}>
             <FontAwesomeIcon icon={faCog } />
           </a>
 
 
-      </div>
+        </div>
         <LayersContainer />
       </div>
     )

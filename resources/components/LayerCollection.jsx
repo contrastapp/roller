@@ -81,7 +81,9 @@ class LayerCollection extends React.Component {
 
   onRequestClose() {
     this.props.clearLayer(this.props.activeLayer.id);
-    pluginCall('updateLayer', this.props.activeLayer.id)
+    if(!window.mock) {
+      pluginCall('updateLayer', this.props.activeLayer.id)
+    }
     this.props.setActiveLayer(null)
   }
 
@@ -104,8 +106,8 @@ class LayerCollection extends React.Component {
       return _.reverse(_.sortBy(l, 'createdAt'))[0].createdAt
     }))
 
-    if (this.props.layers.length == 0) {
-      nestedLayers =<div>loading...</div>
+    if (_.keys(this.props.layers).length == 0) {
+      nestedLayers = <div className="flex flexaic flexjcc pt24 pb24 pr16 pl16"> Ready to Lint</div>
     } else {
       nestedLayers = _.map(layers, (styles) => <GroupContainer onClick={this.clickLayer} compliance={styles} />)
     }
@@ -124,27 +126,31 @@ class LayerCollection extends React.Component {
       }
     };
 
+          // <Modal
+          //   isOpen={this.props.activeLayer}
+          //   onRequestClose={this.onRequestClose}
+          //   style={customStyles}
+          // >
+          //   <Subheader><a onClick={this.onRequestClose}>←</a></Subheader>
+          //   {layer}
+          // </Modal>
+      layer = (<div style={{display: this.props.activeLayer ? 'block': 'none'}}><Subheader><a onClick={this.onRequestClose}>←</a></Subheader> {layer}</div>)
+
       return (
         <div>
-          <div className="flex flexaic flexjcc pt24 pb24 pr16 pl16">
-            <Button size="full" style="default" onClick={() => pluginCall('getData', this.props.page) }>Lint My File</Button>
+          <div style={{display: this.props.activeLayer ? 'none': 'block'}}>
+            <div className="flex flexaic flexjcc pt24 pb24 pr16 pl16">
+              <Button size="full" style="default" onClick={() => pluginCall('getData', this.props.page) }>Lint My File</Button>
+            </div>
+
+            <Paginate prev={this.prev} page={this.props.page + 1} pages={_.get(pages, 'length', 0)} next={this.next}/>
+
+            <Subheader>Results:</Subheader>
+            <div className='layer-grid'>
+              {nestedLayers}
+            </div>
           </div>
-
-          <Paginate prev={this.prev} page={this.props.page + 1} pages={_.get(pages, 'length', 0)} next={this.next}/>
-
-          <Subheader>Results:</Subheader>
-
-          <div className='layer-grid'>
-            {nestedLayers}
-          </div>
-          <Modal
-            isOpen={this.props.activeLayer}
-            onRequestClose={this.onRequestClose}
-            style={customStyles}
-          >
-            <Subheader><a onClick={this.onRequestClose}>←</a></Subheader>
-            {layer}
-          </Modal>
+          {layer}
         </div>
       )
 
