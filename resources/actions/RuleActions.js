@@ -12,3 +12,8 @@ export const setType = data => ({
   type: 'SET_TYPE',
   data,
 });
+
+export const saved = data => ({
+  type: 'SAVED',
+  data,
+});

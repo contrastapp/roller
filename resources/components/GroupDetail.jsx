@@ -16,6 +16,7 @@ class GroupDetail extends React.Component {
   }
 
   componentDidMount() {
+    window.scrollTo(0,0)
     this.goToLayer(0)
   }
 
@@ -29,7 +30,7 @@ class GroupDetail extends React.Component {
     if (this.state.page > 0) {
       let newPage = this.state.page - 1
       this.setState({page: newPage})
-      this.goToLayer()
+      this.goToLayer(newPage)
     }
   }
 

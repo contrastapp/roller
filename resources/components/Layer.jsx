@@ -28,9 +28,9 @@ class Layer extends React.Component {
 
     let caption;
     if (!trend) {
-      caption = <Text size="body">Misuse of {_.uniq(_.map(this.props.compliance, 'prop')).join(' and ')} {first.category === 'color' ? 'color' : ''}</Text>
+      caption = <Text size="body">Misuse of {_.uniq(_.map(this.props.compliance, 'prop')).join(' and ')}</Text>
     } else {
-      caption = <Text size="body">{first.category === 'color' ? 'Color' : ''} trend data on {_.uniq(_.map(this.props.compliance, 'prop')).join(' and ')} </Text>
+      caption = <Text size="body">Trend data on {_.uniq(_.map(this.props.compliance, 'prop')).join(' and ')} </Text>
     }
 
     return (
@@ -38,7 +38,7 @@ class Layer extends React.Component {
         <Error trend={first.compliant}/>
         {block}
         <div className='layer-data'>
-          <div className='layer-name'><Text size="subheading" subdued>{ trend ? 'Trend' : 'Error'}</Text></div>
+          <div className='layer-name'><Text size="subheading" subdued>Color { trend ? 'Trend' : 'Error'}</Text></div>
           <div className='layer-occurences'>
             <Text size="caption" subdued>{this.props.compliance.length} {_.pluralize('occurence', this.props.compliance.length)}</Text>
           </div>

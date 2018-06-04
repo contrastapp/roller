@@ -84,11 +84,9 @@ export default function onRun(context) {
 
 
         // let respectiveProp = _.find(props, (r) => _.includes(newStyle.hex, String(r.color().immutableModelObject().hexValue())))
-        // debugger
 // // respectiveProp.setColor(MSImmutableColor.colorWithSVGString(newStyle.hex).newMutableCounterpart());
 
 
-        // debugger
 
 
         sketch.fromNative(l).style[prop] = _.map(sketch.fromNative(l).style[prop], (fillOrBorder) => fillOrBorder.color === oldStyle ?  {color: newStyle.hex, thickness: fillOrBorder.thickness, position: fillOrBorder.position, enabled: fillOrBorder.enabled, fillType: fillOrBorder.fillType, gradient: fillOrBorder.gradient} : fillOrBorder)
@@ -210,7 +208,11 @@ function postComplianceSelected(compliance) {
 
 function setRules() {
   let colors = context.api().settingForKey('colors')
-  webContents.executeJavaScript(`setRules('${String(String(JSON.stringify(JSON.parse(String(colors)))))}')`)
+  try {
+    webContents.executeJavaScript(`setRules('${String(String(JSON.stringify(JSON.parse(String(colors)))))}')`)
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 function setUser() {
@@ -219,7 +221,13 @@ function setUser() {
 }
 
 function parseColor(layer) {
-  let colors = JSON.parse(context.api().settingForKey('colors'))
+  let colors = [];
+  try {
+    colors = JSON.parse(context.api().settingForKey('colors'))
+  } catch (e) {
+    colors = []
+  }
+
   colors = _.map(colors, (c) => tinycolor(String(c.hex)).toHex8())
 
   let props = ['fills', 'borders']

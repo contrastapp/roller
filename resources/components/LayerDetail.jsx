@@ -11,6 +11,7 @@ import _ from "lodash"
 import pluginCall from 'sketch-module-web-view/client'
 import SuggestionContainer from '../containers/SuggestionsContainer';
 import JSONPretty from 'react-json-pretty';
+import ColorSwatch from './ColorSwatch';
 
 class LayerDetail extends React.Component {
   constructor(props) {
@@ -27,8 +28,23 @@ class LayerDetail extends React.Component {
     let layersByProp = this.props.trendByColor[this.props.layerCompliance.primary]
 
     layersByProp = _.map(layersByProp, (layers, prop) => ({name: prop, value: layers.length}))
+    // "This color #FFF (small color example) is primarily used for fills (98% of the time), 1% for border, and 1% for text.
 
-    return <PieGraph data={layersByProp} />
+    let total = _.sum(_.map(layersByProp, 'value'))
+    let sentence = _.map(_.sortBy(layersByProp, 'value'), (prop) => `${prop.name} ${(100.0 * prop.value/total).toFixed(1)}%`).join(', ')
+
+
+
+
+
+
+
+    return ( <div>
+      <div>
+        {this.props.layerCompliance.primary} is used for {sentence} of the time
+      </div>
+      <PieGraph data={layersByProp} /></div>
+    )
   }
 
   trendInsight() {
@@ -48,7 +64,12 @@ class LayerDetail extends React.Component {
   }
 
   renderTrendWithinProp() {
-    return <PieGraph data={this.layersByProp()} colored/>
+ // "Compared to all colors, #FFF is used .2% of the time for fills.
+    let layersByProp = this.layersByProp()
+    let total = _.sum(_.map(layersByProp, 'value'))
+    let sentence = `Compared to all other colors, ${this.props.layerCompliance.primary} is used ${((100.0 * _.find(layersByProp, {name: this.props.layerCompliance.primary}).value)/total).toFixed(1)}% of the time for ${this.props.layerCompliance.prop}`
+
+    return <div>{sentence}<PieGraph data={this.layersByProp()} colored/></div>
   }
 
   suggestions() {
@@ -62,7 +83,7 @@ class LayerDetail extends React.Component {
 
     let suggestions;
     if (!this.props.layerCompliance.compliant) {
-      suggestions = <SuggestionContainer {...this.props.layerCompliance} suggestions={this.props.colors.length > 0 ? null : this.suggestions()}/>
+      suggestions = <SuggestionContainer {...this.props.layerCompliance} suggestions={_.get(this.props.colors, 'length') > 0 ? null : this.suggestions()}/>
     }
 
       let preview = <div className="swatch" style={{'backgroundColor' : this.props.layerCompliance.primary}}>  </div>
@@ -114,7 +135,7 @@ class LayerDetail extends React.Component {
           </div>
 
           <div>
-            <Subheader>Suggestions</Subheader>
+            {!this.props.layerCompliance.compliant && <Subheader>Suggestions</Subheader>}
             {suggestions}
           </div>
 
@@ -125,7 +146,7 @@ class LayerDetail extends React.Component {
             { this.renderTrendWithinColor() }
             <div className="divider24" />
 
-            <Text size="heading">Total Color Usage for {this.props.layerCompliance.prop}</Text>
+            <Text size="heading">Total Color Usage for {_.capitalize(this.props.layerCompliance.prop)}</Text>
             { this.renderTrendWithinProp() }
           </div>
 

@@ -13,14 +13,22 @@ export default class ColorSwatch extends React.Component {
 
 
   render() {
-    let details ;
+    let details = (
+      <div className="mt8 label padding bottom">
+        <Text size="subheading mt8" inheritColor>{this.props.hexvalue}</Text>
+      </div>
+    )
+
+    if (this.props.swatchOnly) {
+      details = null
+    }
+
     return (
       <div>
         <div class={`color-card ${this.props.small ? 'small' : ''}`} style={{background: this.props.hexvalue}} />
-        <div className="mt8 label padding bottom">
-          <Text size="subheading mt8" inheritColor>{this.props.hexvalue}</Text>
-        </div>
+        {details}
       </div>
     );
   }
+
 }

@@ -89,5 +89,12 @@ var setType = exports.setType = function setType(data) {
   };
 };
 
+var saved = exports.saved = function saved(data) {
+  return {
+    type: 'SAVED',
+    data: data
+  };
+};
+
 /***/ })
 /******/ ]);
