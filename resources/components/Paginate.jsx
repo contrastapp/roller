@@ -50,7 +50,7 @@ export default class Paginate extends React.Component {
 
       <div className="flex flexaic f-between paginate-row">
         <div className="btn-paginate" onClick={this.prev}>{prevBtn}</div>
-        <Text size="body" subdued>Page: {this.props.page} of {this.props.pages}</Text>
+        <Text size="body" subdued>{this.props.page} of {this.props.pages}</Text>
         <div className="btn-paginate" onClick={this.next}>{nextBtn}</div>
       </div>
 

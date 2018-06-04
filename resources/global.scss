@@ -126,6 +126,7 @@ body {
 
   &.small {
     min-height: 30px;
+  min-width: 30px;
     width: 30px;
   }
 }
@@ -496,9 +497,15 @@ textarea:focus, input:focus{ outline: none; }
 
 /********* Linter **********/
 
+.form-error {
+  color: $red-base;
+  font-size: 11px;
+}
+
 .layer-row {
   border-bottom: $border;
   padding: $s-12 $s-16;
+  cursor: pointer;
   &:hover {
     background: $gray-lighten-10;
 

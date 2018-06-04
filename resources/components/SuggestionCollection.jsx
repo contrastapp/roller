@@ -18,7 +18,7 @@ class SuggestionCollection extends React.Component {
   }
 
   computeSuggestions(primary) {
-    let base_colors = this.props.colors
+    let base_colors = _.compact(this.props.colors)
 
     //Convert to RGB, then R, G, B
     var color = tinycolor(primary);
@@ -31,31 +31,35 @@ class SuggestionCollection extends React.Component {
     var differenceArray = [];
 
     _.each(base_colors, (value) => {
+      value = value.hex
       var base_color_rgb = tinycolor(value).toRgb();
       var base_colors_r = base_color_rgb.r;
       var base_colors_g = base_color_rgb.g;
       var base_colors_b = base_color_rgb.b;
 
-      differenceArray.push(Math.sqrt((color_r-base_colors_r)*(color_r-base_colors_r)+(color_g-base_colors_g)*(color_g-base_colors_g)+(color_b-base_colors_b)*(color_b-base_colors_b)));
+      differenceArray.push({hex: value, difference: Math.sqrt((color_r-base_colors_r)*(color_r-base_colors_r)+(color_g-base_colors_g)*(color_g-base_colors_g)+(color_b-base_colors_b)*(color_b-base_colors_b))});
     });
 
     //Get the lowest number from the differenceArray
-    var lowest = _.min(differenceArray);
+    // var lowest = _.min(differenceArray);
 
     //Get the index for that lowest number
-    var index = differenceArray.indexOf(lowest);
+    // var index = differenceArray.indexOf(lowest);
+
+    return _.map(_.take(_.sortBy(differenceArray, (d) => d.difference), 3), (d) => _.find(base_colors, {hex: d.hex}))
 
     //Return the HEX code
-    return base_colors[index];
+    // return base_colors[index];
   }
 
   render() {
     let swap = "No suggestions";
     let suggestions = []
     if (this.props.category === 'color'){
-      suggestions = this.props.suggestions || [this.computeSuggestions(this.props.primary)]
 
-      suggestions = _.map(suggestions, (suggestion) => {
+      suggestions = this.props.suggestions || this.computeSuggestions(this.props.primary)
+
+      suggestions = _.map(_.compact(suggestions), (suggestion) => {
         let hex = suggestion.hex
         let name = suggestion.name
         return (

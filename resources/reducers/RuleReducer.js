@@ -1,5 +1,6 @@
 const initialState = {
   colors: [],
+  saved: false,
 }
 
 
@@ -9,6 +10,8 @@ const pages = (state = initialState, action) => {
       return {...state, colors: action.data};
     case 'SET_TYPE':
       return {...state, typography: action.data};
+    case 'SAVED':
+      return {...state, saved: action.data};
     default:
       return state;
   }

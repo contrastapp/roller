@@ -22,9 +22,12 @@ class LayerCollection extends React.Component {
     this.colorCompliance = this.colorCompliance.bind(this)
     this.textCompliance = this.textCompliance.bind(this)
     this.onRequestClose = this.onRequestClose.bind(this)
+
+    this.state = {scrollPosition: 0}
   }
 
   clickLayer(layer) {
+    this.setState({scrollPosition: window.scrollY})
     this.props.setActiveLayer(layer)
   }
 
@@ -80,6 +83,7 @@ class LayerCollection extends React.Component {
   }
 
   onRequestClose() {
+    window.scrollTo(0,this.state.scrollPosition)
     this.props.clearLayer(this.props.activeLayer.id);
     if(!window.mock) {
       pluginCall('updateLayer', this.props.activeLayer.id)
@@ -107,7 +111,7 @@ class LayerCollection extends React.Component {
     }))
 
     if (_.keys(this.props.layers).length == 0) {
-      nestedLayers = <div className="flex flexaic flexjcc pt24 pb24 pr16 pl16"> Ready to Lint</div>
+      nestedLayers = <div className="flex flexaic flexjcc pt24 pb24 pr16 pl16">Click "Lint My File" Above To Get Started</div>
     } else {
       nestedLayers = _.map(layers, (styles) => <GroupContainer onClick={this.clickLayer} compliance={styles} />)
     }

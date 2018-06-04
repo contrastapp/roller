@@ -17176,11 +17176,7 @@ function onRun(context) {
 
 
         // let respectiveProp = _.find(props, (r) => _.includes(newStyle.hex, String(r.color().immutableModelObject().hexValue())))
-        // debugger
         // // respectiveProp.setColor(MSImmutableColor.colorWithSVGString(newStyle.hex).newMutableCounterpart());
-
-
-        // debugger
 
 
         sketch.fromNative(l).style[prop] = _.map(sketch.fromNative(l).style[prop], function (fillOrBorder) {
@@ -17312,7 +17308,11 @@ function postComplianceSelected(compliance) {
 
 function setRules() {
   var colors = context.api().settingForKey('colors');
-  webContents.executeJavaScript('setRules(\'' + String(String(String(JSON.stringify(JSON.parse(String(colors)))))) + '\')');
+  try {
+    webContents.executeJavaScript('setRules(\'' + String(String(String(JSON.stringify(JSON.parse(String(colors)))))) + '\')');
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 function setUser() {
@@ -17321,7 +17321,13 @@ function setUser() {
 }
 
 function parseColor(layer) {
-  var colors = JSON.parse(context.api().settingForKey('colors'));
+  var colors = [];
+  try {
+    colors = JSON.parse(context.api().settingForKey('colors'));
+  } catch (e) {
+    colors = [];
+  }
+
   colors = _.map(colors, function (c) {
     return tinycolor(String(c.hex)).toHex8();
   });

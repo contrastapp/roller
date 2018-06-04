@@ -81,7 +81,8 @@ var _extends = Object.assign || function (target) {
 };
 
 var initialState = {
-  colors: []
+  colors: [],
+  saved: false
 };
 
 var pages = function pages() {
@@ -93,6 +94,8 @@ var pages = function pages() {
       return _extends({}, state, { colors: action.data });
     case 'SET_TYPE':
       return _extends({}, state, { typography: action.data });
+    case 'SAVED':
+      return _extends({}, state, { saved: action.data });
     default:
       return state;
   }
