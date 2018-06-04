@@ -84,7 +84,7 @@ We'd love any and all feedback you may have. We're looking to add tons of new fe
 
 You can find us just about anywhere...
 
-twitter @toyboxsystems
+twitter https://twitter.com/toyboxsystems
 
 spectrum https://spectrum.chat/toybox
 
