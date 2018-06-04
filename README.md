@@ -3,6 +3,9 @@
 ## Opening Roller
 Click the Plugins dropdown > Go To Roller > Click Lint
 
+![enter image description here](http://toybox-public.s3.amazonaws.com/Lint%20Menu.png)
+
+
 ## Login
 Enter your email address and confirm. You only have to do this once unless you sign out.
 
@@ -26,7 +29,7 @@ To get started, click the "Lint My File" button.
 
 Roller will start scanning the colors within every page of your Sketch file. This may take a little longer if your file has thousands of layers :)
 
-![enter image description here](http://toybox-public.s3.amazonaws.com/Ready%20To%20Lint.png)
+![enter image description here](http://toybox-public.s3.amazonaws.com/Click%20Lint%20My%20File.png)
 
 ## Viewing Results
 Once Roller has finished linting, you will see a list of every use of color in your sketch file - grouped by hex value.
@@ -78,3 +81,5 @@ To re-lint the entire file for new layers and changes you made outside of the pl
 
 ## Feedback
 We'd love any and all feedback you may have. We're looking to add tons of new features and improvements over time based on what your needs :) 
+
+You can find us just about any where...twitter @toyboxsystems, spectrum https://spectrum.chat/toybox, the design systems slack channel @jono and @bmaho2211, and if where aren't somewhere we should be - let us know!
