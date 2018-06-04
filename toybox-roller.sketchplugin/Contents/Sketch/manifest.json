@@ -24,14 +24,14 @@
     }
   ],
   "menu": {
-    "title": "Audit",
+    "title": "Roller",
     "items": [
       "my-command-identifier",
       "upload-rules"
     ]
   },
   "version": "0.1.0",
-  "name": "toybox-roller",
+  "name": "Roller by Toybox",
   "disableCocoaScriptPreprocessor": true,
   "appcast": "https://raw.githubusercontent.com//master/.appcast.xml",
   "author": "Jono Kolnik",
