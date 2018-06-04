@@ -1,12 +1,11 @@
-# Roller
+# Getting Started With Roller
 
-
-# Getting Started
 ## Open Roller
 Plugins menu > Roller > Lint
 
 ## Login
 Enter your email address and confirm it. That's it! (You only have to do this once unless you sign out)
+
 ![enter image description here](http://toybox-public.s3.amazonaws.com/Sign%20Up.png)
 
 ## Ready to Lint
@@ -29,7 +28,6 @@ Click "Save"
 
 ![enter image description here](http://toybox-public.s3.amazonaws.com/Settings.png)
 
-
 ## Viewing Results
 
 This is every use of color in your sketch file grouped by hex value. From here you can dive into the use of any color in border, fill, or text. 
@@ -44,18 +42,19 @@ If you have colors in your settings, than the colors that do NOT match will be t
 
 ![enter image description here](http://toybox-public.s3.amazonaws.com/List.png)
 
-
 ## Detail view
 
 The detail view is where you can dive deeper into the use of a specific color. 
+
 ![enter image description here](http://toybox-public.s3.amazonaws.com/Top%20of%20Detail%20View.png)
+
 ### Navigate Layers
 You can view each occurrence of a color in the sketch file by paging through them with the right and left arrows. This will select the layer with in the file and zoom to that selection.
-
 
 ### Suggestions
 
 Roller suggests colors from your "rules" that are closet to the respective error.
+
 ![enter image description here](http://toybox-public.s3.amazonaws.com/Suggestions.png)
 
 If you have colors in your settings, than the colors that match will be treated as trends, so you can inspect if these colors are being used as expected. 
@@ -66,6 +65,7 @@ Click any of the suggestions to replace that specific property, whether it be fi
 Roller provides insights about how this specific color is used within your file.
 
 It can give the breakdown by property
+
 ![enter image description here](http://toybox-public.s3.amazonaws.com/Border%20Pie.png)
 
 Also it can show what other colors are used for the respective property
