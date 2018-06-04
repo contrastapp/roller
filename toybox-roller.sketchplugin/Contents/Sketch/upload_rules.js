@@ -372,7 +372,7 @@ function onRun(context) {
 
   // context.api().setSettingForKey('colors', [1,2,3])
   // console.log(context.api().settingForKey('colors'))
-  context.api().setSettingForKey('colors', _.map(paletteContents.colors, 'value'));
+  context.api().setSettingForKey('colors', JSON.stringify(paletteContents.colors));
   var colors = context.api().settingForKey('colors');
   console.log("colors upload");
   console.log(colors);

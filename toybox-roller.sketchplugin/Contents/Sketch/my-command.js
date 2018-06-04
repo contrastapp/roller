@@ -17119,6 +17119,7 @@ function onRun(context) {
   // only show the window when the page has loaded
   browserWindow.once('ready-to-show', function () {
     browserWindow.show();
+    context.api().setSettingForKey('colors', null);
     setRules(context);
     setUser(context);
   });
