@@ -90,14 +90,14 @@ In the meantime, when you click into a specific color from the list view, that l
 To re-lint the entire file for new layers and changes you made outside of the plugin in - please click the "Lint File" button at the top of the Homepage.
 
 ## Feedback
-We'd love any and all feedback you may have. We're looking to add tons of new features and improvements over time based on what your needs :) 
+We'd love any and all feedback you may have. We're looking to add tons of new features and improvements over time based on your needs :) 
 
-You can find us just about anywhere...
+You can find us:
 
-twitter https://twitter.com/toyboxsystems
+Twitter: https://twitter.com/toyboxsystems
 
-spectrum https://spectrum.chat/toybox
+Spectrum: https://spectrum.chat/toybox
 
-the design systems slack channel @jono and @bmaho2211
+Design Systems Slack Channel: @jono and @bmaho2211
 
-and last of all if where aren't somewhere we should be - let us know!
+Look forward to hearing from you all!
