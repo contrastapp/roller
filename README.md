@@ -82,4 +82,12 @@ To re-lint the entire file for new layers and changes you made outside of the pl
 ## Feedback
 We'd love any and all feedback you may have. We're looking to add tons of new features and improvements over time based on what your needs :) 
 
-You can find us just about any where...twitter @toyboxsystems, spectrum https://spectrum.chat/toybox, the design systems slack channel @jono and @bmaho2211, and if where aren't somewhere we should be - let us know!
+You can find us just about anywhere...
+
+twitter @toyboxsystems
+
+spectrum https://spectrum.chat/toybox
+
+the design systems slack channel @jono and @bmaho2211
+
+and last of all if where aren't somewhere we should be - let us know!
