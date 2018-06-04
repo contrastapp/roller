@@ -2,6 +2,8 @@
 # Introducing Roller by Toybox
 Roller is the first Linter for Designers. It works just like spell-check but within your Sketch files - helping you and your team identify design inconsistencies and suggesting edits while you work.
 
+Download the zip to get started ^, view the documentation below, and visit our site (www.toyboxsystems.com/roller) to learn more :) 
+
 
 ![enter image description here](http://toybox-public.s3.amazonaws.com/linthero.png)
 
