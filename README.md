@@ -13,7 +13,7 @@ Click "Lint My File" button
 
 This may take a little longer if your file has thousands of layers :)
 
-![enter image description here](http://toybox-public.s3.amazonaws.com/Ready%20To%20Lint.png)
+![enter image description here](http://toybox-public.s3.amazonaws.com/Click%20Lint%20My%20File.png)
 
 ## Adding your color palette (optional)
 If you have a list of colors that would like to lint against you can add them in settings.
