@@ -1,6 +1,6 @@
 {
   "name": "toybox-roller",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Roller is the first Linter for Designers. It works just like spell-check but within your Sketch files.",
   "engines": {
     "sketch": ">=3.0"
