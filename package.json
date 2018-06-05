@@ -1,8 +1,12 @@
 {
   "name": "toybox-roller",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "description": "Roller is the first Linter for Designers. It works just like spell-check but within your Sketch files.",
   "engines": {
     "sketch": ">=3.0"
+  },
+  "repository": {
+    "url": "https://github.com/toyboxsystems/roller"
   },
   "skpm": {
     "name": "Roller by Toybox",
