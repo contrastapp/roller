@@ -96,7 +96,7 @@ class LayerDetail extends React.Component {
       }
 
     let caption;
-    if (this.props.colors.length > 0 && !this.props.layerCompliance.compliant) {
+    if (_.get(this.props.colors, 'length') > 0 && !this.props.layerCompliance.compliant) {
       caption = <Text size="body">Misuse of {this.props.layerCompliance.category} within {this.props.layerCompliance.prop}</Text>
     } else {
       caption = <Text size="body">{this.props.layerCompliance.category === 'color' ? 'Color' : ''} trend data on {this.props.layerCompliance.prop} </Text>
