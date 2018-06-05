@@ -5,7 +5,7 @@ Roller is the first Linter for Designers. It works just like spell-check but wit
 Download the zip to get started, view the documentation below, or visit our site - www.toyboxsystems.com/roller - to learn more :) 
 
 
-![enter image description here](http://toybox-public.s3.amazonaws.com/linthero.png)
+![enter image description here](http://toybox-public.s3.amazonaws.com/ToyboxRoller.gif)
 
 
 # Getting Started With Roller
