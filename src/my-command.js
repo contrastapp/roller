@@ -245,7 +245,7 @@ function parseColor(layer) {
     if (_.get(layer, 'style')) {
       let attrs = {
         id: layer.id,
-        name: layer.name,
+        name: escape(layer.name),
         category: category,
         prop: prop,
         createdAt: Date.now(),
