@@ -2,7 +2,7 @@ const initialState = {
   layers: {},
   layerMap: {},
   activeLayer: null,
-  page: 0,
+  page: {errors: 0, trends: 0},
 }
 
 
@@ -61,9 +61,9 @@ const pages = (state = initialState, action) => {
 
       return buildLayers(state, layerMap);
     case 'NEXT_PAGE':
-      return {...state, page: state.page + 1};
+      return {...state, page: {...state.page, [action.tab]: state.page[action.tab] +  1}};
     case 'PREV_PAGE':
-      return {...state, page: state.page - 1};
+      return {...state, page: {...state.page, [action.tab]: state.page[action.tab] - 1}};
     default:
       return state;
   }

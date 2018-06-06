@@ -1,4 +1,5 @@
 @import '_variables';
+@import 'react-tabs';
 
 // @import "font-awesome";
 // @import 'variables';
@@ -496,6 +497,18 @@ textarea:focus, input:focus{ outline: none; }
 }
 
 /********* Linter **********/
+
+.rules-csv-example {
+
+  td,th {
+    border: 1px solid $gray-lighten-10;
+  }
+  tr, td{
+    padding: 10px;
+    text-align: left;
+  }
+
+}
 
 .form-error {
   color: $red-base;

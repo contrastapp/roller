@@ -238,6 +238,12 @@ $btn-shadow: 0 1px 1px 0 rgba(33,43,54,0.06);
   &.btn-large { padding: $s-12 $s-24; }
   &.btn-full { width: 100%; }
 
+  &.link {
+    border: none;
+    background: none;
+    text-decoration: underline;
+  }
+
   &.btn-primary {
     border: 1px solid $blue-base;
     background: linear-gradient(180deg, #0883E6 0%, $blue-base 100%);

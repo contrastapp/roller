@@ -28,6 +28,7 @@ export default function onRun(context) {
   browserWindow.once('ready-to-show', () => {
     browserWindow.show()
     setRules(context)
+    setOnboarded(context)
     setUser(context)
   })
 
@@ -53,6 +54,11 @@ export default function onRun(context) {
   webContents.on('saveRules', (colors) => {
     context.api().setSettingForKey('colors', JSON.stringify(colors))
     setRules(context)
+  })
+
+  webContents.on('onboarded', (flag) => {
+    context.api().setSettingForKey('onboarded', JSON.stringify(flag))
+    setOnboarded(context)
   })
 
   webContents.on('saveUser', (email) => {
@@ -213,6 +219,11 @@ function setRules() {
   } catch (e) {
     console.log(e)
   }
+}
+
+function setOnboarded(context) {
+  let onboarded = context.api().settingForKey('onboarded')
+  webContents.executeJavaScript(`setOnboarded('${String(String(JSON.stringify(JSON.parse(String(onboarded)))))}')`)
 }
 
 function setUser() {

@@ -5,15 +5,80 @@ import UserForm from './components/UserForm'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faCog, faLightbulb }  from '@fortawesome/fontawesome-free-solid'
 import pluginCall from 'sketch-module-web-view/client'
+import Text from "./components/Text";
 import Modal from 'react-modal';
+import RulesDropZone from './components/RulesDropZone';
+import Button from "./components/Button";
 
 class Test extends React.Component {
   constructor(props) {
     super(props)
+
+
+    this.onBoard = this.onBoard.bind(this)
+    this.closeOnboard = this.closeOnboard.bind(this)
+    this.settingsPage= this.settingsPage.bind(this)
+    this.handleSubmit= this.handleSubmit.bind(this)
+    this.onDrop= this.onDrop.bind(this)
   }
 
   handleSubmit(data) {
-    pluginCall('saveUser', data)
+    if (!window.mock) {
+      pluginCall('saveUser', data)
+    }
+  }
+
+  onDrop() {
+    this.closeOnboard()
+    if (!window.mock) {
+      this.props.history.push('settings')
+    }
+  }
+
+  closeOnboard() {
+    if (!window.mock) {
+      pluginCall('onboarded', true)
+    }
+    this.props.setOnboarded(true)
+  }
+
+  settingsPage() {
+    this.closeOnboard()
+    this.props.history.push('settings')
+  }
+
+  onBoard() {
+    if (!_.get(this.props.user.user, 'email')) {
+      return <UserForm onSubmit={this.handleSubmit} />
+    }
+    if (!this.props.user.onboarded) {
+        return (
+          <div className="flex flexaic flexjcc f-column p24">
+            <div className="pb12 text-center">
+              <Text size="small">Let's Add Some Colors! 🎉</Text>
+              <Text size="body" subdued></Text>
+            </div>
+            <div className="mt12">
+              <div className="p12">
+                <RulesDropZone onComplete={this.onDrop}/>
+              </div>
+          <div className="flex f-column ">
+            <div className="p24 text-center">
+              <Text size="small">- OR -</Text>
+              <Text size="body" subdued></Text>
+            </div>
+              <div className="text-center pt12">
+                <div className="pb12">
+                <Button style="primary" onClick={this.settingsPage}>Add Colors Manually</Button>
+                </div>
+                  <Button style="link" size="small" onClick={this.closeOnboard}>Skip</Button>
+                <Text size="caption" subdued >You can always do this later in settings</Text>
+              </div>
+            </div>
+            </div>
+          </div>
+        )
+    }
   }
 
   render() {
@@ -33,10 +98,10 @@ class Test extends React.Component {
       <div className="container">
         <div className="flex f-between flexaic subheader" style={{display: this.props.layers.activeLayer ? 'none': 'flex'}} >
           <Modal
-            isOpen={!_.get(this.props.user.user, 'email')}
+            isOpen={!this.props.user.onboarded || !_.get(this.props.user.user, 'email')}
             style={customStyles}
           >
-            <UserForm onSubmit={this.handleSubmit} />
+            {this.onBoard()}
           </Modal>
 
           <img width="21.58" height="25" src="http://toybox-public.s3.amazonaws.com/Asset%201@2x.png" />

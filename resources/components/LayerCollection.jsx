@@ -10,6 +10,7 @@ import moment from 'moment'
 import pluginCall from "sketch-module-web-view/client"
 import Modal from 'react-modal';
 import GroupContainer from '../containers/GroupContainer';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 class LayerCollection extends React.Component {
   constructor(props) {
@@ -31,12 +32,12 @@ class LayerCollection extends React.Component {
     this.props.setActiveLayer(layer)
   }
 
-  prev() {
-    this.props.prevPage()
+  prev(tab) {
+    this.props.prevPage(tab)
   }
 
-  next() {
-    this.props.nextPage()
+  next(tab) {
+    this.props.nextPage(tab)
   }
 
 
@@ -104,16 +105,83 @@ class LayerCollection extends React.Component {
     let pages = 1
     let layers = _.filter(_.map(this.props.layers, (l, id) => this.relevantLayers(l[0])), (group) => group.length > 0 )
 
-    pages = _.chunk(layers, chunk)
-    let page = pages[this.props.page]
-    layers = _.reverse(_.sortBy(page, (l) => {
-      return _.reverse(_.sortBy(l, 'createdAt'))[0].createdAt
-    }))
 
     if (_.keys(this.props.layers).length == 0) {
       nestedLayers = <div className="flex flexaic flexjcc pt24 pb24 pr16 pl16">Click "Lint My File" Above To Get Started</div>
     } else {
-      nestedLayers = _.map(layers, (styles) => <GroupContainer onClick={this.clickLayer} compliance={styles} />)
+      let compliantLayers ;
+      let noncompliantLayers ;
+      let  primaryTab;
+      let  secondaryTab;
+        layers = _.reverse(_.sortBy(layers, (l) => {
+          return _.reverse(_.sortBy(l, 'createdAt'))[0].createdAt
+        }))
+        let tabs = _.groupBy(layers, (l) => l[0].compliant)
+
+        pagesTrends = _.chunk(tabs[true], chunk)
+        pagesErrors = _.chunk(tabs[false], chunk)
+
+        let pageTrends = pagesTrends[this.props.page.trends]
+        let pageErrors = pagesErrors[this.props.page.errors]
+
+      if (_.get(this.props.colors, 'length') > 0) {
+
+        compliantLayers = (
+          <div>
+            <Paginate prev={() => this.prev('trends')} page={this.props.page.trends + 1} pages={_.get(pagesTrends, 'length', 0)} next={() => this.next('trends')}/>
+            <Subheader>Results:</Subheader>
+            {
+              _.map(pageTrends , (styles) => <GroupContainer onClick={this.clickLayer} compliance={styles} />)
+            }
+          </div>
+        )
+
+        noncompliantLayers = (
+          <div>
+            <Paginate prev={() => this.prev('errors')} page={this.props.page.errors + 1} pages={_.get(pagesErrors, 'length', 0)} next={() => this.next('errors')}/>
+            <Subheader>Results:</Subheader>
+            {
+              _.map(pageErrors, (styles) => <GroupContainer onClick={this.clickLayer} compliance={styles} />)
+            }
+          </div>
+        )
+
+        primaryTab = 'Errors'
+        secondaryTab = 'Trends'
+      } else {
+        noncompliantLayers = (
+          <div className="p48 text-center flex flexjcc">
+            <Text>Add some colors in settings to start linting for errors</Text>
+          </div>
+        )
+
+        compliantLayers = (
+          <div>
+            <Paginate prev={() => this.prev('errors')} page={this.props.page.errors + 1} pages={_.get(pagesErrors, 'length', 0)} next={() => this.next('errors')}/>
+            <Subheader>Results:</Subheader>
+            {
+              _.map(pageErrors, (styles) => <GroupContainer onClick={this.clickLayer} compliance={styles} />)
+            }
+          </div>
+        )
+        primaryTab = 'Trends'
+        secondaryTab = 'Errors'
+      }
+
+      nestedLayers =(
+        <Tabs>
+          <TabList>
+            <Tab>{primaryTab}</Tab>
+            <Tab>{secondaryTab}</Tab>
+          </TabList>
+          <TabPanel>
+            {noncompliantLayers}
+          </TabPanel>
+          <TabPanel>
+            {compliantLayers}
+          </TabPanel>
+        </Tabs>
+      )
     }
 
 
@@ -147,9 +215,7 @@ class LayerCollection extends React.Component {
               <Button size="full" style="default" onClick={() => pluginCall('getData', this.props.page) }>Lint My File</Button>
             </div>
 
-            <Paginate prev={this.prev} page={this.props.page + 1} pages={_.get(pages, 'length', 0)} next={this.next}/>
 
-            <Subheader>Results:</Subheader>
             <div className='layer-grid'>
               {nestedLayers}
             </div>
