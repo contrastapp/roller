@@ -27,7 +27,7 @@ export default function onRun(context) {
   // only show the window when the page has loaded
   browserWindow.once('ready-to-show', () => {
     browserWindow.show()
-    setRules(context)
+    // setRules(context)
     setOnboarded(context)
     setUser(context)
   })
@@ -166,12 +166,12 @@ function pageLayers(page) {
 function getData(context) {
   const document = sketch.fromNative(context.document)
 
-  let layers = _.flattenDeep(_.map(document.pages, (page) => pageLayers(page)))
-  // let layers = _.flattenDeep(pageLayers(document.pages[0]))
+  // let layers = _.flattenDeep(_.map(document.pages, (page) => pageLayers(page)))
+  let layers = _.flattenDeep(pageLayers(document.pages[0]))
 
   console.log(layers.length)
 
-  // layers = _.chunk(layers, 100)[0]
+  layers = _.chunk(layers, 100)[0]
 
   postData(compliance(layers))
 }
