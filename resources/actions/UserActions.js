@@ -8,3 +8,9 @@ export const setUser = data => ({
   data,
 });
 
+export const setOnboarded = data => ({
+  type: 'SET_ONBOARDED',
+  data,
+});
+
+

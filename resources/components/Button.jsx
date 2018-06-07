@@ -31,6 +31,10 @@ export default class Button extends React.Component {
         classButton ='btn-primary'
         break;
 
+      case 'link':
+        classButton ='link'
+        break;
+
       case 'default':
         classButton ='btn-default'
         break;
@@ -38,7 +42,6 @@ export default class Button extends React.Component {
     }
 
     return (
-
         <button onClick={this.props.onClick} className={`tb-btn ${className} ${classButton}`}>
           <Text size="body" inheritColor>{this.props.children}</Text>
         </button>

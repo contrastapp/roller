@@ -17120,6 +17120,7 @@ function onRun(context) {
   browserWindow.once('ready-to-show', function () {
     browserWindow.show();
     setRules(context);
+    setOnboarded(context);
     setUser(context);
   });
 
@@ -17147,8 +17148,17 @@ function onRun(context) {
     setRules(context);
   });
 
+  webContents.on('onboarded', function (flag) {
+    context.api().setSettingForKey('onboarded', JSON.stringify(flag));
+    setOnboarded(context);
+  });
+
   webContents.on('saveUser', function (email) {
     context.api().setSettingForKey(emailKey, JSON.stringify(email));
+    if (email == null) {
+      context.api().setSettingForKey('onboarded', JSON.stringify(false));
+      setOnboarded(context);
+    }
     setUser(context);
   });
 
@@ -17261,7 +17271,7 @@ function getData(context) {
   }));
   // let layers = _.flattenDeep(pageLayers(document.pages[0]))
 
-  console.log(layers.length);
+  // console.log(layers.length)
 
   // layers = _.chunk(layers, 100)[0]
 
@@ -17313,6 +17323,11 @@ function setRules() {
   } catch (e) {
     console.log(e);
   }
+}
+
+function setOnboarded(context) {
+  var onboarded = context.api().settingForKey('onboarded');
+  webContents.executeJavaScript('setOnboarded(\'' + String(String(String(JSON.stringify(JSON.parse(String(onboarded)))))) + '\')');
 }
 
 function setUser() {
@@ -17469,6 +17484,14 @@ function selectLayer(id) {
   rect = NSMakeRect(x, y, width, height);
 
   // MSDocument.currentDocument().contentDrawView().zoomToFitRect(layers[0].absoluteRect().rect())
+
+  var parent = sketch.fromNative(layer).parent;
+  while (parent.type != 'Page') {
+    parent = parent.parent;
+  }
+
+  document.sketchObject.setCurrentPage(parent.sketchObject);
+
   MSDocument.currentDocument().contentDrawView().zoomToFitRect(rect);
 
   return layers;

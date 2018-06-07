@@ -110,15 +110,17 @@ var setActiveLayer = exports.setActiveLayer = function setActiveLayer(data) {
   };
 };
 
-var nextPage = exports.nextPage = function nextPage() {
+var nextPage = exports.nextPage = function nextPage(tab) {
   return {
-    type: 'NEXT_PAGE'
+    type: 'NEXT_PAGE',
+    tab: tab
   };
 };
 
-var prevPage = exports.prevPage = function prevPage() {
+var prevPage = exports.prevPage = function prevPage(tab) {
   return {
-    type: 'PREV_PAGE'
+    type: 'PREV_PAGE',
+    tab: tab
   };
 };
 

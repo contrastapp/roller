@@ -82,5 +82,12 @@ var setUser = exports.setUser = function setUser(data) {
   };
 };
 
+var setOnboarded = exports.setOnboarded = function setOnboarded(data) {
+  return {
+    type: 'SET_ONBOARDED',
+    data: data
+  };
+};
+
 /***/ })
 /******/ ]);

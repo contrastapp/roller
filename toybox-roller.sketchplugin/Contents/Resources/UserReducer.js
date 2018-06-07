@@ -81,7 +81,8 @@ var _extends = Object.assign || function (target) {
 };
 
 var initialState = {
-  user: {}
+  user: {},
+  onboarded: false
 };
 
 var user = function user() {
@@ -91,6 +92,8 @@ var user = function user() {
   switch (action.type) {
     case 'SET_USER':
       return _extends({}, state, { user: action.data });
+    case 'SET_ONBOARDED':
+      return _extends({}, state, { onboarded: action.data });
     default:
       return state;
   }

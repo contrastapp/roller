@@ -28,12 +28,14 @@ export const setActiveLayer = data => ({
   data,
 });
 
-export const nextPage = () => ({
+export const nextPage = (tab) => ({
   type: 'NEXT_PAGE',
+  tab,
 });
 
-export const prevPage = () => ({
+export const prevPage = (tab) => ({
   type: 'PREV_PAGE',
+  tab,
 });
 
 

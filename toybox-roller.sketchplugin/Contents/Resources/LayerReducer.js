@@ -70,6 +70,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i];for (var key in source) {
@@ -84,7 +87,7 @@ var initialState = {
   layers: {},
   layerMap: {},
   activeLayer: null,
-  page: 0
+  page: { errors: 0, trends: 0 }
 };
 
 function buildLayers(state, layerMap) {
@@ -146,9 +149,9 @@ var pages = function pages() {
 
       return buildLayers(state, layerMap);
     case 'NEXT_PAGE':
-      return _extends({}, state, { page: state.page + 1 });
+      return _extends({}, state, { page: _extends({}, state.page, _defineProperty({}, action.tab, state.page[action.tab] + 1)) });
     case 'PREV_PAGE':
-      return _extends({}, state, { page: state.page - 1 });
+      return _extends({}, state, { page: _extends({}, state.page, _defineProperty({}, action.tab, state.page[action.tab] - 1)) });
     default:
       return state;
   }

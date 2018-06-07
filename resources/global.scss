@@ -1,4 +1,5 @@
 @import '_variables';
+@import 'react-tabs';
 
 // @import "font-awesome";
 // @import 'variables';
@@ -27,16 +28,8 @@ body {
 .falign-end {align-items: flex-end; }
 
 
-.f-row {
-  display: flex;
-  flex-direction: row;
-}
-
-.f-column {
-  display: flex;
-  flex-flow: column;
-  flex-grow: 1;
-}
+.f-row { flex-direction: row; }
+.f-column { flex-flow: column; }
 
 .f-quarter { flex-basis: 25% }
 
@@ -49,6 +42,7 @@ body {
 .f-grow { flex-grow: 1; }
 
 .text-center {text-align: center;}
+.text-left {text-align: left;}
 
 
 /********* Card **********/
@@ -496,6 +490,18 @@ textarea:focus, input:focus{ outline: none; }
 }
 
 /********* Linter **********/
+
+.rules-csv-example {
+
+  td,th {
+    border: 1px solid $gray-lighten-10;
+  }
+  tr, td{
+    padding: 10px;
+    text-align: left;
+  }
+
+}
 
 .form-error {
   color: $red-base;
