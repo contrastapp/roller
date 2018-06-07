@@ -130,9 +130,17 @@ window.layerSelected = function (compliantArr) {
   window.blur()
 }
 
+window.resetLayers = function () {
+  store.dispatch(layerActions.resetLayers())
+}
+
 window.setRules = function (rules) {
   store.dispatch(ruleActions.setColors(JSON.parse(rules)))
   store.dispatch(ruleActions.saved(true))
+}
+
+window.postFileError = function (msg) {
+  store.dispatch(ruleActions.setErrorMessage(msg))
 }
 
 window.setUser = function (user) {
@@ -140,7 +148,7 @@ window.setUser = function (user) {
   store.dispatch(userActions.setUser(userJson))
 
   if (userJson) {
-    analytics.identify(userJson.email)
+    analytics.identify(userJson.email, {email: userJson.email})
   }
 }
 

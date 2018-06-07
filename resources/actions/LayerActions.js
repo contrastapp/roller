@@ -13,6 +13,10 @@ export const clearLayer = data => ({
   data,
 });
 
+export const resetLayers = () => ({
+  type: 'RESET_LAYERS',
+});
+
 export const selectLayer = data => ({
   type: 'SET_ACTIVE_LAYER',
   data,

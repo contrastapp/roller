@@ -47,6 +47,8 @@ const pages = (state = initialState, action) => {
   let layerMap;
   let textGroups;
   switch (action.type) {
+    case 'RESET_LAYERS':
+      return {...state, layerMap: {}};
     case 'SET_LAYERS':
       return setLayers(state, action)
     case 'SET_ACTIVE_LAYER':

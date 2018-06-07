@@ -11,7 +11,7 @@ import pluginCall from 'sketch-module-web-view/client'
 import { connect } from 'react-redux'
 
 import RulesForm from "./RulesForm"
-import RulesDropZone from './RulesDropZone';
+import RulesDropZoneContainer from '../containers/RulesDropZoneContainer';
 import Papa from 'papaparse';
 
 class Settings extends React.Component {
@@ -110,7 +110,7 @@ class Settings extends React.Component {
         </Subheader>
 
         <div className="p24">
-          <RulesDropZone />
+          <RulesDropZoneContainer />
         </div>
 
 

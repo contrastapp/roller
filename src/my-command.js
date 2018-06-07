@@ -6,6 +6,7 @@ const tinycolor = require('tinycolor2')
 const _ = require('lodash')
 const momemt = require('moment')
 
+const Papa = require('papaparse');
 const emailKey = 'toyboxRollerUser'
 
 const options = {
@@ -22,6 +23,7 @@ const options = {
 let browserWindow = new BrowserWindow(options)
 let webContents = browserWindow.webContents
 let loaded = false
+let currentDocumentId = null
 
 export default function onRun(context) {
   // only show the window when the page has loaded
@@ -42,6 +44,45 @@ export default function onRun(context) {
     var whereTo = options.redirectTo;
     webContents.executeJavaScript("window.redirectTo=\"" + String(whereTo) + "\"")
   })
+
+  webContents.on('openFile', () => {
+    var openPanel = NSOpenPanel.openPanel()
+    openPanel.setCanChooseDirectories(false)
+    openPanel.setCanChooseFiles(true)
+    openPanel.setCanCreateDirectories(false)
+    openPanel.setAllowedFileTypes(['json', 'csv'])
+    openPanel.setDirectoryURL(NSURL.fileURLWithPath('~/Documents/'))
+
+    openPanel.setTitle('Choose a file')
+    openPanel.setPrompt('Choose')
+    openPanel.runModal()
+
+    var file = openPanel.URLs().firstObject()
+    var filePath = file.path();
+    var fileContents = NSString.stringWithContentsOfFile(filePath);
+    if (file.pathExtension() == 'json') {
+      var paletteContents = JSON.parse(fileContents);
+
+      var colors = paletteContents.colors
+      const keys = _.uniq(_.flatten(_.map(colors, _.keys)))
+      if (_.isEqual(keys.sort(),["name","hex"].sort())) {
+        context.api().setSettingForKey('colors', JSON.stringify(colors))
+      } else {
+        postFileError('Please format JSON as { colors: [{name: "White", hex: "#FFFFFF"}]}')
+      }
+    }
+    if (file.pathExtension() == 'csv') {
+      var results = Papa.parse(String(fileContents), {header: true});
+      validHeaders = _.isEqual(results.meta.fields.sort(),['name','hex'].sort())
+      if (validHeaders) {
+        context.api().setSettingForKey('colors', JSON.stringify(results.data))
+      } else {
+        postFileError('Please format CSV with headers: name, hex')
+      }
+    }
+    setRules(context)
+  })
+
 
   webContents.on('getData', (page) => {
     getData(context, page)
@@ -117,6 +158,7 @@ export default function onRun(context) {
   browserWindow.loadURL(require('../resources/webview.html'))
 }
 
+
 export function blurAfterSelection(context) {
   browserWindow.blur()
 }
@@ -154,42 +196,37 @@ function hexToColor(hex, alpha) {
 }
 
 function pageLayers(page) {
+  let layers;
   if (page.layers) {
-    let layers = page.layers
+    layers = page.layers
 
     while (_.find(layers, (layer) => layer.type == 'Artboard' || layer.type == 'Group')) {
       layers = _.flattenDeep(_.map(layers, (groupOrLayer) => _.get(groupOrLayer, 'layers', groupOrLayer)))
+      console.log(layers.length)
     }
-
-    return layers
+  } else {
+    layers = page
   }
 
-  return page
+  postData(compliance(layers))
 }
 
 function getData(context) {
-  const document = sketch.fromNative(context.document)
+  var document = require('sketch/dom').getSelectedDocument()
+  if (document.id != currentDocumentId) {
+    currentDocumentId = document.id
+    webContents.executeJavaScript(`resetLayers()`)
+  }
 
-  let layers = _.flattenDeep(_.map(document.pages, (page) => pageLayers(page)))
+  let layers = _.flattenDeep(_.map(document.pages, (page) => {
+    return pageLayers(page)
+  }))
   // let layers = _.flattenDeep(pageLayers(document.pages[0]))
 
   // console.log(layers.length)
 
   // layers = _.chunk(layers, 100)[0]
 
-  postData(compliance(layers))
-}
-
-function parseDocument(context) {
-  const document = sketch.fromNative(context.document)
-
-  let layers = _.flattenDeep(_.map(document.pages, (page) => pageLayers(page)))
-
-  console.log(layers.length)
-
-  layers = _.chunk(layers, 100)[0]
-
-  postCompliance(compliance(layers))
 }
 
 function compliance(layers) {
@@ -209,6 +246,10 @@ function postCompliance(compliance) {
 
 function postData(compliance) {
   webContents.executeJavaScript(`postData('${JSON.stringify(compliance)}')`)
+}
+
+function postFileError(msg) {
+  webContents.executeJavaScript(`postFileError('${msg}')`)
 }
 
 function postComplianceSelected(compliance) {
@@ -279,9 +320,11 @@ function parseColor(layer) {
         let color = '000';
         if (layer.sketchObject.style().textStyle()) {
           fontFamily = String(layer.sketchObject.style().textStyle().attributes().NSFont.fontDescriptor().objectForKey(NSFontNameAttribute))
-          color = layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute.hexValue()
-          color = `#${color}`
+          if (layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute) {
+            color = layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute.hexValue()
+          }
         }
+        color = `#${color}`
 
         return ([
           {
@@ -360,7 +403,7 @@ let oldSelection = []
 let newSelection = []
 
 function selectLayer(id) {
-  const document = sketch.fromNative(context.document)
+  var document = require('sketch/dom').getSelectedDocument()
   let layers = _.compact(_.flattenDeep(_.map(document.pages, (page) => {
     page = page.sketchObject
     if(page.deselectAllLayers){
