@@ -30,7 +30,7 @@
       "upload-rules"
     ]
   },
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Roller is the first Linter for Designers. It works just like spell-check but within your Sketch files.",
   "name": "Roller by Toybox",
   "disableCocoaScriptPreprocessor": true,
