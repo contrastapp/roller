@@ -403,7 +403,7 @@ let oldSelection = []
 let newSelection = []
 
 function selectLayer(id) {
-  const document = sketch.fromNative(context.document)
+  var document = require('sketch/dom').getSelectedDocument()
   let layers = _.compact(_.flattenDeep(_.map(document.pages, (page) => {
     page = page.sketchObject
     if(page.deselectAllLayers){

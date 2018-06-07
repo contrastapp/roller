@@ -65,7 +65,7 @@ var exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 149);
+/******/ 	return __webpack_require__(__webpack_require__.s = 150);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1907,7 +1907,7 @@ var exports =
             try {
                 oldLocale = globalLocale._abbr;
                 var aliasedRequire = require;
-                __webpack_require__(167)("./" + name);
+                __webpack_require__(168)("./" + name);
                 getSetGlobalLocale(oldLocale);
             } catch (e) {}
         }
@@ -4754,9 +4754,9 @@ if (typeof Object.create === 'function') {
 /* WEBPACK VAR INJECTION */(function(console) {/* globals log */
 
 if (true) {
-  var sketchUtils = __webpack_require__(150)
-  var sketchDebugger = __webpack_require__(152)
-  var actions = __webpack_require__(154)
+  var sketchUtils = __webpack_require__(151)
+  var sketchDebugger = __webpack_require__(153)
+  var actions = __webpack_require__(155)
 
   function getStack() {
     return sketchUtils.prepareStackTrace(new Error().stack)
@@ -5548,7 +5548,7 @@ exports.Readable = exports;
 exports.Writable = __webpack_require__(13);
 exports.Duplex = __webpack_require__(1);
 exports.Transform = __webpack_require__(147);
-exports.PassThrough = __webpack_require__(178);
+exports.PassThrough = __webpack_require__(179);
 
 
 /***/ }),
@@ -5747,7 +5747,7 @@ process.umask = function() { return 0; };
 /***/ (function(module, exports, __webpack_require__) {
 
 /* globals coscript, sketch */
-var fiberAvailable = __webpack_require__(170)
+var fiberAvailable = __webpack_require__(171)
 
 var setTimeout
 var clearTimeout
@@ -5884,7 +5884,7 @@ util.inherits = __webpack_require__(2);
 
 /*<replacement>*/
 var internalUtil = {
-  deprecate: __webpack_require__(177)
+  deprecate: __webpack_require__(178)
 };
 /*</replacement>*/
 
@@ -6499,7 +6499,7 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(176)["setImmediate"], __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(177)["setImmediate"], __webpack_require__(4)))
 
 /***/ }),
 /* 14 */
@@ -6829,7 +6829,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.SuperCall = undefined;
 exports.default = ObjCClass;
 
-var _runtime = __webpack_require__(157);
+var _runtime = __webpack_require__(158);
 
 exports.SuperCall = _runtime.SuperCall;
 
@@ -18833,7 +18833,7 @@ util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
 /*<replacement>*/
-var debugUtil = __webpack_require__(173);
+var debugUtil = __webpack_require__(174);
 var debug = void 0;
 if (debugUtil && debugUtil.debuglog) {
   debug = debugUtil.debuglog('stream');
@@ -18842,7 +18842,7 @@ if (debugUtil && debugUtil.debuglog) {
 }
 /*</replacement>*/
 
-var BufferList = __webpack_require__(174);
+var BufferList = __webpack_require__(175);
 var destroyImpl = __webpack_require__(145);
 var StringDecoder;
 
@@ -19816,8 +19816,8 @@ module.exports = __webpack_require__(9).EventEmitter;
 
 
 
-var base64 = __webpack_require__(171)
-var ieee754 = __webpack_require__(172)
+var base64 = __webpack_require__(172)
+var ieee754 = __webpack_require__(173)
 var isArray = __webpack_require__(142)
 
 exports.Buffer = Buffer
@@ -22208,6 +22208,12 @@ module.exports = "file://" + context.plugin.urlForResourceNamed("_webpack_resour
 
 /***/ }),
 /* 149 */
+/***/ (function(module, exports) {
+
+module.exports = require("sketch/dom");
+
+/***/ }),
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(console) {Object.defineProperty(exports, "__esModule", {
@@ -22217,7 +22223,7 @@ exports['default'] = onRun;
 exports.blurAfterSelection = blurAfterSelection;
 exports.onSelectionChanged = onSelectionChanged;
 
-var _sketchModuleWebView = __webpack_require__(155);
+var _sketchModuleWebView = __webpack_require__(156);
 
 var _sketchModuleWebView2 = _interopRequireDefault(_sketchModuleWebView);
 
@@ -22233,14 +22239,14 @@ var _extends = Object.assign || function (target) {
   }return target;
 };
 
-var UI = __webpack_require__(163);
-var sketch = __webpack_require__(164);
+var UI = __webpack_require__(164);
+var sketch = __webpack_require__(165);
 var toArray = __webpack_require__(8);
-var tinycolor = __webpack_require__(165);
-var _ = __webpack_require__(166);
+var tinycolor = __webpack_require__(166);
+var _ = __webpack_require__(167);
 var momemt = __webpack_require__(0);
 
-var Papa = __webpack_require__(168);
+var Papa = __webpack_require__(169);
 var emailKey = 'toyboxRollerUser';
 
 var options = {
@@ -22448,7 +22454,7 @@ function pageLayers(page) {
 }
 
 function getData(context) {
-  var document = __webpack_require__(183).getSelectedDocument();
+  var document = __webpack_require__(149).getSelectedDocument();
   if (document.id != currentDocumentId) {
     currentDocumentId = document.id;
     webContents.executeJavaScript('resetLayers()');
@@ -22462,20 +22468,6 @@ function getData(context) {
   // console.log(layers.length)
 
   // layers = _.chunk(layers, 100)[0]
-}
-
-function parseDocument(context) {
-  var document = sketch.fromNative(context.document);
-
-  var layers = _.flattenDeep(_.map(document.pages, function (page) {
-    return pageLayers(page);
-  }));
-
-  console.log(layers.length);
-
-  layers = _.chunk(layers, 100)[0];
-
-  postCompliance(compliance(layers));
 }
 
 function compliance(layers) {
@@ -22647,7 +22639,7 @@ var oldSelection = [];
 var newSelection = [];
 
 function selectLayer(id) {
-  var document = sketch.fromNative(context.document);
+  var document = __webpack_require__(149).getSelectedDocument();
   var layers = _.compact(_.flattenDeep(_.map(document.pages, function (page) {
     page = page.sketchObject;
     if (page.deselectAllLayers) {
@@ -22691,10 +22683,10 @@ function selectLayer(id) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 150 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var prepareValue = __webpack_require__(151)
+var prepareValue = __webpack_require__(152)
 
 module.exports.toArray = __webpack_require__(8)
 module.exports.prepareStackTrace = __webpack_require__(14)
@@ -22704,7 +22696,7 @@ module.exports.prepareArray = prepareValue.prepareArray
 
 
 /***/ }),
-/* 151 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-disable no-not-accumulator-reassign/no-not-accumulator-reassign, no-var, vars-on-top, prefer-template, prefer-arrow-callback, func-names, prefer-destructuring, object-shorthand */
@@ -22881,11 +22873,11 @@ module.exports.prepareArray = prepareArray
 
 
 /***/ }),
-/* 152 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-disable no-not-accumulator-reassign/no-not-accumulator-reassign, no-var, vars-on-top, prefer-template, prefer-arrow-callback, func-names, prefer-destructuring, object-shorthand */
-var remoteWebview = __webpack_require__(153)
+var remoteWebview = __webpack_require__(154)
 
 module.exports.identifier = 'skpm.debugger'
 
@@ -22908,7 +22900,7 @@ module.exports.sendToDebugger = function sendToDebugger(name, payload) {
 
 
 /***/ }),
-/* 153 */
+/* 154 */
 /***/ (function(module, exports) {
 
 /* globals NSThread */
@@ -22934,7 +22926,7 @@ module.exports.sendToWebview = function sendToWebview (identifier, evalString) {
 
 
 /***/ }),
-/* 154 */
+/* 155 */
 /***/ (function(module, exports) {
 
 module.exports.SET_TREE = 'elements/SET_TREE'
@@ -22953,16 +22945,16 @@ module.exports.SET_SCRIPT_RESULT = 'playground/SET_SCRIPT_RESULT'
 
 
 /***/ }),
-/* 155 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* let's try to match the API from Electron's Browser window
 (https://github.com/electron/electron/blob/master/docs/api/browser-window.md) */
 var EventEmitter = __webpack_require__(15)
-var buildBrowserAPI = __webpack_require__(156)
-var buildWebAPI = __webpack_require__(158)
-var fitSubviewToView = __webpack_require__(161)
-var dispatchFirstClick = __webpack_require__(162)
+var buildBrowserAPI = __webpack_require__(157)
+var buildWebAPI = __webpack_require__(159)
+var fitSubviewToView = __webpack_require__(162)
+var dispatchFirstClick = __webpack_require__(163)
 
 function BrowserWindow(options) {
   options = options || {}
@@ -23241,7 +23233,7 @@ module.exports = BrowserWindow
 
 
 /***/ }),
-/* 156 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ObjCClass = __webpack_require__(16).default
@@ -23895,7 +23887,7 @@ module.exports = function(browserWindow, panel, webview) {
 
 
 /***/ }),
-/* 157 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24005,13 +23997,13 @@ const object_setInstanceVariable = exports.object_setInstanceVariable = CFunc("o
 addStructToBridgeSupport('objc_super', { type: objc_super_typeEncoding });
 
 /***/ }),
-/* 158 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ObjCClass = __webpack_require__(16).default
 var EventEmitter = __webpack_require__(15)
-var parseWebArguments = __webpack_require__(159)
-var CONSTANTS = __webpack_require__(160)
+var parseWebArguments = __webpack_require__(160)
+var CONSTANTS = __webpack_require__(161)
 
 // We create one ObjC class for ourselves here
 var FrameLoadDelegateClass
@@ -24201,7 +24193,7 @@ module.exports = function buildAPI(browserWindow, panel, webview) {
 
 
 /***/ }),
-/* 159 */
+/* 160 */
 /***/ (function(module, exports) {
 
 module.exports = function(webArguments) {
@@ -24226,7 +24218,7 @@ module.exports = function(webArguments) {
 
 
 /***/ }),
-/* 160 */
+/* 161 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -24235,7 +24227,7 @@ module.exports = {
 
 
 /***/ }),
-/* 161 */
+/* 162 */
 /***/ (function(module, exports) {
 
 function addEdgeConstraint(edge, subview, view, constant) {
@@ -24263,7 +24255,7 @@ module.exports = function fitSubviewToView(subview, view, constants) {
 
 
 /***/ }),
-/* 162 */
+/* 163 */
 /***/ (function(module, exports) {
 
 var tagsToFocus =
@@ -24293,19 +24285,19 @@ module.exports = function(webView, event) {
 
 
 /***/ }),
-/* 163 */
+/* 164 */
 /***/ (function(module, exports) {
 
 module.exports = require("sketch/ui");
 
 /***/ }),
-/* 164 */
+/* 165 */
 /***/ (function(module, exports) {
 
 module.exports = require("sketch");
 
 /***/ }),
-/* 165 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;// TinyColor v1.4.1
@@ -25507,7 +25499,7 @@ else {
 
 
 /***/ }),
-/* 166 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -42620,7 +42612,7 @@ else {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(17)(module)))
 
 /***/ }),
-/* 167 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -42885,10 +42877,10 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 167;
+webpackContext.id = 168;
 
 /***/ }),
-/* 168 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*@license
@@ -43750,7 +43742,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 	function DuplexStreamStreamer(_config) {
-		var Duplex = __webpack_require__(169).Duplex;
+		var Duplex = __webpack_require__(170).Duplex;
 		var config = copy(_config);
 		var parseOnWrite = true;
 		var writeStreamHasFinished = false;
@@ -44674,7 +44666,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 169 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -44705,10 +44697,10 @@ var inherits = __webpack_require__(2);
 
 inherits(Stream, EE);
 Stream.Readable = __webpack_require__(10);
-Stream.Writable = __webpack_require__(179);
-Stream.Duplex = __webpack_require__(180);
-Stream.Transform = __webpack_require__(181);
-Stream.PassThrough = __webpack_require__(182);
+Stream.Writable = __webpack_require__(180);
+Stream.Duplex = __webpack_require__(181);
+Stream.Transform = __webpack_require__(182);
+Stream.PassThrough = __webpack_require__(183);
 
 // Backwards-compat with node 0.4.x
 Stream.Stream = Stream;
@@ -44807,7 +44799,7 @@ Stream.prototype.pipe = function(dest, options) {
 
 
 /***/ }),
-/* 170 */
+/* 171 */
 /***/ (function(module, exports) {
 
 module.exports = function () {
@@ -44816,7 +44808,7 @@ module.exports = function () {
 
 
 /***/ }),
-/* 171 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44974,7 +44966,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 172 */
+/* 173 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -45064,13 +45056,13 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 173 */
+/* 174 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 174 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45079,7 +45071,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Buffer = __webpack_require__(7).Buffer;
-var util = __webpack_require__(175);
+var util = __webpack_require__(176);
 
 function copyBuffer(src, target, offset) {
   src.copy(target, offset);
@@ -45155,13 +45147,13 @@ if (util && util.inspect && util.inspect.custom) {
 }
 
 /***/ }),
-/* 175 */
+/* 176 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 176 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* globals coscript, sketch */
@@ -45182,7 +45174,7 @@ module.exports = {
 
 
 /***/ }),
-/* 177 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(console, global) {
@@ -45256,7 +45248,7 @@ function config (name) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(4)))
 
 /***/ }),
-/* 178 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45309,38 +45301,32 @@ PassThrough.prototype._transform = function (chunk, encoding, cb) {
 };
 
 /***/ }),
-/* 179 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(13);
 
 
 /***/ }),
-/* 180 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(1);
 
 
 /***/ }),
-/* 181 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(10).Transform
 
 
 /***/ }),
-/* 182 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(10).PassThrough
 
-
-/***/ }),
-/* 183 */
-/***/ (function(module, exports) {
-
-module.exports = require("sketch/dom");
 
 /***/ })
 /******/ ]);

@@ -148,7 +148,7 @@ window.setUser = function (user) {
   store.dispatch(userActions.setUser(userJson))
 
   if (userJson) {
-    analytics.identify(userJson.email)
+    analytics.identify(userJson.email, {email: userJson.email})
   }
 }
 
