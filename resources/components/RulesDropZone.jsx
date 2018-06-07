@@ -94,9 +94,7 @@ class RulesDropZone extends React.Component {
             onDrop={this.onDrop}
           >
             <div className='text-center'>
-              <Text size="body">Drag and drop your CSV or JSON files here or</Text>
-              <div className="mb8" />
-              <Button size="small" style="default">Upload File</Button>
+              <Text size="body">Drag and drop your CSV or JSON files here</Text>
             </div>
           </Dropzone>
         </div>
