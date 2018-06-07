@@ -170,12 +170,12 @@ function pageLayers(page) {
 function getData(context) {
   const document = sketch.fromNative(context.document)
 
-  // let layers = _.flattenDeep(_.map(document.pages, (page) => pageLayers(page)))
-  let layers = _.flattenDeep(pageLayers(document.pages[0]))
+  let layers = _.flattenDeep(_.map(document.pages, (page) => pageLayers(page)))
+  // let layers = _.flattenDeep(pageLayers(document.pages[0]))
 
-  console.log(layers.length)
+  // console.log(layers.length)
 
-  layers = _.chunk(layers, 100)[0]
+  // layers = _.chunk(layers, 100)[0]
 
   postData(compliance(layers))
 }
@@ -385,6 +385,15 @@ function selectLayer(id) {
   rect = NSMakeRect(x, y, width, height)
 
   // MSDocument.currentDocument().contentDrawView().zoomToFitRect(layers[0].absoluteRect().rect())
+
+  let parent = sketch.fromNative(layer).parent
+  while (parent.type != 'Page') {
+    parent = parent.parent
+  }
+
+  document.sketchObject.setCurrentPage(parent.sketchObject)
+
+
   MSDocument.currentDocument().contentDrawView().zoomToFitRect(rect)
 
   return layers
