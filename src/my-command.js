@@ -27,7 +27,7 @@ export default function onRun(context) {
   // only show the window when the page has loaded
   browserWindow.once('ready-to-show', () => {
     browserWindow.show()
-    // setRules(context)
+    setRules(context)
     setOnboarded(context)
     setUser(context)
   })
@@ -63,6 +63,10 @@ export default function onRun(context) {
 
   webContents.on('saveUser', (email) => {
     context.api().setSettingForKey(emailKey, JSON.stringify(email))
+    if (email == null){
+      context.api().setSettingForKey('onboarded', JSON.stringify(false))
+      setOnboarded(context)
+    }
     setUser(context)
   })
 
