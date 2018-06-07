@@ -3,16 +3,6 @@
   "bundleVersion": 1,
   "commands": [
     {
-      "name": "Set Styles",
-      "identifier": "upload-rules",
-      "script": "upload_rules.js",
-      "shortcut": "ctrl shift u",
-      "icon": "logo.png",
-      "handlers": {
-        "run": "onRun"
-      }
-    },
-    {
       "name": "Lint",
       "identifier": "my-command-identifier",
       "script": "my-command.js",
