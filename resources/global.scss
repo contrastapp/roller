@@ -28,16 +28,8 @@ body {
 .falign-end {align-items: flex-end; }
 
 
-.f-row {
-  display: flex;
-  flex-direction: row;
-}
-
-.f-column {
-  display: flex;
-  flex-flow: column;
-  flex-grow: 1;
-}
+.f-row { flex-direction: row; }
+.f-column { flex-flow: column; }
 
 .f-quarter { flex-basis: 25% }
 

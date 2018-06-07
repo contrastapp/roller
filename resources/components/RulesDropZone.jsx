@@ -9,7 +9,6 @@ import pluginCall from 'sketch-module-web-view/client'
 import { connect } from 'react-redux'
 import { faArrowDown }  from '@fortawesome/fontawesome-free-solid'
 import Text from "./Text";
-
 import RulesForm from "./RulesForm"
 import Dropzone from 'react-dropzone'
 import Papa from 'papaparse';
@@ -91,33 +90,15 @@ class RulesDropZone extends React.Component {
         <div >
           <Dropzone
             accept={[".csv", ".json"]}
-            style={{padding: '24px', border: '1px dashed gray'}}
+            style={{padding: '24px', border: '1px dashed #919EAB'}}
             onDrop={this.onDrop}
           >
             <div className='text-center'>
-              Drag and drop a CSV or JSON file <FontAwesomeIcon icon={faArrowDown} />
+              <Text size="body">Drag and drop your CSV or JSON files here or</Text>
+              <div className="mb8" />
+              <Button size="small" style="default">Upload File</Button>
             </div>
           </Dropzone>
-          <div className="pt24 text-center ">
-            <div className="pb12">
-              <Text size="body" subdued>
-                Please format the json or csv like this
-              </Text>
-            </div>
-            <div className="text-center flex flexjcc">
-              <div className="text-left pr12">
-                <JSONPretty json={{colors: [{name: 'White', hex: '#FFFFFF'}]}} />
-              </div>
-              <table className="rules-csv-example">
-                <th> name </th>
-                <th> hex </th>
-                <tr>
-                  <td> Black </td>
-                  <td> #000000 </td>
-                </tr>
-              </table>
-            </div>
-          </div>
         </div>
         {this.state.csvError}
         {this.state.jsonError}

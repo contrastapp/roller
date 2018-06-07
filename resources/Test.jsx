@@ -9,6 +9,7 @@ import Text from "./components/Text";
 import Modal from 'react-modal';
 import RulesDropZone from './components/RulesDropZone';
 import Button from "./components/Button";
+import FormatTips from "./components/FormatTips";
 
 class Test extends React.Component {
   constructor(props) {
@@ -53,28 +54,32 @@ class Test extends React.Component {
     }
     if (!this.props.user.onboarded) {
         return (
-          <div className="flex flexaic flexjcc f-column p24">
+          <div className="flex flexaic flexjcc f-column mt24 p24">
             <div className="pb12 text-center">
-              <Text size="small">Let's Add Some Colors! 🎉</Text>
-              <Text size="body" subdued></Text>
+              <Text size="small">Get Started with Roller</Text>
+              <Text size="caption" subdued>Import or add your colors to start finding inconsistencies.</Text>
             </div>
+
             <div className="mt12">
-              <div className="p12">
-                <RulesDropZone onComplete={this.onDrop}/>
-              </div>
-          <div className="flex f-column ">
-            <div className="p24 text-center">
-              <Text size="small">- OR -</Text>
-              <Text size="body" subdued></Text>
-            </div>
-              <div className="text-center pt12">
-                <div className="pb12">
-                <Button style="primary" onClick={this.settingsPage}>Add Colors Manually</Button>
+              <RulesDropZone onComplete={this.onDrop}/>
+
+              <div className="flex f-column">
+                <div className="p16 text-center">
+                  <Text size="body" subdued>- OR -</Text>
                 </div>
-                  <Button style="link" size="small" onClick={this.closeOnboard}>Skip</Button>
-                <Text size="caption" subdued >You can always do this later in settings</Text>
-              </div>
-            </div>
+
+                  <div className="text-center">
+                    <Button style="primary" size="full" onClick={this.settingsPage}>Add Colors Manually</Button>
+                    <div className="mb16" />
+                    <Button style="link" size="small" onClick={this.closeOnboard}>Skip</Button>
+                    <Text size="caption" subdued >You can always add or edit your colors later</Text>
+                  </div>
+
+                  <div className="divider24" />
+
+                  <FormatTips />
+
+                </div>
             </div>
           </div>
         )
