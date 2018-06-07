@@ -135,6 +135,8 @@ var pages = function pages() {
   var layerMap = void 0;
   var textGroups = void 0;
   switch (action.type) {
+    case 'RESET_LAYERS':
+      return _extends({}, state, { layerMap: {} });
     case 'SET_LAYERS':
       return setLayers(state, action);
     case 'SET_ACTIVE_LAYER':

@@ -23,6 +23,7 @@ const options = {
 let browserWindow = new BrowserWindow(options)
 let webContents = browserWindow.webContents
 let loaded = false
+let currentDocumentId = null
 
 export default function onRun(context) {
   // only show the window when the page has loaded
@@ -195,42 +196,37 @@ function hexToColor(hex, alpha) {
 }
 
 function pageLayers(page) {
+  let layers;
   if (page.layers) {
-    let layers = page.layers
+    layers = page.layers
 
     while (_.find(layers, (layer) => layer.type == 'Artboard' || layer.type == 'Group')) {
       layers = _.flattenDeep(_.map(layers, (groupOrLayer) => _.get(groupOrLayer, 'layers', groupOrLayer)))
+      console.log(layers.length)
     }
-
-    return layers
+  } else {
+    layers = page
   }
 
-  return page
+  postData(compliance(layers))
 }
 
 function getData(context) {
-  const document = sketch.fromNative(context.document)
+  var document = require('sketch/dom').getSelectedDocument()
+  if (document.id != currentDocumentId) {
+    currentDocumentId = document.id
+    webContents.executeJavaScript(`resetLayers()`)
+  }
 
-  let layers = _.flattenDeep(_.map(document.pages, (page) => pageLayers(page)))
+  let layers = _.flattenDeep(_.map(document.pages, (page) => {
+    return pageLayers(page)
+  }))
   // let layers = _.flattenDeep(pageLayers(document.pages[0]))
 
   // console.log(layers.length)
 
   // layers = _.chunk(layers, 100)[0]
 
-  postData(compliance(layers))
-}
-
-function parseDocument(context) {
-  const document = sketch.fromNative(context.document)
-
-  let layers = _.flattenDeep(_.map(document.pages, (page) => pageLayers(page)))
-
-  console.log(layers.length)
-
-  layers = _.chunk(layers, 100)[0]
-
-  postCompliance(compliance(layers))
 }
 
 function compliance(layers) {
@@ -324,9 +320,11 @@ function parseColor(layer) {
         let color = '000';
         if (layer.sketchObject.style().textStyle()) {
           fontFamily = String(layer.sketchObject.style().textStyle().attributes().NSFont.fontDescriptor().objectForKey(NSFontNameAttribute))
-          color = layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute.hexValue()
-          color = `#${color}`
+          if (layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute) {
+            color = layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute.hexValue()
+          }
         }
+        color = `#${color}`
 
         return ([
           {

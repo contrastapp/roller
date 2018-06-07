@@ -22257,6 +22257,7 @@ var options = {
 var browserWindow = new _sketchModuleWebView2['default'](options);
 var webContents = browserWindow.webContents;
 var loaded = false;
+var currentDocumentId = null;
 
 function onRun(context) {
   // only show the window when the page has loaded
@@ -22427,8 +22428,9 @@ function hexToColor(hex, alpha) {
 }
 
 function pageLayers(page) {
+  var layers = void 0;
   if (page.layers) {
-    var layers = page.layers;
+    layers = page.layers;
 
     while (_.find(layers, function (layer) {
       return layer.type == 'Artboard' || layer.type == 'Group';
@@ -22436,16 +22438,21 @@ function pageLayers(page) {
       layers = _.flattenDeep(_.map(layers, function (groupOrLayer) {
         return _.get(groupOrLayer, 'layers', groupOrLayer);
       }));
+      console.log(layers.length);
     }
-
-    return layers;
+  } else {
+    layers = page;
   }
 
-  return page;
+  postData(compliance(layers));
 }
 
 function getData(context) {
-  var document = sketch.fromNative(context.document);
+  var document = __webpack_require__(183).getSelectedDocument();
+  if (document.id != currentDocumentId) {
+    currentDocumentId = document.id;
+    webContents.executeJavaScript('resetLayers()');
+  }
 
   var layers = _.flattenDeep(_.map(document.pages, function (page) {
     return pageLayers(page);
@@ -22455,8 +22462,6 @@ function getData(context) {
   // console.log(layers.length)
 
   // layers = _.chunk(layers, 100)[0]
-
-  postData(compliance(layers));
 }
 
 function parseDocument(context) {
@@ -22565,9 +22570,11 @@ function parseColor(layer) {
         var color = '000';
         if (layer.sketchObject.style().textStyle()) {
           fontFamily = String(layer.sketchObject.style().textStyle().attributes().NSFont.fontDescriptor().objectForKey(NSFontNameAttribute));
-          color = layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute.hexValue();
-          color = '#' + String(color);
+          if (layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute) {
+            color = layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute.hexValue();
+          }
         }
+        color = '#' + String(color);
 
         return [_extends({}, attrs, {
           index: 0,
@@ -45328,6 +45335,12 @@ module.exports = __webpack_require__(10).Transform
 
 module.exports = __webpack_require__(10).PassThrough
 
+
+/***/ }),
+/* 183 */
+/***/ (function(module, exports) {
+
+module.exports = require("sketch/dom");
 
 /***/ })
 /******/ ]);

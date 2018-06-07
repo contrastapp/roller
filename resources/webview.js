@@ -130,6 +130,10 @@ window.layerSelected = function (compliantArr) {
   window.blur()
 }
 
+window.resetLayers = function () {
+  store.dispatch(layerActions.resetLayers())
+}
+
 window.setRules = function (rules) {
   store.dispatch(ruleActions.setColors(JSON.parse(rules)))
   store.dispatch(ruleActions.saved(true))
