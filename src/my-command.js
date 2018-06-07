@@ -6,6 +6,7 @@ const tinycolor = require('tinycolor2')
 const _ = require('lodash')
 const momemt = require('moment')
 
+const Papa = require('papaparse');
 const emailKey = 'toyboxRollerUser'
 
 const options = {
@@ -42,6 +43,45 @@ export default function onRun(context) {
     var whereTo = options.redirectTo;
     webContents.executeJavaScript("window.redirectTo=\"" + String(whereTo) + "\"")
   })
+
+  webContents.on('openFile', () => {
+    var openPanel = NSOpenPanel.openPanel()
+    openPanel.setCanChooseDirectories(false)
+    openPanel.setCanChooseFiles(true)
+    openPanel.setCanCreateDirectories(false)
+    openPanel.setAllowedFileTypes(['json', 'csv'])
+    openPanel.setDirectoryURL(NSURL.fileURLWithPath('~/Documents/'))
+
+    openPanel.setTitle('Choose a file')
+    openPanel.setPrompt('Choose')
+    openPanel.runModal()
+
+    var file = openPanel.URLs().firstObject()
+    var filePath = file.path();
+    var fileContents = NSString.stringWithContentsOfFile(filePath);
+    if (file.pathExtension() == 'json') {
+      var paletteContents = JSON.parse(fileContents);
+
+      var colors = paletteContents.colors
+      const keys = _.uniq(_.flatten(_.map(colors, _.keys)))
+      if (_.isEqual(keys.sort(),["name","hex"].sort())) {
+        context.api().setSettingForKey('colors', JSON.stringify(colors))
+      } else {
+        postFileError('Please format JSON as { colors: [{name: "White", hex: "#FFFFFF"}]}')
+      }
+    }
+    if (file.pathExtension() == 'csv') {
+      var results = Papa.parse(String(fileContents), {header: true});
+      validHeaders = _.isEqual(results.meta.fields.sort(),['name','hex'].sort())
+      if (validHeaders) {
+        context.api().setSettingForKey('colors', JSON.stringify(results.data))
+      } else {
+        postFileError('Please format CSV with headers: name, hex')
+      }
+    }
+    setRules(context)
+  })
+
 
   webContents.on('getData', (page) => {
     getData(context, page)
@@ -116,6 +156,7 @@ export default function onRun(context) {
 
   browserWindow.loadURL(require('../resources/webview.html'))
 }
+
 
 export function blurAfterSelection(context) {
   browserWindow.blur()
@@ -209,6 +250,10 @@ function postCompliance(compliance) {
 
 function postData(compliance) {
   webContents.executeJavaScript(`postData('${JSON.stringify(compliance)}')`)
+}
+
+function postFileError(msg) {
+  webContents.executeJavaScript(`postFileError('${msg}')`)
 }
 
 function postComplianceSelected(compliance) {

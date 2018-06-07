@@ -12,6 +12,8 @@ const pages = (state = initialState, action) => {
       return {...state, typography: action.data};
     case 'SAVED':
       return {...state, saved: action.data};
+    case 'SET_ERROR_MESSAGE':
+      return {...state, errorMsg: action.data};
     default:
       return state;
   }

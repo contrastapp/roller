@@ -135,6 +135,10 @@ window.setRules = function (rules) {
   store.dispatch(ruleActions.saved(true))
 }
 
+window.postFileError = function (msg) {
+  store.dispatch(ruleActions.setErrorMessage(msg))
+}
+
 window.setUser = function (user) {
   const userJson = JSON.parse(user)
   store.dispatch(userActions.setUser(userJson))

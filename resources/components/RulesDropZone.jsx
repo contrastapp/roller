@@ -46,7 +46,9 @@ class RulesDropZone extends React.Component {
     if (_.isEqual(keys.sort(),["name","hex"].sort())) {
       if(!window.mock) {
         pluginCall('saveRules', colors)
-        this.props.onComplete()
+        if (this.props.onComplete) {
+          this.props.onComplete()
+        }
       }
     } else {
       this.setState({jsonError: 'Please format JSON as { colors: [{name: "White", hex: "#FFFFFF"}]}'})
@@ -94,12 +96,15 @@ class RulesDropZone extends React.Component {
             onDrop={this.onDrop}
           >
             <div className='text-center'>
-              <Text size="body">Drag and drop your CSV or JSON files here</Text>
+              <Text size="body">Drag and drop your CSV or JSON files here or</Text>
+              <div className="mb8" />
+              <Button onClick={() => pluginCall('openFile')} size="small" style="default">Upload File</Button>
             </div>
           </Dropzone>
         </div>
         {this.state.csvError}
         {this.state.jsonError}
+        {this.props.errorMsg}
       </div>
     )
   }

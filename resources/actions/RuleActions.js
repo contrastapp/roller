@@ -17,3 +17,8 @@ export const saved = data => ({
   type: 'SAVED',
   data,
 });
+
+export const setErrorMessage = data => ({
+  type: 'SET_ERROR_MESSAGE',
+  data,
+});

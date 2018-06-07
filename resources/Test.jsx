@@ -7,7 +7,7 @@ import { faCog, faLightbulb }  from '@fortawesome/fontawesome-free-solid'
 import pluginCall from 'sketch-module-web-view/client'
 import Text from "./components/Text";
 import Modal from 'react-modal';
-import RulesDropZone from './components/RulesDropZone';
+import RulesDropZoneContainer from './containers/RulesDropZoneContainer';
 import Button from "./components/Button";
 import FormatTips from "./components/FormatTips";
 
@@ -61,7 +61,7 @@ class Test extends React.Component {
             </div>
 
             <div className="mt12">
-              <RulesDropZone onComplete={this.onDrop}/>
+              <RulesDropZoneContainer onComplete={this.onDrop}/>
 
               <div className="flex f-column">
                 <div className="p16 text-center">
