@@ -46,7 +46,7 @@ class SuggestionCollection extends React.Component {
     //Get the index for that lowest number
     // var index = differenceArray.indexOf(lowest);
 
-    return _.map(_.take(_.sortBy(differenceArray, (d) => d.difference), 3), (d) => _.find(base_colors, {hex: d.hex}))
+    return _.map(_.take(_.sortBy(differenceArray, (d) => d.difference), 10), (d) => _.find(base_colors, {hex: d.hex}))
 
     //Return the HEX code
     // return base_colors[index];

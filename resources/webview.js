@@ -6,6 +6,7 @@ const _ = require('lodash')
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { createLogger } from 'redux-logger';
 import { Provider } from 'react-redux'
+import middleware from 'redux-thunk';
 
 import history from './history'
 import { IndexRedirect, Route } from 'react-router'
@@ -14,6 +15,7 @@ import { Redirect } from "react-router-dom"
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 import AppContainer from './AppContainer'
 import SettingsContainer from './containers/SettingsContainer'
+import IntercomContainer from './containers/IntercomContainer'
 import ItemContainer from './ItemContainer'
 import layerReducer from './reducers/LayerReducer'
 import ruleReducer from './reducers/RuleReducer'
@@ -44,7 +46,7 @@ import './global.scss';
 // const history = createHistory()
 
 // Build the middleware for intercepting and dispatching navigation actions
-const middleware = routerMiddleware(history)
+const routMiddleware = routerMiddleware(history)
 
 // Add the reducer to your store on the `router` key
 // Also apply our middleware for navigating
@@ -57,7 +59,7 @@ const store = createStore(
     form: formReducer,
     user: userReducer
   }),
-  applyMiddleware(middleware, createLogger())
+  applyMiddleware(routMiddleware, middleware , createLogger())
 )
 // Disable the context menu to have a more native feel
 // document.addEventListener("contextmenu", function(e) {
@@ -104,7 +106,7 @@ let pages = 1
 // store.dispatch(ruleActions.setType(data))
 
 ////SKETCH
-// console.log(process.env.NODE_ENV)
+console.log(process.env.NODE_ENV)
 pluginCall("getLocation")
 ReactDOM.render(
   <Provider store={store}>
@@ -114,6 +116,7 @@ ReactDOM.render(
         <Route exact path="/list" component={AppContainer}/>
         <Route exact path="/settings" component={SettingsContainer}/>
         <Redirect to={window.redirectTo} />
+        <IntercomContainer />
       </div>
     </ConnectedRouter>
   </Provider>,

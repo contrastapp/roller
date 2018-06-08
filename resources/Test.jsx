@@ -9,18 +9,19 @@ import Text from "./components/Text";
 import Modal from 'react-modal';
 import RulesDropZoneContainer from './containers/RulesDropZoneContainer';
 import Button from "./components/Button";
-import FormatTips from "./components/FormatTips";
 
 class Test extends React.Component {
   constructor(props) {
     super(props)
-
 
     this.onBoard = this.onBoard.bind(this)
     this.closeOnboard = this.closeOnboard.bind(this)
     this.settingsPage= this.settingsPage.bind(this)
     this.handleSubmit= this.handleSubmit.bind(this)
     this.onDrop= this.onDrop.bind(this)
+  }
+
+  componentWillMount() {
   }
 
   handleSubmit(data) {
@@ -61,7 +62,7 @@ class Test extends React.Component {
             </div>
 
             <div className="mt12">
-              <RulesDropZoneContainer onComplete={this.onDrop}/>
+              <RulesDropZoneContainer showFormatTips onComplete={this.onDrop}/>
 
               <div className="flex f-column">
                 <div className="p16 text-center">
@@ -77,7 +78,6 @@ class Test extends React.Component {
 
                   <div className="divider24" />
 
-                  <FormatTips />
 
                 </div>
             </div>

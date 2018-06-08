@@ -1,6 +1,5 @@
 // import thunk from 'redux-thunk';
-// import { SET_PAGES } from '../constants/helloWorldConstants';
-// import accountService from '../services/accountService';
+import externalDesignSystemService from '../services/externalDesignSystemService';
 
 
 export const setColors = data => ({
@@ -22,3 +21,19 @@ export const setErrorMessage = data => ({
   type: 'SET_ERROR_MESSAGE',
   data,
 });
+
+export const setTokens = data => ({
+  type: 'SET_TOKENS',
+  data,
+});
+
+export function fetchRules(endpoint) {
+  return dispatch => {
+    return (
+      externalDesignSystemService
+      .fetchTokens(endpoint)
+      .then(res => {dispatch(setTokens(res['data']))})
+      .catch(res => {})
+    );
+  }
+}

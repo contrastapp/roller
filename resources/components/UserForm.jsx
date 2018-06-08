@@ -2,6 +2,7 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import Button from './Button';
 import Text from './Text';
+import pluginCall from 'sketch-module-web-view/client'
 import { SubmissionError } from 'redux-form'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -51,6 +52,9 @@ const SimpleForm = props => {
           <Button size="full" style="primary" type="submit" disabled={pristine || submitting}>
             Sign Up
           </Button>
+          <div className="p24 text-center">
+            <Button style='link' onClick={() => pluginCall('openURL',"https://www.iubenda.com/privacy-policy/47752557")}> Privacy Policy </Button>
+          </div>
       </form>
 
     </div>

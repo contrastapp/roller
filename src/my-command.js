@@ -32,6 +32,7 @@ export default function onRun(context) {
     setRules(context)
     setOnboarded(context)
     setUser(context)
+    fetchEndpoint()
   })
 
   // print a message when the page loads
@@ -97,9 +98,27 @@ export default function onRun(context) {
     setRules(context)
   })
 
+  webContents.on('saveEndpoint', (endpoint) => {
+    context.api().setSettingForKey('endpoint', endpoint)
+    fetchEndpoint(context)
+  })
+
   webContents.on('onboarded', (flag) => {
     context.api().setSettingForKey('onboarded', JSON.stringify(flag))
     setOnboarded(context)
+  })
+
+  webContents.on('importDocumentColors', () => {
+    importDocumentColors(context)
+  })
+
+  webContents.on('openURL', (url) => {
+    NSWorkspace.sharedWorkspace().openURL(NSURL.URLWithString(url));
+  })
+
+
+  webContents.on('importGlobalColors', () => {
+    importGlobalColors(context)
   })
 
   webContents.on('saveUser', (email) => {
@@ -266,6 +285,22 @@ function setRules() {
   }
 }
 
+function fetchEndpoint() {
+  if(context.api().settingForKey('endpoint')) {
+    fetch(context.api().settingForKey('endpoint'))
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      let colors = _.flatten(_.map(data.list.colors, (colorSection) => {
+        return _.map(colorSection.colors, (c) => ({name: c.name, hex: c.value}))
+      }))
+      context.api().setSettingForKey('colors', JSON.stringify(colors))
+      setRules()
+    });
+  }
+}
+
 function setOnboarded(context) {
   let onboarded = context.api().settingForKey('onboarded')
   webContents.executeJavaScript(`setOnboarded('${String(String(JSON.stringify(JSON.parse(String(onboarded)))))}')`)
@@ -401,6 +436,34 @@ function updateLayer(id) {
 
 let oldSelection = []
 let newSelection = []
+
+function importDocumentColors() {
+  var app = NSApp.delegate();
+  var colors = app.globalAssets().colors();
+  var documentColors = _.map(context.document.documentData().assets().colors(), (c,i) => ({name: ('Document Color ' + i), hex: '#' + String(c.NSColorWithColorSpace(nil).hexValue())}))
+
+  colors = JSON.parse(context.api().settingForKey('colors'))
+  var hexs = _.map(colors, 'hex')
+  documentColors = _.filter(documentColors, (c) => !_.includes(hexs, c.hex))
+  documentColors.push(colors)
+  context.api().setSettingForKey('colors', JSON.stringify(_.flatten(documentColors)))
+  setRules(context)
+}
+
+function importGlobalColors() {
+  var app = NSApp.delegate();
+  var colors = app.globalAssets().colors();
+  var globalColors = _.map(colors, (c,i) => ({name: ('Global Color ' + i), hex: '#' + String(c.NSColorWithColorSpace(nil).hexValue())}))
+  var documentColors = _.map(context.document.documentData().assets().colors(), (c,i) => ({name: ('Document Color ' + i), hex: '#' + String(c.NSColorWithColorSpace(nil).hexValue())}))
+
+  colors = JSON.parse(context.api().settingForKey('colors'))
+  var hexs = _.map(colors, 'hex')
+  globalColors = _.filter(globalColors, (c) => !_.includes(hexs, c.hex))
+  globalColors.push(colors)
+  context.api().setSettingForKey('colors', JSON.stringify(_.flatten(globalColors)))
+  setRules(context)
+}
+
 
 function selectLayer(id) {
   var document = require('sketch/dom').getSelectedDocument()
