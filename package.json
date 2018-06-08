@@ -41,6 +41,7 @@
     "@fortawesome/fontawesome": "^1.1.8",
     "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "@fortawesome/react-fontawesome": "0.0.20",
+    "axios": "^0.18.0",
     "history": "^4.7.2",
     "jquery": "^3.3.1",
     "lodash": "^4.17.10",
@@ -50,6 +51,7 @@
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-dropzone": "^4.2.11",
+    "react-intercom": "^1.0.14",
     "react-json-pretty": "^1.7.6",
     "react-modal": "^3.4.4",
     "react-redux": "^5.0.7",
@@ -61,6 +63,7 @@
     "redux": "^4.0.0",
     "redux-form": "^7.3.0",
     "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
     "sketch-module-web-view": "^1.1.7",
     "tinycolor2": "^1.4.1",
     "webpack": "^4.9.1"

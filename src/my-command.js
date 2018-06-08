@@ -32,6 +32,7 @@ export default function onRun(context) {
     setRules(context)
     setOnboarded(context)
     setUser(context)
+    fetchEndpoint()
   })
 
   // print a message when the page loads
@@ -97,6 +98,11 @@ export default function onRun(context) {
     setRules(context)
   })
 
+  webContents.on('saveEndpoint', (endpoint) => {
+    context.api().setSettingForKey('endpoint', endpoint)
+    fetchEndpoint(context)
+  })
+
   webContents.on('onboarded', (flag) => {
     context.api().setSettingForKey('onboarded', JSON.stringify(flag))
     setOnboarded(context)
@@ -105,6 +111,11 @@ export default function onRun(context) {
   webContents.on('importDocumentColors', () => {
     importDocumentColors(context)
   })
+
+  webContents.on('openURL', (url) => {
+    NSWorkspace.sharedWorkspace().openURL(NSURL.URLWithString(url));
+  })
+
 
   webContents.on('importGlobalColors', () => {
     importGlobalColors(context)
@@ -271,6 +282,22 @@ function setRules() {
     webContents.executeJavaScript(`setRules('${String(String(JSON.stringify(JSON.parse(String(colors)))))}')`)
   } catch (e) {
     console.log(e)
+  }
+}
+
+function fetchEndpoint() {
+  if(context.api().settingForKey('endpoint')) {
+    fetch(context.api().settingForKey('endpoint'))
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      let colors = _.flatten(_.map(data.list.colors, (colorSection) => {
+        return _.map(colorSection.colors, (c) => ({name: c.name, hex: c.value}))
+      }))
+      context.api().setSettingForKey('colors', JSON.stringify(colors))
+      setRules()
+    });
   }
 }
 

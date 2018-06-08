@@ -109,10 +109,9 @@ class Settings extends React.Component {
           </div>
         </Subheader>
 
-        <div className="p24">
+        <div>
           <RulesDropZoneContainer />
         </div>
-
 
         <RulesForm savedAction={this.props.saved} onSubmit={this.handleSubmit}/>
 
