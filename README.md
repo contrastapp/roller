@@ -21,6 +21,18 @@ Enter your email address and confirm. You only have to do this once unless you s
 
 ![enter image description here](http://toybox-public.s3.amazonaws.com/Sign%20Up.png)
 
+## DSM Integration
+Visit the design tokens page in your DSM account and select the JSON section from the side nav. Copy and paste the first link under the Styles header.
+
+It should look something like this:
+
+https://projects.invisionapp.com/dsm-export/toybox-t/sample-library/style-data.json?exportFormat=list&key=HJZpXtDlm
+
+The important part is that the query param exportFormat is set to list 
+```
+?exportFormat=list
+```
+
 ## Adding your color palette (optional)
 If you have a list of colors you would like to lint against - you can add them in the settings panel.
 
