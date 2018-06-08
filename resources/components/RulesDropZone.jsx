@@ -101,6 +101,11 @@ class RulesDropZone extends React.Component {
               <Button onClick={() => pluginCall('openFile')} size="small" style="default">Upload File</Button>
             </div>
           </Dropzone>
+            <div className='text-center flex flexjcc pt12'>
+              <Button onClick={() => {pluginCall('importGlobalColors'); if (this.props.onComplete) {this.props.onComplete()}}} size="small" style="default">Import Global Colors</Button>
+              <div className="p8" />
+              <Button onClick={() => {pluginCall('importDocumentColors'); if (this.props.onComplete) {this.props.onComplete()}}} size="small" style="default">Import Document Colors</Button>
+            </div>
         </div>
         {this.state.csvError}
         {this.state.jsonError}
