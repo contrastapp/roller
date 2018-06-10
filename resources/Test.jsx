@@ -65,13 +65,7 @@ class Test extends React.Component {
               <RulesDropZoneContainer showFormatTips onComplete={this.onDrop}/>
 
               <div className="flex f-column">
-                <div className="p16 text-center">
-                  <Text size="body" subdued>- OR -</Text>
-                </div>
-
                   <div className="text-center">
-                    <Button style="primary" size="full" onClick={this.settingsPage}>Add Colors Manually</Button>
-                    <div className="mb16" />
                     <Button style="link" size="small" onClick={this.closeOnboard}>Skip</Button>
                     <Text size="caption" subdued >You can always add or edit your colors later</Text>
                   </div>
