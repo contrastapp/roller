@@ -82,7 +82,7 @@ ReactDOM.render(
     { /* ConnectedRouter will use the store from Provider automatically */ }
     <ConnectedRouter history={history}>
       <div>
-        <Route path="/" component={AppContainer}/>
+        <Route path="/" component={SettingsContainer}/>
         <Route exact path="/settings" component={SettingsContainer}/>
       </div>
     </ConnectedRouter>

@@ -41,7 +41,7 @@ class Layer extends React.Component {
           <div className='layer-occurences'>
             <Text size="body">{this.props.compliance.length} {_.pluralize('occurence', this.props.compliance.length)}</Text>
           </div>
-            {caption}
+            #{_.toUpper(tinycolor(first.primary).toHex())}
         </div>
       </div>
     )
