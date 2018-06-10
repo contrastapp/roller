@@ -22417,11 +22417,12 @@ function onRun(context) {
 
 
         sketch.fromNative(l).style[prop] = _.map(sketch.fromNative(l).style[prop], function (fillOrBorder) {
-          return fillOrBorder.color === oldStyle ? { color: newStyle.hex, thickness: fillOrBorder.thickness, position: fillOrBorder.position, enabled: fillOrBorder.enabled, fillType: fillOrBorder.fillType, gradient: fillOrBorder.gradient } : fillOrBorder;
+          return fillOrBorder.color === oldStyle ? { color: tinycolor(newStyle.hex).setAlpha(tinycolor(fillOrBorder).getAlpha()).toHex8(), thickness: fillOrBorder.thickness, position: fillOrBorder.position, enabled: fillOrBorder.enabled, fillType: fillOrBorder.fillType, gradient: fillOrBorder.gradient } : fillOrBorder;
         });
       } else if (prop === 'text') {
         var range = NSMakeRange(0, sketch.fromNative(l).text.length);
-        var color = hexToColor(newStyle.hex);
+        var alpha = l.style().textStyle().attributes().MSAttributedStringColorAttribute.alpha();
+        var color = hexToColor(newStyle.hex, alpha);
         l.setIsEditingText(true);
         l.addAttribute_value_forRange(NSForegroundColorAttributeName, color, range);
         l.setIsEditingText(false);
@@ -22494,11 +22495,7 @@ function pageLayers(page) {
 
 function getData(context) {
   var document = __webpack_require__(150).getSelectedDocument();
-<<<<<<< HEAD
-  if (document.id != currentDocumentId) {
-=======
   if (_.get(document, 'id') != currentDocumentId) {
->>>>>>> small tweaks to order
     currentDocumentId = document.id;
     webContents.executeJavaScript('resetLayers()');
   }
@@ -22516,11 +22513,7 @@ function getData(context) {
 function compliance(layers) {
   layers = _.flattenDeep(layers);
 
-<<<<<<< HEAD
-  return _.flattenDeep(_.compact(_.map(layers, function (l, i) {
-=======
   return _.flattenDeep(_.compact(_.map(_.reject(layers, 'hidden'), function (l, i) {
->>>>>>> small tweaks to order
     return parseColor(l);
   })));
 }
@@ -22629,7 +22622,7 @@ function parseColor(layer) {
             color = layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute.hexValue();
           }
         }
-        color = '#' + String(color);
+        color = '#' + String(tinycolor('#' + String(color)).toHex8());
 
         return [_extends({}, attrs, {
           index: 0,
@@ -22703,12 +22696,14 @@ var newSelection = [];
 
 function importDocumentColors() {
   var app = NSApp.delegate();
-  var colors = app.globalAssets().colors();
-  var documentColors = _.map(context.document.documentData().assets().colors(), function (c, i) {
-    return { name: 'Document Color ' + i, hex: '#' + String(c.NSColorWithColorSpace(nil).hexValue()) };
+  var documentColors = _.map(context.document.documentData().assets().colors(), function (color, i) {
+
+    var hexValue = tinycolor.fromRatio({ r: color.red(), g: color.green(), b: color.blue(), a: color.alpha() }).toHex8();
+
+    return { name: 'Document Color ' + i, hex: '#' + hexValue };
   });
 
-  colors = JSON.parse(context.api().settingForKey('colors'));
+  var colors = JSON.parse(context.api().settingForKey('colors'));
   var hexs = _.map(colors, 'hex');
   documentColors = _.filter(documentColors, function (c) {
     return !_.includes(hexs, c.hex);
@@ -22721,11 +22716,10 @@ function importDocumentColors() {
 function importGlobalColors() {
   var app = NSApp.delegate();
   var colors = app.globalAssets().colors();
-  var globalColors = _.map(colors, function (c, i) {
-    return { name: 'Global Color ' + i, hex: '#' + String(c.NSColorWithColorSpace(nil).hexValue()) };
-  });
-  var documentColors = _.map(context.document.documentData().assets().colors(), function (c, i) {
-    return { name: 'Document Color ' + i, hex: '#' + String(c.NSColorWithColorSpace(nil).hexValue()) };
+  var globalColors = _.map(colors, function (color, i) {
+    var hexValue = tinycolor.fromRatio({ r: color.red(), g: color.green(), b: color.blue(), a: color.alpha() }).toHex8();
+
+    return { name: 'Global Color ' + i, hex: '#' + hexValue };
   });
 
   colors = JSON.parse(context.api().settingForKey('colors'));
