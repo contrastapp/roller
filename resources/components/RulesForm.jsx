@@ -85,7 +85,7 @@ const FieldArraysForm = props => {
   const { saved, error, handleSubmit, pristine, reset, submitting, submitSucceeded } = props
 
   return (
-    <form onSubmit={() => handleSubmit(data => { props.onSubmit(data) })}>
+    <form onSubmit={handleSubmit(data => { props.onSubmit(data) })}>
       <FieldArray saved={saved} name="colors" savedAction={props.savedAction} component={renderMembers} />
     </form>
   )
