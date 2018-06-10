@@ -9,10 +9,12 @@ import { SubmissionError } from 'redux-form'
 const SimpleForm = props => {
   const { error, handleSubmit, pristine, reset, submitting } = props
   return (
-    <div className="flex flexaic flexjcc f-column p24">
+    <div className="flex flexaic flexjcc f-column">
+      <Text size="heading">Integrate with InVision's DSM</Text>
+      <div className="pb16" />
       {error && <strong>{error}</strong>}
       <form onSubmit={handleSubmit((values) => props.onSubmit(values))}>
-          <label>DSM JSON Styles Endpoint</label>
+          <label>JSON Styles Endpoint</label>
             <Field
               name="endpoint"
               component="input"
@@ -23,6 +25,7 @@ const SimpleForm = props => {
           <Button size="full" style="primary" type="submit" disabled={pristine || submitting}>
              Save Endpoint
           </Button>
+          <div className="pb8" />
           <Text subdued size='caption'>More details about DSM integration <Button style='link' onClick={() => pluginCall('openURL',"https://github.com/toyboxsystems/roller/blob/master/README.md#dsm-integration")}> here </Button>
           </Text>
         </form>

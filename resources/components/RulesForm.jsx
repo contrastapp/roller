@@ -14,7 +14,7 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => {
 return (
   <div>
     <div className="flex">
-      <div className="flex flexjcc flexaic pt12 pr8">
+      <div className="flex flexjcc flexaie">
         {label == 'Hex value' && <ColorSwatch small hexvalue={input.value} swatchOnly/>}
       </div>
       <div>
@@ -35,7 +35,7 @@ const renderMembers = (props) => {
     {submitFailed && error && <div>{error}</div>}
     <Subheader>My Saved Colors
     </Subheader>
-      <div className="flex layer-row">
+      <div className="flex layer-row settings">
         <Button size="full" style="primary" type="submit" >Save New Colors</Button>
         <div className="mr8" />
         <Button size="full" style="default" type="button" onClick={() => {fields.unshift({})}}>Add Color</Button>
@@ -44,7 +44,7 @@ const renderMembers = (props) => {
 
     {fields.map((color, index) => (
       <li key={index}>
-        <div className="flex settings-lint falign-end layer-row">
+        <div className="flex settings-lint falign-end layer-row settings">
         <div className="mr8">
           <Field
             name={`${color}.hex`}

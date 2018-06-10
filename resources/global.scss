@@ -119,9 +119,11 @@ body {
   @include border-radius(3px);
 
   &.small {
-    min-height: 30px;
-  min-width: 30px;
-    width: 30px;
+    min-height: 38px;
+    min-width: 38px;
+    width: 38px;
+    border: $border;
+    margin-right: $s-8;
   }
 }
 
@@ -512,6 +514,9 @@ textarea:focus, input:focus{ outline: none; }
   cursor: pointer;
   &:hover {
     background: $gray-lighten-10;
+  }
+  &.settings {
+    padding: $s-12 $s-16;
   }
  }
 
