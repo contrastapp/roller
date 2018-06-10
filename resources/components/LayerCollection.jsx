@@ -113,9 +113,11 @@ class LayerCollection extends React.Component {
       let noncompliantLayers ;
       let  primaryTab;
       let  secondaryTab;
-        layers = _.reverse(_.sortBy(layers, (l) => {
-          return _.reverse(_.sortBy(l, 'createdAt'))[0].createdAt
-        }))
+        // layers = _.reverse(_.sortBy(layers, (l) => {
+        //   return _.reverse(_.sortBy(l, 'createdAt'))[0].createdAt
+        // }))
+      layers = _.reverse(_.sortBy(layers, 'length'))
+
         let tabs = _.groupBy(layers, (l) => l[0].compliant)
 
         pagesTrends = _.chunk(tabs[true], chunk)

@@ -159,10 +159,11 @@ export default function onRun(context) {
 
 
 
-        sketch.fromNative(l).style[prop] = _.map(sketch.fromNative(l).style[prop], (fillOrBorder) => fillOrBorder.color === oldStyle ?  {color: newStyle.hex, thickness: fillOrBorder.thickness, position: fillOrBorder.position, enabled: fillOrBorder.enabled, fillType: fillOrBorder.fillType, gradient: fillOrBorder.gradient} : fillOrBorder)
+        sketch.fromNative(l).style[prop] = _.map(sketch.fromNative(l).style[prop], (fillOrBorder) => fillOrBorder.color === oldStyle ?  {color: tinycolor(newStyle.hex).setAlpha(tinycolor(fillOrBorder).getAlpha()).toHex8(), thickness: fillOrBorder.thickness, position: fillOrBorder.position, enabled: fillOrBorder.enabled, fillType: fillOrBorder.fillType, gradient: fillOrBorder.gradient} : fillOrBorder)
       } else if ( prop === 'text') {
         var range = NSMakeRange(0,sketch.fromNative(l).text.length)
-        var color = hexToColor(newStyle.hex)
+        var alpha = l.style().textStyle().attributes().MSAttributedStringColorAttribute.alpha()
+        var color = hexToColor(newStyle.hex, alpha)
         l.setIsEditingText(true)
         l.addAttribute_value_forRange(NSForegroundColorAttributeName, color, range)
         l.setIsEditingText(false)
@@ -232,7 +233,7 @@ function pageLayers(page) {
 
 function getData(context) {
   var document = require('sketch/dom').getSelectedDocument()
-  if (document.id != currentDocumentId) {
+  if (_.get(document, 'id') != currentDocumentId) {
     currentDocumentId = document.id
     webContents.executeJavaScript(`resetLayers()`)
   }
@@ -251,7 +252,7 @@ function getData(context) {
 function compliance(layers) {
   layers = _.flattenDeep(layers)
 
-  return (_.flattenDeep(_.compact(_.map(layers, (l, i) => {
+  return (_.flattenDeep(_.compact(_.map(_.reject(layers,'hidden') , (l, i) => {
     return parseColor(l)
   }))))
 }
@@ -359,7 +360,7 @@ function parseColor(layer) {
             color = layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute.hexValue()
           }
         }
-        color = `#${color}`
+        color = `#${tinycolor(`#${color}`).toHex8()}`
 
         return ([
           {
@@ -439,10 +440,15 @@ let newSelection = []
 
 function importDocumentColors() {
   var app = NSApp.delegate();
-  var colors = app.globalAssets().colors();
-  var documentColors = _.map(context.document.documentData().assets().colors(), (c,i) => ({name: ('Document Color ' + i), hex: '#' + String(c.NSColorWithColorSpace(nil).hexValue())}))
+  var documentColors = _.map(context.document.documentData().assets().colors(), (color,i) => {
 
-  colors = JSON.parse(context.api().settingForKey('colors'))
+    var hexValue = tinycolor.fromRatio({r: color.red(), g: color.green(), b: color.blue(), a: color.alpha()}).toHex8()
+
+
+    return ({name: ('Document Color ' + i), hex: '#' + hexValue})
+  })
+
+  var colors = JSON.parse(context.api().settingForKey('colors'))
   var hexs = _.map(colors, 'hex')
   documentColors = _.filter(documentColors, (c) => !_.includes(hexs, c.hex))
   documentColors.push(colors)
@@ -453,8 +459,11 @@ function importDocumentColors() {
 function importGlobalColors() {
   var app = NSApp.delegate();
   var colors = app.globalAssets().colors();
-  var globalColors = _.map(colors, (c,i) => ({name: ('Global Color ' + i), hex: '#' + String(c.NSColorWithColorSpace(nil).hexValue())}))
-  var documentColors = _.map(context.document.documentData().assets().colors(), (c,i) => ({name: ('Document Color ' + i), hex: '#' + String(c.NSColorWithColorSpace(nil).hexValue())}))
+  var globalColors = _.map(colors, (color,i) => {
+    var hexValue = tinycolor.fromRatio({r: color.red(), g: color.green(), b: color.blue(), a: color.alpha()}).toHex8()
+
+    return ({name: ('Global Color ' + i), hex: '#' + hexValue})
+  })
 
   colors = JSON.parse(context.api().settingForKey('colors'))
   var hexs = _.map(colors, 'hex')
