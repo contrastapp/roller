@@ -9,7 +9,7 @@ export default class Error extends React.Component {
 
     return (
 
-      <div className={`${this.props.trend ? 'trend' : ''} error mr16`}></div>
+      <div className={`${this.props.trend ? 'trend' : ''} `}></div>
 
     );
   }

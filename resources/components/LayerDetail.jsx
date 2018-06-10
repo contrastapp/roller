@@ -104,38 +104,22 @@ class LayerDetail extends React.Component {
 
       return (
         <div>
-          <div className="flex flexjcc p48">
+          <div className="flex">
             {preview}
+
+            <div className="p16">
+             {css}
+             <div className="p8" />
+           </div>
+
           </div>
 
           <Paginate prev={this.props.prev} page={this.props.page} pages={this.props.pages} next={this.props.next}/>
-            <Subheader>Details</Subheader>
-            <div className="pr16 pl16 pt24 pb24 flex flexaic">
-              <Error trend={this.props.layerCompliance.compliant}/>
-              <div>
-                <Text size="subheading">{this.props.layerCompliance.compliant ? 'Compliant' : 'Non Compliant'} {this.props.layerCompliance.prop}</Text>
-                  <div>
-                    {caption}
-                </div>
-              </div>
-            </div>
 
-          <Subheader>Properties</Subheader>
-           <div className="p16">
 
-            <PropertiesHead>CSS</PropertiesHead>
-            {css}
-            <div className="p8" />
-
-            <PropertiesHead>Layer Name</PropertiesHead>
-            <a onClick={() => pluginCall('selectLayer', this.props.layerCompliance.id)}>
-              {this.props.layerCompliance.name} >
-            </a>
-
-          </div>
 
           <div>
-            {!this.props.layerCompliance.compliant && <Subheader>Suggestions</Subheader>}
+            {!this.props.layerCompliance.compliant}
             {suggestions}
           </div>
 

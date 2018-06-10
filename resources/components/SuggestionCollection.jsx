@@ -64,12 +64,12 @@ class SuggestionCollection extends React.Component {
         let name = suggestion.name
         return (
             <a onClick={() => { pluginCall('swapProp', this.props.id, this.props.prop, this.props.primary, suggestion); } }>
-              <div className="pt8" />
-              <div className="flex flexaic tcard suggestions">
+              
+              <div className="flex flexaic layer-row suggestions">
                 <div className="swatch suggest mr16" style={{backgroundColor: hex}}/>
-                <div>
-                  <Text size="subheading" subdued>{name}</Text>
-                  <Text size="body">{hex}</Text>
+                <div className="layer-data">
+                  <Text size="body">{name}</Text>
+                  <Text size="caption" subdued>{hex}</Text>
                 </div>
               </div>
             </a>
@@ -80,8 +80,7 @@ class SuggestionCollection extends React.Component {
     }
 
     return (
-      <div className="p16">
-        <Text size="body" subdued>Did you mean to use:</Text>
+      <div>
         {suggestions}
       </div>
     )
