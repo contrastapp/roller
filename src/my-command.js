@@ -232,7 +232,7 @@ function pageLayers(page) {
 
 function getData(context) {
   var document = require('sketch/dom').getSelectedDocument()
-  if (document.id != currentDocumentId) {
+  if (_.get(document, 'id') != currentDocumentId) {
     currentDocumentId = document.id
     webContents.executeJavaScript(`resetLayers()`)
   }
@@ -251,7 +251,7 @@ function getData(context) {
 function compliance(layers) {
   layers = _.flattenDeep(layers)
 
-  return (_.flattenDeep(_.compact(_.map(layers, (l, i) => {
+  return (_.flattenDeep(_.compact(_.map(_.reject(layers,'hidden') , (l, i) => {
     return parseColor(l)
   }))))
 }
