@@ -2,6 +2,9 @@
 <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
   <channel>
     <item>
+      <enclosure url="https://github.com/toyboxsystems/roller/releases/download/v1.2.1/toybox-roller.sketchplugin.zip" sparkle:version="1.2.1"/>
+    </item>
+    <item>
       <enclosure url="https://github.com/toyboxsystems/roller/releases/download/v1.2.0/toybox-roller.sketchplugin.zip" sparkle:version="1.2.0"/>
     </item>
     <item>
