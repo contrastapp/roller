@@ -106,7 +106,7 @@ let pages = 1
 // store.dispatch(ruleActions.setType(data))
 
 ////SKETCH
-console.log(process.env.NODE_ENV)
+// console.log(process.env.NODE_ENV)
 pluginCall("getLocation")
 ReactDOM.render(
   <Provider store={store}>

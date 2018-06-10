@@ -129,7 +129,7 @@ class LayerCollection extends React.Component {
         compliantLayers = (
           <div>
             <Paginate prev={() => this.prev('trends')} page={this.props.page.trends + 1} pages={_.get(pagesTrends, 'length', 0)} next={() => this.next('trends')}/>
-            <Subheader>Results:</Subheader>
+            
             {
               _.map(pageTrends , (styles) => <GroupContainer onClick={this.clickLayer} compliance={styles} />)
             }
@@ -139,7 +139,7 @@ class LayerCollection extends React.Component {
         noncompliantLayers = (
           <div>
             <Paginate prev={() => this.prev('errors')} page={this.props.page.errors + 1} pages={_.get(pagesErrors, 'length', 0)} next={() => this.next('errors')}/>
-            <Subheader>Results:</Subheader>
+
             {
               _.map(pageErrors, (styles) => <GroupContainer onClick={this.clickLayer} compliance={styles} />)
             }
@@ -158,7 +158,7 @@ class LayerCollection extends React.Component {
         compliantLayers = (
           <div>
             <Paginate prev={() => this.prev('errors')} page={this.props.page.errors + 1} pages={_.get(pagesErrors, 'length', 0)} next={() => this.next('errors')}/>
-            <Subheader>Results:</Subheader>
+
             {
               _.map(pageErrors, (styles) => <GroupContainer onClick={this.clickLayer} compliance={styles} />)
             }

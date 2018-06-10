@@ -119,9 +119,11 @@ body {
   @include border-radius(3px);
 
   &.small {
-    min-height: 30px;
-  min-width: 30px;
-    width: 30px;
+    min-height: 38px;
+    min-width: 38px;
+    width: 38px;
+    border: $border;
+    margin-right: $s-8;
   }
 }
 
@@ -509,22 +511,25 @@ textarea:focus, input:focus{ outline: none; }
 }
 
 .layer-row {
-  border-bottom: $border;
-  padding: $s-12 $s-16;
   cursor: pointer;
   &:hover {
     background: $gray-lighten-10;
-
+  }
+  &.settings {
+    padding: $s-12 $s-16;
   }
  }
 
+.layer-data {
+    padding: $s-12 $s-16 $s-12 0px;
+}
+
 .layer-block {
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
-  min-height: 48px;
-  @include border-radius (3px);
-  border: $border;
+  width: $s-24;
+  height: 78px;
+  min-width: $s-24;
+  min-height: 78px;
+  border-right: $border;
 }
 
 .error {
@@ -543,7 +548,7 @@ textarea:focus, input:focus{ outline: none; }
 
 .subheader {
   padding: $s-12 $s-16;
-  background: $gray-lighten-5;
+  background: $white;
   border-top: $border;
   border-bottom: $border;
   max-height: 42px;
@@ -560,6 +565,13 @@ li, ul { border-bottom: none; }
   width: 100%;
   background: white;
   border-top: $border;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  height: $s-48;
+  box-shadow: 0 -2px 12px 0 rgba(33,43,54,0.16);
 }
 
 .login-lint {
@@ -571,13 +583,11 @@ li, ul { border-bottom: none; }
 }
 
 .swatch {
-  height: $s-60;
-  width: $s-60;
-  @include border-radius (3px);
-  border: $border;
+  min-height: 144px;
+  width: $s-48;
+  border-right: $border;
   &.suggest {
-    border: none;
-    border-right: $border;
-    border-radius: 3px 0px 0px 3px;
+    width: $s-16;
+    min-height: 72px;
   }
 }

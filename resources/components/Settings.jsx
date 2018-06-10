@@ -85,17 +85,15 @@ class Settings extends React.Component {
           isOpen={this.state.signOutModal}
           style={customStyles}
         >
-        <div className="mt60">
-          <div className="p24">
-            <Button size="full" style="default" onClick={this.signOut}>
-              Sign Out
-            </Button>
+
+        <div className="flex flexaic flexjcc f-column mt24 p24">
+          <div className="pb24 text-center">
+            <Text size="small">Sign out of Roller</Text>
+            <Text size="caption" subdued>We hope to see you soon :) </Text>
           </div>
-          <div className="p24">
-            <Button size="full" style="primary" onClick={() => this.setState({signOutModal: false})}>
-              Cancel
-            </Button>
-          </div>
+            <Button size="full" style="default" onClick={this.signOut}>Sign Out</Button>
+            <div className="pb16" />
+            <Button size="full" style="primary" onClick={() => this.setState({signOutModal: false})}>Cancel</Button>
         </div>
       </Modal>
 
