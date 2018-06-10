@@ -1,4 +1,5 @@
 import React from "react"
+import Button from './Button';
 import tinycolor from "tinycolor2"
 import Text from './Text';
 import Error from './Error';
@@ -9,6 +10,16 @@ import pluginCall from 'sketch-module-web-view/client'
 class Layer extends React.Component {
   constructor(props) {
     super(props)
+
+    this.addColor = this.addColor.bind(this)
+  }
+
+  addColor() {
+    let first = {...(this.props.compliance[0] || {})}
+    this.props.colors.push({name: 'Saved Color', hex: first.primary})
+    if (!window.mock) {
+      pluginCall('saveRules', this.props.colors)
+    }
   }
 
   render() {
@@ -34,18 +45,21 @@ class Layer extends React.Component {
     }
 
     return (
-      <div className='layer-row flex flexaic' onClick={() => this.props.onClick(first)}>
-        <Error trend={first.compliant}/>
-        {block}
-        <div className='layer-data'>
-          <div className='layer-name'><Text size="subheading" subdued>Color { trend ? 'Trend' : 'Error'}</Text></div>
-          <div className='layer-occurences'>
-            <Text size="caption" subdued>{this.props.compliance.length} {_.pluralize('occurence', this.props.compliance.length)}</Text>
+      <div className='layer-row flex flexaic' >
+        <span className="flex flexaic" onClick={() => this.props.onClick(first)}>
+          <Error trend={first.compliant}/>
+          {block}
+          <div className='layer-data'>
+            <div className='layer-name'><Text size="subheading" subdued>Color { trend ? 'Trend' : 'Error'}</Text></div>
+            <div className='layer-occurences'>
+              <Text size="caption" subdued>{this.props.compliance.length} {_.pluralize('occurence', this.props.compliance.length)}</Text>
+            </div>
+            <div className='layer-caption'>
+              {caption}
+            </div>
           </div>
-          <div className='layer-caption'>
-            {caption}
-          </div>
-        </div>
+        </span>
+        <Button onClick={this.addColor}>+</Button>
       </div>
     )
   }
