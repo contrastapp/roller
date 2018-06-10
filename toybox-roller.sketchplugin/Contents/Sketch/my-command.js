@@ -22494,7 +22494,11 @@ function pageLayers(page) {
 
 function getData(context) {
   var document = __webpack_require__(150).getSelectedDocument();
+<<<<<<< HEAD
   if (document.id != currentDocumentId) {
+=======
+  if (_.get(document, 'id') != currentDocumentId) {
+>>>>>>> small tweaks to order
     currentDocumentId = document.id;
     webContents.executeJavaScript('resetLayers()');
   }
@@ -22512,7 +22516,11 @@ function getData(context) {
 function compliance(layers) {
   layers = _.flattenDeep(layers);
 
+<<<<<<< HEAD
   return _.flattenDeep(_.compact(_.map(layers, function (l, i) {
+=======
+  return _.flattenDeep(_.compact(_.map(_.reject(layers, 'hidden'), function (l, i) {
+>>>>>>> small tweaks to order
     return parseColor(l);
   })));
 }

@@ -65,10 +65,10 @@ class LayerCollection extends React.Component {
   relevantLayers(layer) {
     layer = _.find(this.props.layerMap[layer.id], (l) => layer.prop == l.prop)
     let key = layer.primary
-    if (layer.category === 'text') {
-      key = _.join(_.map(_.keys(layer.styles), (k) => layer.styles[k]), '-')
-    }
-    let layers = this.props.layers[key]
+    // if (layer.category === 'text') {
+    //   key = _.join(_.map(_.keys(layer.styles), (k) => layer.styles[k]), '-')
+    // }
+    // let layers = this.props.layers[key]
     if (this.props.selected) {
       layers = this.props.layerMap[layer.id]
     }
@@ -113,9 +113,11 @@ class LayerCollection extends React.Component {
       let noncompliantLayers ;
       let  primaryTab;
       let  secondaryTab;
-        layers = _.reverse(_.sortBy(layers, (l) => {
-          return _.reverse(_.sortBy(l, 'createdAt'))[0].createdAt
-        }))
+        // layers = _.reverse(_.sortBy(layers, (l) => {
+        //   return _.reverse(_.sortBy(l, 'createdAt'))[0].createdAt
+        // }))
+      layers = _.reverse(_.sortBy(layers, 'length'))
+
         let tabs = _.groupBy(layers, (l) => l[0].compliant)
 
         pagesTrends = _.chunk(tabs[true], chunk)
