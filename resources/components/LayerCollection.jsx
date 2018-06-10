@@ -65,10 +65,10 @@ class LayerCollection extends React.Component {
   relevantLayers(layer) {
     layer = _.find(this.props.layerMap[layer.id], (l) => layer.prop == l.prop)
     let key = layer.primary
-    // if (layer.category === 'text') {
-    //   key = _.join(_.map(_.keys(layer.styles), (k) => layer.styles[k]), '-')
-    // }
-    // let layers = this.props.layers[key]
+    if (layer.category === 'text') {
+      key = _.join(_.map(_.keys(layer.styles), (k) => layer.styles[k]), '-')
+    }
+    let layers = this.props.layers[key]
     if (this.props.selected) {
       layers = this.props.layerMap[layer.id]
     }
