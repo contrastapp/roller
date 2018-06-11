@@ -22427,6 +22427,11 @@ function onRun(context) {
         l.setIsEditingText(true);
         l.addAttribute_value_forRange(NSForegroundColorAttributeName, color, range);
         l.setIsEditingText(false);
+
+        prop = 'fills';
+        sketch.fromNative(l).style[prop] = _.map(sketch.fromNative(l).style[prop], function (fillOrBorder) {
+          return fillOrBorder.color === oldStyle ? { color: '#' + tinycolor(newStyle.hex).setAlpha(tinycolor(fillOrBorder).getAlpha()).toHex8(), thickness: fillOrBorder.thickness, position: fillOrBorder.position, enabled: fillOrBorder.enabled, fillType: fillOrBorder.fillType, gradient: fillOrBorder.gradient } : fillOrBorder;
+        });
       }
     });
   });
@@ -22619,14 +22624,17 @@ function parseColor(layer) {
         var lineHeight = layer.sketchObject.lineHeight();
 
         var fontFamily = void 0;
-        var color = '000';
-        if (layer.sketchObject.style().textStyle()) {
+        var color = '#000';
+        if (_.get(layer.style, 'fills.length') > 0) {
+          return [];
+        } else if (layer.sketchObject.style().textStyle()) {
           fontFamily = String(layer.sketchObject.style().textStyle().attributes().NSFont.fontDescriptor().objectForKey(NSFontNameAttribute));
+          color = '000';
           if (layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute) {
             color = layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute.hexValue();
           }
+          color = '#' + String(tinycolor('#' + String(color)).toHex8());
         }
-        color = '#' + String(tinycolor('#' + String(color)).toHex8());
 
         return [_extends({}, attrs, {
           index: 0,
