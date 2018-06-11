@@ -215,6 +215,7 @@ export function onSelectionChanged(context) {
 }
 
 function hexToColor(hex, alpha) {
+  hex = tinycolor(hex).toHex()
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),
     red = parseInt(result[1], 16) / 255,
     green = parseInt(result[2], 16) / 255,
