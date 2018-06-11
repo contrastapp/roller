@@ -24,6 +24,7 @@ let browserWindow = new BrowserWindow(options)
 let webContents = browserWindow.webContents
 let loaded = false
 let currentDocumentId = null
+let currentPageId = null
 
 export default function onRun(context) {
   // only show the window when the page has loaded
@@ -235,14 +236,17 @@ function pageLayers(page) {
 
 function getData(context) {
   var document = require('sketch/dom').getSelectedDocument()
-  if (_.get(document, 'id') != currentDocumentId) {
+  if (_.get(document, 'id') != currentDocumentId || _.get(document.selectedPage, 'id') != currentPageId ) {
     currentDocumentId = document.id
+    currentPageId = document.selectedPage.id
     webContents.executeJavaScript(`resetLayers()`)
   }
 
-  let layers = _.flattenDeep(_.map(document.pages, (page) => {
-    return pageLayers(page)
-  }))
+  let layers = pageLayers(document.selectedPage)
+  // let layers = _.flattenDeep(_.map(document.pages, (page) => {
+  //   return pageLayers(page)
+  // }))
+
   // let layers = _.flattenDeep(pageLayers(document.pages[0]))
 
   // console.log(layers.length)
