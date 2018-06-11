@@ -157,9 +157,11 @@ export default function onRun(context) {
 // // respectiveProp.setColor(MSImmutableColor.colorWithSVGString(newStyle.hex).newMutableCounterpart());
 
 
+        sketch.fromNative(l).style[prop] = _.map(sketch.fromNative(l).style[prop], (fillOrBorder) => {
+          return fillOrBorder.color === oldStyle ?  {color: '#' +tinycolor(newStyle.hex).setAlpha(tinycolor(fillOrBorder).getAlpha()).toHex8(), thickness: fillOrBorder.thickness, position: fillOrBorder.position, enabled: fillOrBorder.enabled, fillType: fillOrBorder.fillType, gradient: fillOrBorder.gradient} : fillOrBorder
+        }
 
-
-        sketch.fromNative(l).style[prop] = _.map(sketch.fromNative(l).style[prop], (fillOrBorder) => fillOrBorder.color === oldStyle ?  {color: tinycolor(newStyle.hex).setAlpha(tinycolor(fillOrBorder).getAlpha()).toHex8(), thickness: fillOrBorder.thickness, position: fillOrBorder.position, enabled: fillOrBorder.enabled, fillType: fillOrBorder.fillType, gradient: fillOrBorder.gradient} : fillOrBorder)
+        )
       } else if ( prop === 'text') {
         var range = NSMakeRange(0,sketch.fromNative(l).text.length)
         var alpha = l.style().textStyle().attributes().MSAttributedStringColorAttribute.alpha()
