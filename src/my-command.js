@@ -168,7 +168,7 @@ export default function onRun(context) {
         var alpha = l.style().textStyle().attributes().MSAttributedStringColorAttribute.alpha()
         var color = hexToColor(newStyle.hex, alpha)
         l.setIsEditingText(true)
-        l.addAttribute_value_forRange(NSForegroundColorAttributeName, color, range)
+        l.textColor= color
         l.setIsEditingText(false)
 
         prop = 'fills'
@@ -221,7 +221,7 @@ function hexToColor(hex, alpha) {
     green = parseInt(result[2], 16) / 255,
     blue = parseInt(result[3], 16) / 255,
     alpha = (typeof alpha !== 'undefined') ? alpha : 1;
-  return NSColor.colorWithCalibratedRed_green_blue_alpha(red, green, blue, alpha)
+  return MSColor.colorWithRed_green_blue_alpha(red, green, blue, alpha)
 }
 
 function pageLayers(page) {
