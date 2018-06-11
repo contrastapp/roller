@@ -131,7 +131,7 @@ class LayerCollection extends React.Component {
         compliantLayers = (
           <div>
             <Paginate prev={() => this.prev('trends')} page={this.props.page.trends + 1} pages={_.get(pagesTrends, 'length', 0)} next={() => this.next('trends')}/>
-            
+
             {
               _.map(pageTrends , (styles) => <GroupContainer onClick={this.clickLayer} compliance={styles} />)
             }
@@ -218,7 +218,7 @@ class LayerCollection extends React.Component {
             </div>
 
 
-            <div className='layer-grid'>
+            <div className='layer-grid pb48'>
               {nestedLayers}
             </div>
           </div>

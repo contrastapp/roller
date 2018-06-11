@@ -444,7 +444,7 @@ function importDocumentColors() {
   var app = NSApp.delegate();
   var documentColors = _.map(context.document.documentData().assets().colors(), (color,i) => {
 
-    var hexValue = tinycolor.fromRatio({r: color.red(), g: color.green(), b: color.blue(), a: color.alpha()}).toHex8()
+    var hexValue = _.toUpper(tinycolor.fromRatio({r: color.red(), g: color.green(), b: color.blue(), a: color.alpha()}).toHex())
 
 
     return ({name: ('Document Color ' + i), hex: '#' + hexValue})
@@ -462,7 +462,7 @@ function importGlobalColors() {
   var app = NSApp.delegate();
   var colors = app.globalAssets().colors();
   var globalColors = _.map(colors, (color,i) => {
-    var hexValue = tinycolor.fromRatio({r: color.red(), g: color.green(), b: color.blue(), a: color.alpha()}).toHex8()
+    var hexValue = _.toUpper(tinycolor.fromRatio({r: color.red(), g: color.green(), b: color.blue(), a: color.alpha()}).toHex())
 
     return ({name: ('Global Color ' + i), hex: '#' + hexValue})
   })
