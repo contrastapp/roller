@@ -24,6 +24,7 @@ let browserWindow = new BrowserWindow(options)
 let webContents = browserWindow.webContents
 let loaded = false
 let currentDocumentId = null
+let currentPageId = null
 
 export default function onRun(context) {
   // only show the window when the page has loaded
@@ -169,6 +170,11 @@ export default function onRun(context) {
         l.setIsEditingText(true)
         l.addAttribute_value_forRange(NSForegroundColorAttributeName, color, range)
         l.setIsEditingText(false)
+
+        prop = 'fills'
+        sketch.fromNative(l).style[prop] = _.map(sketch.fromNative(l).style[prop], (fillOrBorder) => {
+          return fillOrBorder.color === oldStyle ?  {color: '#' +tinycolor(newStyle.hex).setAlpha(tinycolor(fillOrBorder).getAlpha()).toHex8(), thickness: fillOrBorder.thickness, position: fillOrBorder.position, enabled: fillOrBorder.enabled, fillType: fillOrBorder.fillType, gradient: fillOrBorder.gradient} : fillOrBorder
+        })
       }
     });
   })
@@ -209,6 +215,7 @@ export function onSelectionChanged(context) {
 }
 
 function hexToColor(hex, alpha) {
+  hex = tinycolor(hex).toHex()
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),
     red = parseInt(result[1], 16) / 255,
     green = parseInt(result[2], 16) / 255,
@@ -235,14 +242,17 @@ function pageLayers(page) {
 
 function getData(context) {
   var document = require('sketch/dom').getSelectedDocument()
-  if (_.get(document, 'id') != currentDocumentId) {
+  if (_.get(document, 'id') != currentDocumentId || _.get(document.selectedPage, 'id') != currentPageId ) {
     currentDocumentId = document.id
+    currentPageId = document.selectedPage.id
     webContents.executeJavaScript(`resetLayers()`)
   }
 
-  let layers = _.flattenDeep(_.map(document.pages, (page) => {
-    return pageLayers(page)
-  }))
+  let layers = pageLayers(document.selectedPage)
+  // let layers = _.flattenDeep(_.map(document.pages, (page) => {
+  //   return pageLayers(page)
+  // }))
+
   // let layers = _.flattenDeep(pageLayers(document.pages[0]))
 
   // console.log(layers.length)
@@ -355,14 +365,18 @@ function parseColor(layer) {
         var lineHeight = layer.sketchObject.lineHeight()
 
         let fontFamily;
-        let color = '000';
-        if (layer.sketchObject.style().textStyle()) {
+        let color = '#000';
+        if (_.get(layer.style, 'fills.length') > 0) {
+          return []
+        }
+        else if(layer.sketchObject.style().textStyle()) {
           fontFamily = String(layer.sketchObject.style().textStyle().attributes().NSFont.fontDescriptor().objectForKey(NSFontNameAttribute))
+          color = '000';
           if (layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute) {
             color = layer.sketchObject.style().textStyle().attributes().MSAttributedStringColorAttribute.hexValue()
           }
+          color = `#${tinycolor(`#${color}`).toHex8()}`
         }
-        color = `#${tinycolor(`#${color}`).toHex8()}`
 
         return ([
           {

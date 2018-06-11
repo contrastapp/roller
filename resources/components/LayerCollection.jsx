@@ -214,7 +214,7 @@ class LayerCollection extends React.Component {
         <div>
           <div style={{display: this.props.activeLayer ? 'none': 'block'}}>
             <div className="flex flexaic flexjcc pt24 pb24 pr16 pl16">
-              <Button size="full" style="default" onClick={() => pluginCall('getData', this.props.page) }>Lint My File</Button>
+              <Button size="full" style="default" onClick={() => pluginCall('getData', this.props.page) }>Lint Current Page</Button>
             </div>
 
 
