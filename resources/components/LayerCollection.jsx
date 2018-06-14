@@ -131,25 +131,23 @@ class LayerCollection extends React.Component {
         compliantLayers = (
           <div>
             <Paginate prev={() => this.prev('trends')} page={this.props.page.trends + 1} pages={_.get(pagesTrends, 'length', 0)} next={() => this.next('trends')}/>
-
             {
-              _.map(pageTrends , (styles) => <GroupContainer onClick={this.clickLayer} compliance={styles} />)
-            }
+              _.get(pageTrends, 'length') > 0 ? _.map(pageTrends , (styles) => <GroupContainer onClick={this.clickLayer} compliance={styles} />) : <div className="p48 text-center flex flexjcc"> <Text>No Trends</Text></div>
+                      }
           </div>
         )
 
         noncompliantLayers = (
           <div>
             <Paginate prev={() => this.prev('errors')} page={this.props.page.errors + 1} pages={_.get(pagesErrors, 'length', 0)} next={() => this.next('errors')}/>
-
             {
-              _.map(pageErrors, (styles) => <GroupContainer onClick={this.clickLayer} compliance={styles} />)
+              _.get(pageErrors, 'length') > 0 ? _.map(pageErrors, (styles) => <GroupContainer onClick={this.clickLayer} compliance={styles} />) : <div className="p48 text-center flex flexjcc"> <Text>No Errors</Text></div>
             }
           </div>
         )
 
-        primaryTab = 'Errors'
-        secondaryTab = 'Trends'
+        primaryTab = `Errors (${_.get(pageErrors, 'length',0)})`
+        secondaryTab = `Trends (${_.get(pageTrends, 'length',0)})`
       } else {
         noncompliantLayers = (
           <div className="p48 text-center flex flexjcc">
@@ -166,8 +164,8 @@ class LayerCollection extends React.Component {
             }
           </div>
         )
-        primaryTab = 'Trends'
-        secondaryTab = 'Errors'
+        primaryTab = `Trends (${_.get(pageErrors, 'length', 0)})`
+        secondaryTab = 'Errors (0)'
       }
 
       nestedLayers =(
