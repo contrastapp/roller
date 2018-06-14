@@ -164,8 +164,8 @@ class LayerCollection extends React.Component {
             }
           </div>
         )
-        primaryTab = `Trends (${_.get(pageErrors, 'length', 0)})`
-        secondaryTab = 'Errors (0)'
+        secondaryTab  = `Trends (${_.get(pageErrors, 'length', 0)})`
+        primaryTab = 'Errors (0)'
       }
 
       nestedLayers =(
