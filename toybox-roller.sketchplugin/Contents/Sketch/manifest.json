@@ -1,0 +1,30 @@
+{
+  "compatibleVersion": 3,
+  "bundleVersion": 1,
+  "commands": [
+    {
+      "name": "Lint",
+      "identifier": "my-command-identifier",
+      "script": "my-command.js",
+      "shortcut": "ctrl shift r",
+      "handlers": {
+        "run": "onRun",
+        "actions": {}
+      }
+    }
+  ],
+  "menu": {
+    "title": "Roller",
+    "items": [
+      "my-command-identifier",
+      "upload-rules"
+    ]
+  },
+  "version": "1.2.7",
+  "description": "Roller is the first Linter for Designers. It works just like spell-check but within your Sketch files.",
+  "name": "Roller by Toybox",
+  "disableCocoaScriptPreprocessor": true,
+  "appcast": "https://raw.githubusercontent.com/toyboxsystems/roller/master/.appcast.xml",
+  "author": "Jono Kolnik",
+  "authorEmail": "jono@toyboxsystems.com"
+}
