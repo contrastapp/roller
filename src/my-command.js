@@ -29,7 +29,6 @@ let currentPageId = null
 export default function onRun(context) {
   // only show the window when the page has loaded
   browserWindow.once('ready-to-show', () => {
-    context.api().setSettingForKey('colors', null)
     browserWindow.show()
     setRules(context)
     setOnboarded(context)
