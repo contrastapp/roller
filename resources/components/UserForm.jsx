@@ -8,13 +8,7 @@ import { SubmissionError } from 'redux-form'
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 function submit(values, props) {
-  if (values.email != values['confirm-email']) {
-    throw new SubmissionError({
-      _error: 'Emails must match!'
-    })
-  } else {
-    props.onSubmit(values)
-  }
+  return props.onSubmit(values)
 }
 
 const SimpleForm = props => {
@@ -36,14 +30,6 @@ const SimpleForm = props => {
           <label>Email</label>
             <Field
               name="email"
-              component="input"
-              type="email"
-              placeholder=""
-              className="mb16"
-            />
-          <label>Confirm Email</label>
-            <Field
-              name="confirm-email"
               component="input"
               type="email"
               placeholder=""

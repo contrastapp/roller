@@ -107,7 +107,7 @@ class LayerCollection extends React.Component {
 
 
     if (_.keys(this.props.layers).length == 0) {
-      nestedLayers = <div className="flex flexaic flexjcc pt24 pb24 pr16 pl16">Click "Lint My File" Above To Get Started</div>
+      nestedLayers = <div className="flex flexaic flexjcc pt24 pb24 pr16 pl16">Click "Lint Current Page" Above To Get Started</div>
     } else {
       let compliantLayers ;
       let noncompliantLayers ;

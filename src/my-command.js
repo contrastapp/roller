@@ -29,6 +29,7 @@ let currentPageId = null
 export default function onRun(context) {
   // only show the window when the page has loaded
   browserWindow.once('ready-to-show', () => {
+    context.api().setSettingForKey('colors', null)
     browserWindow.show()
     setRules(context)
     setOnboarded(context)
@@ -68,7 +69,7 @@ export default function onRun(context) {
       var colors = paletteContents.colors
       const keys = _.uniq(_.flatten(_.map(colors, _.keys)))
       if (_.isEqual(keys.sort(),["name","hex"].sort())) {
-        context.api().setSettingForKey('colors', JSON.stringify(colors))
+        saveColors(colors)
       } else {
         postFileError('Please format JSON as { colors: [{name: "White", hex: "#FFFFFF"}]}')
       }
@@ -77,7 +78,7 @@ export default function onRun(context) {
       var results = Papa.parse(String(fileContents), {header: true});
       validHeaders = _.isEqual(results.meta.fields.sort(),['name','hex'].sort())
       if (validHeaders) {
-        context.api().setSettingForKey('colors', JSON.stringify(results.data))
+        saveColors(results.data)
       } else {
         postFileError('Please format CSV with headers: name, hex')
       }
@@ -95,7 +96,7 @@ export default function onRun(context) {
   })
 
   webContents.on('saveRules', (colors) => {
-    context.api().setSettingForKey('colors', JSON.stringify(colors))
+    saveColors(colors)
     setRules(context)
   })
 
@@ -126,6 +127,7 @@ export default function onRun(context) {
     context.api().setSettingForKey(emailKey, JSON.stringify(email))
     if (email == null){
       context.api().setSettingForKey('onboarded', JSON.stringify(false))
+      context.api().setSettingForKey('endpoint', null)
       setOnboarded(context)
     }
     setUser(context)
@@ -308,7 +310,7 @@ function fetchEndpoint() {
       let colors = _.flatten(_.map(data.list.colors, (colorSection) => {
         return _.map(colorSection.colors, (c) => ({name: c.name, hex: c.value}))
       }))
-      context.api().setSettingForKey('colors', JSON.stringify(colors))
+      saveColors(colors)
       setRules()
     });
   }
@@ -332,7 +334,10 @@ function parseColor(layer) {
     colors = []
   }
 
-  colors = _.map(colors, (c) => tinycolor(String(c.hex)).toHex8())
+
+  colors = _.map(colors, (c) => {
+    return tinycolor(String(c.hex)).toHex8()
+  })
 
   let props = ['fills', 'borders']
 
@@ -468,7 +473,7 @@ function importDocumentColors() {
   var hexs = _.map(colors, 'hex')
   documentColors = _.filter(documentColors, (c) => !_.includes(hexs, c.hex))
   documentColors.push(colors)
-  context.api().setSettingForKey('colors', JSON.stringify(_.flatten(documentColors)))
+  saveColors(documentColors)
   setRules(context)
 }
 
@@ -485,10 +490,14 @@ function importGlobalColors() {
   var hexs = _.map(colors, 'hex')
   globalColors = _.filter(globalColors, (c) => !_.includes(hexs, c.hex))
   globalColors.push(colors)
-  context.api().setSettingForKey('colors', JSON.stringify(_.flatten(globalColors)))
+  saveColors(globalColors)
   setRules(context)
 }
 
+
+function saveColors(colors) {
+  context.api().setSettingForKey('colors', JSON.stringify(_.compact(_.flatten(colors))))
+}
 
 function selectLayer(id) {
   var document = require('sketch/dom').getSelectedDocument()

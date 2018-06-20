@@ -105,10 +105,22 @@ class RulesDropZone extends React.Component {
     return (
       <Tabs>
         <TabList>
-          <Tab>Upload</Tab>
           <Tab>Import</Tab>
           <Tab>Integrate</Tab>
+          <Tab>Upload</Tab>
         </TabList>
+        <TabPanel>
+          <div className='text-center flex flexjcc p24'>
+            <Button onClick={() => {pluginCall('importGlobalColors'); if (this.props.onComplete) {this.props.onComplete()}}} size="small" style="default">Import Global Colors</Button>
+            <div className="p8" />
+            <Button onClick={() => {pluginCall('importDocumentColors'); if (this.props.onComplete) {this.props.onComplete()}}} size="small" style="default">Import Document Colors</Button>
+          </div>
+        </TabPanel>
+        <TabPanel>
+          <div className='flex flexjcc p24'>
+            <EndpointForm onSubmit={this.handleEndpointSubmit}/>
+          </div>
+        </TabPanel>
         <TabPanel>
           <div className='p24'>
             <Dropzone
@@ -127,18 +139,6 @@ class RulesDropZone extends React.Component {
             {this.props.errorMsg}
 
             {this.props.showFormatTips && <FormatTips />}
-          </div>
-        </TabPanel>
-        <TabPanel>
-          <div className='text-center flex flexjcc p24'>
-            <Button onClick={() => {pluginCall('importGlobalColors'); if (this.props.onComplete) {this.props.onComplete()}}} size="small" style="default">Import Global Colors</Button>
-            <div className="p8" />
-            <Button onClick={() => {pluginCall('importDocumentColors'); if (this.props.onComplete) {this.props.onComplete()}}} size="small" style="default">Import Document Colors</Button>
-          </div>
-        </TabPanel>
-        <TabPanel>
-          <div className='flex flexjcc p24'>
-            <EndpointForm onSubmit={this.handleEndpointSubmit}/>
           </div>
         </TabPanel>
       </Tabs>
