@@ -1,29 +1,79 @@
+# Introducing Roller 2.0 for Sketch
+
+![alt text](https://miro.medium.com/max/5600/1*IqTLnJtGtsa_dW15H8yVcA.png "Logo Title Text 1")
+
 Roller is the first ever Design Linter - giving you the power to automatically find and fix style inconsistencies in your files. Be confident every design you hand-off is 100% consistent with your Style Guide or Design System.
 
-How to use Roller:
-1 - Import or add your styles to the Roller Library
-2 - Roller then automatically finds any inconsistencies (Errors) on the page that don’t match what is in your Library
-3 - Replace the Error with one of your Library’s styles
-4 - Rinse & repeat to reach 100% consistency
+---
 
-Lint in the following categories:
-• Colors - Quickly fix the 50 (or 5,000) shades of gray that are lurking in your designs.
+## How to use Roller:
+### 1. Import or add your styles to the Roller Library
+### 2. Fix Errors
+### 3. Rinse & repeat to reach 100% consistency
 
-• Text - If a subtle line-height or letter-spacing is off, Roller will pick them up and get you back on system.
+---
 
-• Borders - Roller lets you add the width and colors of your borders - making it easy to find any rogue input field or card.
+# 1. Add your styles 
+There are two easy ways to add styles to your Roller Library before starting to lint…
 
-• Shadows - Roller gives you superhuman eyes - making it possible to detect subtle differences in shadow blurs or x, y offsets. 
+## Manually add your styles
+We’ve made it easy to add your colors, text styles, shadows, borders, and radiuses. With a simple interface and live preview — all you have to do is enter in your values, name it, and press save.
 
-• Radiuses - Be confident that any button, card, input etc. has the correct border-radiuses applied.
+![alt text](https://miro.medium.com/max/2000/1*t-TIkrsT1j070sWyLlaBtg.png "Logo Title Text 1")
 
-Keep your team in-sync:
-Roller lets you store and share your Library with teammates. Make sure everyone on your team has up-to-date resources and styles when linting.
+## Import your locally saved styles
+If you have any Global Colors or saved Text Styles in Sketch, Roller can automatically detect and import them for you. You can make edits or changes to imported styles at any time.
+
+![alt text](https://miro.medium.com/max/2000/1*_d2Gt7u6cy43qxwgmqqDGA.png "Logo Title Text 1")
+
+# 2. Fix errors
+Once you’ve added your styles, Roller will automatically “lint” your current Sketch Page — i.e. it will compare the styles in your Library to the styles present on the page. If there are any styles that don’t match, Roller will display those as Errors.
+
+## View errors
+Every time you open Roller, the plugin will scan through the current page and tell you how many errors are present within each category (Colors, text styles, etc.). Click into a category to view the specific error and how many layers it’s affecting.
+
+![alt text](https://miro.medium.com/max/2000/1*iWRPHUoqCM0LWA7HX1xTBA.png "Logo Title Text 1")
+
+## Replace errors
+When you click into an error, Roller will automatically bring you to the first layer that it’s affecting — contextually showing you what’s wrong. From there, you can select what style from your Library you’d like to replace the error with.
+
+Once you’ve made a selection, choose whether you want to replace the error only affecting that specific layer or replace the error for every layer on the page.
+
+![alt text](https://miro.medium.com/max/2000/1*Q-NcNTgPBdCG4edsUtP8rQ.png "Logo Title Text 1")
+
+## Ignore errors
+If you notice an error for a one-off style that isn’t saved in your Library, you can always ignore it (just like how you do with spell-check). This will remove the error from your list of issues.
+
+Simply click the ellipses and select either Ignore or Ignore all.
+
+![alt text](https://miro.medium.com/max/2000/1*WL9GRKgHPmUExi_YnWM3mw.png "Logo Title Text 1")
+
+## Add an error to your Library
+If you notice an error that you think should be within your Library, you can always add it directly from that view. Simply click the ellipses and select Add to Style Guide. You can then edit that style, add a name, and save it.
+
+---
+
+# 3. Reach 100% consistency
+Open Roller on any of your Sketch Files and Pages to reach 100% consistency. Every time you reopen the plugin, Roller will automatically check for any rogue styles and help you get back on-system.
+
+We think Roller will turn you into a superhuman designer — capable of spotting subtle differences in line-heights, shades of gray, and x,y offsets.
+
+![alt text](https://miro.medium.com/max/2000/1*w1PcZj5P7-Z7iN4i4MixpQ.png "Logo Title Text 1")
+
+---
+
+# Keep your team in-sync
+Roller also allows you to create a Library that can be shared with all of your team members. This feature can be super helpful:
+- With a shared Library, team members can enter their email and start linting immediately. Without it, every teammate will need to manually recreate the Library individually.
+- A shared Library means that if a change is made (something is added, edited, or removed) this change only needs to be done once and will disseminate to the entire team.
+- This functionality is offered under Roller’s Team plan, which you can [learn more about here](https://www.toyboxsystems.com/roller).
+
+---
 
 Documentation and chat support (we’re always here to help!):
 https://www.trytoybox.com/help-center-categories/roller
 
 support@toyboxsystems.com
 
-More info and pretty pictures at:
+More info at:
 https://www.trytoybox.com/roller
