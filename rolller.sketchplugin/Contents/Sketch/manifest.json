@@ -1,0 +1,24 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BohemianCoding/SketchAPI/develop/docs/sketch-plugin-manifest-schema.json",
+  "icon": "icon.png",
+  "commands": [
+    {
+      "name": "Launch",
+      "identifier": "roller-sandbox.my-command-identifier",
+      "shortcut": "cmd option p",
+      "script": "__my-command.js"
+    }
+  ],
+  "menu": {
+    "title": "Roller",
+    "items": [
+      "roller-sandbox.my-command-identifier"
+    ]
+  },
+  "version": "2.1.0",
+  "description": "See your plugin logs, inspect the state of Sketch documents, explore actions, and more.",
+  "name": "Roller",
+  "identifier": "Roller",
+  "disableCocoaScriptPreprocessor": true,
+  "appcast": "https://raw.githubusercontent.com/toyboxsystems/roller/master/.appcast.xml"
+}
