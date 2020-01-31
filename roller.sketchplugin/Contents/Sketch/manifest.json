@@ -15,7 +15,7 @@
       "roller-sandbox.my-command-identifier"
     ]
   },
-  "version": "2.1.0",
+  "version": "2.3.2",
   "description": "See your plugin logs, inspect the state of Sketch documents, explore actions, and more.",
   "name": "Roller",
   "identifier": "Roller",
