@@ -73,7 +73,8 @@ Roller also allows you to create a Library that can be shared with all of your t
 Documentation and chat support (we’re always here to help!):
 https://www.trytoybox.com/help-center-categories/roller
 
-support@toyboxsystems.com
+support@contrast.app
+
 
 More info at:
 https://www.trytoybox.com/roller
