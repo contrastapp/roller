@@ -68,13 +68,3 @@ Roller also allows you to create a Library that can be shared with all of your t
 - A shared Library means that if a change is made (something is added, edited, or removed) this change only needs to be done once and will disseminate to the entire team.
 - This functionality is offered under Roller’s Team plan, which you can [learn more about here](https://www.toyboxsystems.com/roller).
 
----
-
-Documentation and chat support (we’re always here to help!):
-https://www.trytoybox.com/help-center-categories/roller
-
-support@contrast.app
-
-
-More info at:
-https://www.trytoybox.com/roller
