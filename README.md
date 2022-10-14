@@ -60,11 +60,3 @@ We think Roller will turn you into a superhuman designer — capable of spotting
 
 ![alt text](https://miro.medium.com/max/2000/1*w1PcZj5P7-Z7iN4i4MixpQ.png "Logo Title Text 1")
 
----
-
-# Keep your team in-sync
-Roller also allows you to create a Library that can be shared with all of your team members. This feature can be super helpful:
-- With a shared Library, team members can enter their email and start linting immediately. Without it, every teammate will need to manually recreate the Library individually.
-- A shared Library means that if a change is made (something is added, edited, or removed) this change only needs to be done once and will disseminate to the entire team.
-- This functionality is offered under Roller’s Team plan, which you can [learn more about here](https://www.toyboxsystems.com/roller).
-
